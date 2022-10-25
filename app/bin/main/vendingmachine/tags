@@ -1,0 +1,96 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+App	App.java	/^public class App {$/;"	c
+CANDY	ProductType.java	/^	CANDY;$/;"	e	enum:ProductType	file:
+CHIP	ProductType.java	/^	CHIP,$/;"	e	enum:ProductType	file:
+CHOCOLATE	ProductType.java	/^	CHOCOLATE,$/;"	e	enum:ProductType	file:
+Card	Card.java	/^	public Card() {$/;"	m	class:Card
+Card	Card.java	/^	public Card(String name, String number) {$/;"	m	class:Card
+Card	Card.java	/^public class Card {$/;"	c
+Cash	Cash.java	/^	public Cash() {$/;"	m	class:Cash
+Cash	Cash.java	/^	public Cash(String name, Double value, Integer amount) {$/;"	m	class:Cash
+Cash	Cash.java	/^public class Cash {$/;"	c
+Controller	Controller.java	/^	public Controller() {$/;"	m	class:Controller
+Controller	Controller.java	/^public class Controller {$/;"	c
+DRINK	ProductType.java	/^	DRINK,$/;"	e	enum:ProductType	file:
+JDBC	JDBC.java	/^	public JDBC() {$/;"	m	class:JDBC
+JDBC	JDBC.java	/^	public JDBC(String dbPath) {$/;"	m	class:JDBC
+JDBC	JDBC.java	/^public class JDBC {$/;"	c
+Model	Model.java	/^	public Model(JDBC jdbc) {$/;"	m	class:Model
+Model	Model.java	/^public class Model {$/;"	c
+Product	Product.java	/^	public Product() {$/;"	m	class:Product
+Product	Product.java	/^	public Product(Integer id, ProductType type, String name, Double price, Integer amount) {$/;"	m	class:Product
+Product	Product.java	/^public class Product {$/;"	c
+ProductType	ProductType.java	/^public enum ProductType {$/;"	g
+User	User.java	/^	public User() {$/;"	m	class:User
+User	User.java	/^	public User(String name, String password, ArrayList<Product> recentProducts) {$/;"	m	class:User
+User	User.java	/^public class User {$/;"	c
+View	View.java	/^	public View() {$/;"	m	class:View
+View	View.java	/^public class View {$/;"	c
+amount	Cash.java	/^	private Integer amount;$/;"	f	class:Cash	file:
+amount	Product.java	/^	private Integer amount;$/;"	f	class:Product	file:
+basicView	View.java	/^	protected void basicView() {$/;"	m	class:View
+currentModel	Controller.java	/^	private Model currentModel;$/;"	f	class:Controller	file:
+currentUser	Model.java	/^	private User currentUser;$/;"	f	class:Model	file:
+currentView	Controller.java	/^	private View currentView;$/;"	f	class:Controller	file:
+dbConnection	JDBC.java	/^	private Connection dbConnection;$/;"	f	class:JDBC	file:
+dbPath	JDBC.java	/^	private String dbPath;$/;"	f	class:JDBC	file:
+getAmount	Cash.java	/^	public Integer getAmount() {$/;"	m	class:Cash
+getAmount	Product.java	/^	public Integer getAmount() {$/;"	m	class:Product
+getId	Product.java	/^	public Integer getId() {$/;"	m	class:Product
+getName	Card.java	/^	public String getName() {$/;"	m	class:Card
+getName	Cash.java	/^	public String getName() {$/;"	m	class:Cash
+getName	Product.java	/^	public String getName() {$/;"	m	class:Product
+getName	User.java	/^	public String getName() {$/;"	m	class:User
+getNumber	Card.java	/^	public String getNumber() {$/;"	m	class:Card
+getPassword	User.java	/^	public String getPassword() {$/;"	m	class:User
+getPrice	Product.java	/^	public Double getPrice() {$/;"	m	class:Product
+getRecentProducts	User.java	/^	public ArrayList<Product> getRecentProducts() {$/;"	m	class:User
+getType	Product.java	/^	public ProductType getType() {$/;"	m	class:Product
+getValue	Cash.java	/^	public Double getValue() {$/;"	m	class:Cash
+id	Product.java	/^	private Integer id;$/;"	f	class:Product	file:
+initDB	JDBC.java	/^	public void initDB() {$/;"	m	class:JDBC
+jdbc	Model.java	/^	private JDBC jdbc;$/;"	f	class:Model	file:
+main	App.java	/^    public static void main(String[] args) {$/;"	m	class:App
+name	Card.java	/^	private String name;$/;"	f	class:Card	file:
+name	Cash.java	/^	private String name;$/;"	f	class:Cash	file:
+name	Product.java	/^	private String name;$/;"	f	class:Product	file:
+name	User.java	/^	private String name;$/;"	f	class:User	file:
+number	Card.java	/^	private String number;$/;"	f	class:Card	file:
+password	User.java	/^	private String password;$/;"	f	class:User	file:
+price	Product.java	/^	private Double price;$/;"	f	class:Product	file:
+recentProducts	Model.java	/^	private ArrayList<Product> recentProducts;$/;"	f	class:Model	file:
+recentProducts	User.java	/^	private ArrayList<Product> recentProducts;$/;"	f	class:User	file:
+selectedProducts	Model.java	/^	private ArrayList<Product> selectedProducts;$/;"	f	class:Model	file:
+setAmount	Cash.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Cash
+setAmount	Product.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Product
+setId	Product.java	/^	public void setId(Integer id) {$/;"	m	class:Product
+setName	Card.java	/^	public void setName(String name) {$/;"	m	class:Card
+setName	Cash.java	/^	public void setName(String name) {$/;"	m	class:Cash
+setName	Product.java	/^	public void setName(String name) {$/;"	m	class:Product
+setName	User.java	/^	public void setName(String name) {$/;"	m	class:User
+setNumber	Card.java	/^	public void setNumber(String number) {$/;"	m	class:Card
+setPassword	User.java	/^	public void setPassword(String password) {$/;"	m	class:User
+setPrice	Product.java	/^	public void setPrice(Double price) {$/;"	m	class:Product
+setRecentProduct	User.java	/^	public void setRecentProduct(ArrayList<Product> recentProducts) {$/;"	m	class:User
+setRecentProduct	User.java	/^	public void setRecentProduct(Integer index, Product product) {$/;"	m	class:User
+setType	Product.java	/^	public void setType(ProductType type) {$/;"	m	class:Product
+setValue	Cash.java	/^	public void setValue(Double value) {$/;"	m	class:Cash
+totalAmout	Model.java	/^	private Double totalAmout;$/;"	f	class:Model	file:
+tryConnectToDB	JDBC.java	/^	private void tryConnectToDB() {$/;"	m	class:JDBC	file:
+type	Product.java	/^	private ProductType type;$/;"	f	class:Product	file:
+value	Cash.java	/^	private Double value;$/;"	f	class:Cash	file:
+vendingmachine	App.java	/^package vendingmachine;$/;"	p
+vendingmachine	Card.java	/^package vendingmachine;$/;"	p
+vendingmachine	Cash.java	/^package vendingmachine;$/;"	p
+vendingmachine	Controller.java	/^package vendingmachine;$/;"	p
+vendingmachine	JDBC.java	/^package vendingmachine;$/;"	p
+vendingmachine	Model.java	/^package vendingmachine;$/;"	p
+vendingmachine	Product.java	/^package vendingmachine;$/;"	p
+vendingmachine	ProductType.java	/^package vendingmachine;$/;"	p
+vendingmachine	User.java	/^package vendingmachine;$/;"	p
+vendingmachine	View.java	/^package vendingmachine;$/;"	p
