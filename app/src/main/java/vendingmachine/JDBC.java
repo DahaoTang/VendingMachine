@@ -30,14 +30,23 @@ public class JDBC {
 
 		// Create tables
 		createTableCard();
+		System.out.println("Card Table created");
 		createTableCash();
+		System.out.println("Cash Table created");
 		createTableProducts();
+		System.out.println("Product Table created");
 		createTableGlobalRecentProducts();
+		System.out.println("Recent Product Table created");
 		createTableUser();
+		System.out.println("User Table created");
+
+		System.out.println("All Tables created");
 
 		// Insert database
 		// Card
 		insertCard(new Card("dtan3316", "500173664"));
+
+		System.out.println("Card inserted");
 
 		// Cash
 		insertCash(new Cash("100 Dollars", 100.0, 100));
@@ -53,6 +62,8 @@ public class JDBC {
 		insertCash(new Cash("5 Cents", 0.05, 100));
 		insertCash(new Cash("2 Cents", 0.02, 100));
 		insertCash(new Cash("1 Cent", 0.01, 100));
+
+		System.out.println("Cash inserted");
 
 		// Products
 		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7);
@@ -80,6 +91,8 @@ public class JDBC {
 		insertProduct(new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7));
 		insertProduct(new Product(403, ProductType.CANDY, "Skittles", 1.0, 7));
 
+		System.out.println("Products inserted");
+
 		ArrayList<Product> recent = new ArrayList<Product>();
 		recent.add(mineralWater);
 		recent.add(cocaCola);
@@ -90,9 +103,13 @@ public class JDBC {
 		// Global Recent
 		insertRecentAll(recent);
 
+		System.out.println("Recent Products inserted"); 
+
 		// User
 		User dahao = new User("Dahao", "123", recent);
 		insertUser(dahao);
+
+		System.out.println("User inserted");
 	}
 
 	/**
@@ -139,7 +156,7 @@ public class JDBC {
 			String sql = "CREATE TABLE CASH" +
 							"(" + 
 								"NAME varchar(255)," +
-								"VALUE DOUBLE" + 
+								"VALUE DOUBLE," + 
 								"AMOUNT INT" + 
 							");";
 			statement.executeUpdate(sql);
@@ -163,10 +180,10 @@ public class JDBC {
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE RECENT" +
 							"(" + 
-								"PRODUCT_1_ID INT" + 
-								"PRODUCT_2_ID INT" + 
-								"PRODUCT_3_ID INT" + 
-								"PRODUCT_4_ID INT" + 
+								"PRODUCT_1_ID INT," + 
+								"PRODUCT_2_ID INT," + 
+								"PRODUCT_3_ID INT," + 
+								"PRODUCT_4_ID INT," + 
 								"PRODUCT_5_ID INT" + 
 							");";
 			statement.executeUpdate(sql);
@@ -194,10 +211,10 @@ public class JDBC {
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE PRODUCT" +
 							"(" + 
-								"ID INT" + 
+								"ID INT," + 
 								"NAME varchar(255)," +
-								"TYPE varchar(255)" + 
-								"PRICE DOUBLE" + 
+								"TYPE varchar(255)," + 
+								"PRICE DOUBLE," + 
 								"AMOUNT INT" + 
 							");";
 			statement.executeUpdate(sql);
@@ -224,11 +241,11 @@ public class JDBC {
 			String sql = "CREATE TABLE USER" +
 							"(" + 
 								"NAME varchar(255)," +
-								"PASSWORD varchar(255)" + 
-								"RECENT_PRODUCT_1_ID INT" + 
-								"RECENT_PRODUCT_2_ID INT" + 
-								"RECENT_PRODUCT_3_ID INT" + 
-								"RECENT_PRODUCT_4_ID INT" + 
+								"PASSWORD varchar(255)," + 
+								"RECENT_PRODUCT_1_ID INT," + 
+								"RECENT_PRODUCT_2_ID INT," + 
+								"RECENT_PRODUCT_3_ID INT," + 
+								"RECENT_PRODUCT_4_ID INT," + 
 								"RECENT_PRODUCT_5_ID INT" + 
 							");";
 			statement.executeUpdate(sql);
@@ -374,7 +391,6 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -413,7 +429,6 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -447,7 +462,6 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -474,9 +488,7 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
 			this.dbConnection.close();
-
 		} catch (Exception e) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
@@ -520,7 +532,6 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -668,7 +679,7 @@ public class JDBC {
 			this.dbConnection.setAutoCommit(false);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO RECENT " +
-							"(RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID, ) " +
+							"(PRODUCT_1_ID, PRODUCT_2_ID, PRODUCT_3_ID, PRODUCT_4_ID, PRODUCT_5_ID) " +
 							"VALUES (" + id_1 + ", " + id_2 + ", " + id_3 + ", " + id_4 + ", " + id_5 + ");";
 			statement.executeUpdate(sql);
 			statement.close();
@@ -692,7 +703,7 @@ public class JDBC {
 			this.dbConnection.setAutoCommit(false);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO USER " +
-							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID,) " +
+							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID) " +
 							"VALUES ('" + 
 										name + "', '" + 
 										password + "', " + 

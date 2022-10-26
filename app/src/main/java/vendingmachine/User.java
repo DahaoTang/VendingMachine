@@ -11,7 +11,12 @@ public class User {
 	public User() {
 		this.name = null;
 		this.password = null;
-		this.recentProducts = null;
+		this.recentProducts = new ArrayList<Product>();
+		this.recentProducts.add(null);
+		this.recentProducts.add(null);
+		this.recentProducts.add(null);
+		this.recentProducts.add(null);
+		this.recentProducts.add(null);
 	}
 
 	public User(String name, String password, ArrayList<Product> recentProducts) {
