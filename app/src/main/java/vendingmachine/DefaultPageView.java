@@ -73,6 +73,8 @@ public class DefaultPageView {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
 
+
+
 				}
 			});
 
@@ -102,23 +104,30 @@ public class DefaultPageView {
 			recentProductsList.add(p);
 		}
 		Object[][] recentProductsTableData = {
-			{1, recentProductsList.get(0).getTypeString(), recentProductsList.get(0).getName() ,recentProductsList.get(0).getPrice(), "-", recentProducts.get(recentProductsList.get(0)), "+"},
-			{2, recentProductsList.get(1).getTypeString(), recentProductsList.get(1).getName() ,recentProductsList.get(1).getPrice(), "-", recentProducts.get(recentProductsList.get(1)), "+"},
-			{3, recentProductsList.get(2).getTypeString(), recentProductsList.get(2).getName() ,recentProductsList.get(2).getPrice(), "-", recentProducts.get(recentProductsList.get(2)), "+"},
-			{4, recentProductsList.get(3).getTypeString(), recentProductsList.get(3).getName() ,recentProductsList.get(3).getPrice(), "-", recentProducts.get(recentProductsList.get(3)), "+"},
-			{5, recentProductsList.get(4).getTypeString(), recentProductsList.get(4).getName() ,recentProductsList.get(4).getPrice(), "-", recentProducts.get(recentProductsList.get(4)), "+"},
+			{1, recentProductsList.get(0).getTypeString(), recentProductsList.get(0).getName(), 
+				recentProductsList.get(0).getPrice(), "-", recentProducts.get(recentProductsList.get(0)), "+"},
+			{2, recentProductsList.get(1).getTypeString(), recentProductsList.get(1).getName(), 
+				recentProductsList.get(1).getPrice(), "-", recentProducts.get(recentProductsList.get(1)), "+"},
+			{3, recentProductsList.get(2).getTypeString(), recentProductsList.get(2).getName(), 
+				recentProductsList.get(2).getPrice(), "-", recentProducts.get(recentProductsList.get(2)), "+"},
+			{4, recentProductsList.get(3).getTypeString(), recentProductsList.get(3).getName(), 
+				recentProductsList.get(3).getPrice(), "-", recentProducts.get(recentProductsList.get(3)), "+"},
+			{5, recentProductsList.get(4).getTypeString(), recentProductsList.get(4).getName(), 
+				recentProductsList.get(4).getPrice(), "-", recentProducts.get(recentProductsList.get(4)), "+"},
 		};
 		this.recentProductsTable = new JTable(recentProductsTableData, recentProductsTableColumnNames) {
+
 			@Override
 			public Object getValueAt(int row, int column) {
 				return recentProductsTableData[row][column];
 			}
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				if (column == 4 || column == 6) return true;
 				else return false;
-				// return true;
 			}
+
 			@Override
 			public void setValueAt(Object value, int row, int column) {
 				recentProductsTableData[row][column] = value;
@@ -195,8 +204,10 @@ public class DefaultPageView {
 		public IODButtonRenderer() {
 			setOpaque(true);
 		}
+
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(JTable table, Object value, 
+				boolean isSelected, boolean hasFocus, int row, int column) {
 			if (isSelected) {
 				setForeground(table.getSelectionForeground());
 				setBackground(table.getSelectionBackground());
@@ -232,7 +243,8 @@ public class DefaultPageView {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table, Object value, 
+				boolean isSelected, int row, int column) {
 			if (isSelected) {
 				this.button.setForeground(table.getSelectionForeground());
 				this.button.setBackground(table.getSelectionBackground());
