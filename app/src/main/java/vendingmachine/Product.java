@@ -44,6 +44,14 @@ public class Product {
 		return this.type;
 	}
 
+	public String getTypeString() {
+		if (this.type.equals(ProductType.DRINK)) return "DRINK";
+		else if (this.type.equals(ProductType.CHOCOLATE)) return "CHOCOLATE";
+		else if (this.type.equals(ProductType.CHIP)) return "CHIP";
+		else if (this.type.equals(ProductType.CANDY)) return "CANDY";
+		else return null;
+	}
+
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}

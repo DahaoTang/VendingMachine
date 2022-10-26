@@ -9,16 +9,17 @@ public class App {
 
 		String dbPath = "VM.db";
 		JDBC jdbc = new JDBC(dbPath);
+		// jdbc.initDB();
 
-		Model model = new Model(jdbc);	
+		Model model = new Model(jdbc);
 		DefaultPageView defaultPageView = new DefaultPageView(model);
 		Controller controller = new Controller(model, defaultPageView);
 
 // ######################
 // ### Testing Starts ###
 // ######################
-		model.setCurrentUser(jdbc.getUser("Dahao"));
-		System.out.println("Testing init done");
+		// model.setCurrentUser(jdbc.getUser("Dahao"));
+		// System.out.println("Testing init done");
 // ####################
 // ### Testing Ends ###
 // ####################

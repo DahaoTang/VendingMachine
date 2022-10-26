@@ -3,6 +3,8 @@ package vendingmachine;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.checkerframework.checker.units.qual.A;
+
 public class JDBC {
 
 	private String dbPath;
@@ -27,6 +29,10 @@ public class JDBC {
 	 * ======================
 	 * */
 	public void initDB() {
+
+		System.out.println("#####################");
+		System.out.println("### DB INIT START ###");
+		System.out.println("#####################");
 
 		// Create tables
 		createTableCard();
@@ -67,7 +73,7 @@ public class JDBC {
 
 		// Products
 		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7);
-		Product cocaCola = new Product(103, ProductType.DRINK, "Coca cola", 2.0, 7);
+		Product cocaCola = new Product(103, ProductType.DRINK, "Coca Cola", 2.0, 7);
 		insertProduct(mineralWater);
 		insertProduct(new Product(102, ProductType.DRINK, "Sprite", 2.0, 7));
 		insertProduct(cocaCola);
@@ -110,6 +116,10 @@ public class JDBC {
 		insertUser(dahao);
 
 		System.out.println("User inserted");
+
+		System.out.println("###################");
+		System.out.println("### DB INIT END ###");
+		System.out.println("###################");
 	}
 
 	/**
@@ -137,6 +147,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From createTableCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -164,6 +175,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From createTableCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -191,6 +203,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From createTableGlobalRecentProducts");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -222,6 +235,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From createTableProducts");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -253,6 +267,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From createTableUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -277,6 +292,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From deleteCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -300,6 +316,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From deleteCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -323,6 +340,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From deleteProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -346,6 +364,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From deleteUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -393,6 +412,7 @@ public class JDBC {
 			statement.close();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From getProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -420,10 +440,10 @@ public class JDBC {
 				// Set value to the product to return
 				product.setId(product_id);
 				product.setName(product_name);
-				if (product_type == "DRINK") product.setType(ProductType.DRINK);
-				else if (product_type == "CHOCOLATE") product.setType(ProductType.CHOCOLATE);
-				else if (product_type == "CHIP") product.setType(ProductType.CHIP);
-				else if (product_type == "CANDY") product.setType(ProductType.CANDY);
+				if (product_type.equals("DRINK")) product.setType(ProductType.DRINK);
+				else if (product_type.equals("CHOCOLATE")) product.setType(ProductType.CHOCOLATE);
+				else if (product_type.equals("CHIP")) product.setType(ProductType.CHIP);
+				else if (product_type.equals("CANDY")) product.setType(ProductType.CANDY);
 				product.setPrice(product_price);
 				product.setAmount(product_amount);
 			}
@@ -431,10 +451,31 @@ public class JDBC {
 			statement.close();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From getProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
 		return product;
+	}
+
+	/**
+	 * Get all the products of the four types
+	 * */
+	public ArrayList<Product> getProductsAll() {
+		ArrayList<Product> allProducts = new ArrayList<Product>();
+		for (Product p: getProductsByType(ProductType.DRINK)) {
+			allProducts.add(p);
+		}
+		for (Product p: getProductsByType(ProductType.CHOCOLATE)) {
+			allProducts.add(p);
+		}
+		for (Product p: getProductsByType(ProductType.CHIP)) {
+			allProducts.add(p);
+		}
+		for (Product p: getProductsByType(ProductType.CANDY)) {
+			allProducts.add(p);
+		}
+		return allProducts;
 	}
 
 	/**
@@ -464,6 +505,7 @@ public class JDBC {
 			statement.close();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From getProductsByType");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -482,14 +524,17 @@ public class JDBC {
 			String sql = "SELECT * FROM RECENT;";
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				Integer product_id = resultSet.getInt("ID");
-				Product product = getProduct(product_id);
-				recent.add(product);
+				for (int index = 1; index < 6; index++) {
+					Integer product_id = resultSet.getInt("PRODUCT_" + index + "_ID");
+					Product product = getProduct(product_id);
+					recent.add(product);
+				}
 			}
 			resultSet.close();
 			statement.close();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From getRecent");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -534,6 +579,7 @@ public class JDBC {
 			statement.close();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From getUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -566,6 +612,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From ifHasUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -610,6 +657,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From insertCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -634,6 +682,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From insertCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -645,6 +694,11 @@ public class JDBC {
 	public void insertProduct(Product product) {
 		Integer id = product.getId();
 		ProductType type = product.getType();
+		String typeString = "";
+		if (type.equals(ProductType.DRINK)) typeString = "DRINK";
+		else if (type.equals(ProductType.CHOCOLATE)) typeString = "CHOCOLATE";
+		else if (type.equals(ProductType.CHIP)) typeString = "CHIP";
+		else if (type.equals(ProductType.CANDY)) typeString = "CANDY";
 		String name = product.getName();
 		Double price = product.getPrice();
 		Integer amount = product.getAmount();
@@ -654,12 +708,13 @@ public class JDBC {
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO PRODUCT " +
 							"(ID, TYPE, NAME, PRICE, AMOUNT) " +
-							"VALUES (" + id + ", '" + type+ "', '" + name + "', " + price + ", " + amount + ");";
+							"VALUES (" + id + ", '" + typeString + "', '" + name + "', " + price + ", " + amount + ");";
 			statement.executeUpdate(sql);
 			statement.close();
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From insertProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -686,6 +741,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From insertRecentAll");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -718,6 +774,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();
 		} catch (Exception e) {
+			System.out.println("From insertUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}
@@ -772,6 +829,7 @@ public class JDBC {
 			this.dbConnection.commit();
 			this.dbConnection.close();	
 		} catch (Exception e) {
+			System.out.println("From updateGlobalRecent");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
 		}

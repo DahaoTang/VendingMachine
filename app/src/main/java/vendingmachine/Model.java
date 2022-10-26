@@ -21,14 +21,22 @@ public class Model {
 
 		this.jdbc = jdbc;
 
-		this.currentUser = null;
-		this.totalAmout = null;
+		this.currentUser = new User();
+		this.totalAmout = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
+		ArrayList<Product> recentProductsList = this.jdbc.getRecent();
+		for (Product p: recentProductsList) {
+			this.recentProducts.put(p, 0);
+		}
 
-		this.listedType = null;
+		this.listedType = ProductType.ALL;
 
 		this.listedProducts = new HashMap<Product, Integer>();
+		ArrayList<Product> allProducts = this.jdbc.getProductsAll();
+		for (Product p: allProducts) {
+			this.listedProducts.put(p, 0);
+		}
 
 		this.selectedProducts = new HashMap<Product, Integer>();
 	}
