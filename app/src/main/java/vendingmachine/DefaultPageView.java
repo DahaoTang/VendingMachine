@@ -114,12 +114,8 @@ public class DefaultPageView {
 		recentProductsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		// Set buttons
 		recentProductsTable.getColumnModel().getColumn(4).setCellEditor(new IODButtonEditor(new JTextField()));
-		// recentProductsTable.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
-		// recentProductsTable.getColumn("-").setCellEditor(new ButtonEditor(new JCheckBox()));
 		recentProductsTable.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
 		recentProductsTable.getColumnModel().getColumn(6).setCellEditor(new IODButtonEditor(new JTextField()));
-		// recentProductsTable.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
-		// recentProductsTable.getColumn("+").setCellEditor(new ButtonEditor(new JCheckBox()));
 		recentProductsTable.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 		recentProductsTable.setRowSelectionAllowed(false);
 		// Add to a JScrollPane
@@ -165,10 +161,12 @@ public class DefaultPageView {
 		protected JButton button;
 		private String label;
 		private boolean isPushed;
+		private JTable jtable;
 
 		public IODButtonEditor(JTextField textField) {
 			super(textField);
 			this.button = new JButton();
+			this.setClickCountToStart(1);
 			this.button.setOpaque(true);
 			this.button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -180,30 +178,47 @@ public class DefaultPageView {
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 			if (isSelected) {
-				button.setForeground(table.getSelectionForeground());
-				button.setBackground(table.getSelectionBackground());
+				this.button.setForeground(table.getSelectionForeground());
+				this.button.setBackground(table.getSelectionBackground());
 			} else {
-				button.setForeground(table.getForeground());
-				button.setBackground(table.getBackground());
+				this.button.setForeground(table.getForeground());
+				this.button.setBackground(table.getBackground());
 			}
-			label = (value == null) ? "" : value.toString();
-			button.setText(label);
-			isPushed = true;
-			return button;
+			this.label = (value == null) ? "" : value.toString();
+			this.button.setText(label);
+			this.isPushed = true;
+			this.jtable = table;
+			return this.button;
 		}
 
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
-				JOptionPane.showMessageDialog(button, label + ": Ouch!");
+
+				int row = jtable.getSelectedRow();
+				int column = jtable.getSelectedColumn();
+				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
+
+				System.out.println("row: " + row + " column: " + column + " :" + value);
+
+				if (column == 4) {
+					if (value < 1) {
+						value = 1;
+					}
+					jtable.setValueAt(value-1, row, 5);
+				} else {
+					jtable.setValueAt(value+1, row, 5);
+				}
+				
+				jtable.repaint();
 			}
-			isPushed = false;
+			this.isPushed = false;
 			return new String(label);
 		}
 
 		@Override
 		public boolean stopCellEditing() {
-			isPushed = false;
+			this.isPushed = false;
 			return super.stopCellEditing();
 		}
 
