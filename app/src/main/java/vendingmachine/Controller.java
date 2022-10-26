@@ -1,6 +1,5 @@
 package vendingmachine;
 
-
 public class Controller {
 
 	private Model model;
@@ -16,6 +15,10 @@ public class Controller {
 		this.defaultPageView = defaultPageView;
 	}
 
+	public void launchWindow() {
+		this.defaultPageView.launchWindow();
+	}
+
 	public void setDefaultPageView(DefaultPageView defaultPageView) {
 		this.defaultPageView = defaultPageView;
 	}
@@ -24,9 +27,19 @@ public class Controller {
 		this.model = model;
 	}
 
-	public void ViewUpdate() {
-		this.defaultPageView.launchWindow();
+	public void updateRecentAmount(String productName, Integer value, Integer column) {
+		Integer newAmount = value;
+		if (column == 4) {
+			if (newAmount > 0) newAmount--;
+		} else {
+			newAmount++;
+		}
+		this.model.updateRecentAmount(productName, newAmount);
+		updateView();	
 	}
 
+	public void updateView() {
+		this.defaultPageView.updateView();
+	}
 
 }

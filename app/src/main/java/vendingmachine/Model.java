@@ -89,4 +89,12 @@ public class Model {
 		this.selectedProducts = selectedProducts;
 	}
 
+	public void updateRecentAmount(String productName, Integer newAmount) {
+		for (Product p: this.recentProducts.keySet()) {
+			if (p.getName().equals(productName)) {
+				recentProducts.put(p, newAmount);
+			}
+		}
+	}
+
 }

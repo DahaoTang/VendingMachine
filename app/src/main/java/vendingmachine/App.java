@@ -12,19 +12,23 @@ public class App {
 		// jdbc.initDB();
 
 		Model model = new Model(jdbc);
-		DefaultPageView defaultPageView = new DefaultPageView(model);
+		DefaultPageView defaultPageView = new DefaultPageView();
 		Controller controller = new Controller(model, defaultPageView);
+		defaultPageView.setController(controller);
+		defaultPageView.setModel(model);
 
 // ######################
 // ### Testing Starts ###
 // ######################
-		// model.setCurrentUser(jdbc.getUser("Dahao"));
-		// System.out.println("Testing init done");
+
+
+
+
 // ####################
 // ### Testing Ends ###
 // ####################
 
-		controller.ViewUpdate();
+		controller.launchWindow();
 
     }
 }

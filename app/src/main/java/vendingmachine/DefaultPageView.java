@@ -10,8 +10,32 @@ import java.util.HashMap;
 public class DefaultPageView {
 
 	private Model model;
+	private Controller controller;
 
-	public DefaultPageView(Model model) {
+	private JFrame jframe;
+	private JPanel jpanel;
+
+	private JButton userButton;
+	private JLabel recentProductLabel;
+	private JTable recentProductsTable;
+
+	public DefaultPageView() {
+		this.model = null;
+		this.controller = null;
+
+		this.jframe = new JFrame("Vending Machine");
+        this.jpanel = new JPanel();
+
+		this.userButton = null;
+		this.recentProductLabel = null;
+		this.recentProductsTable = null;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
+	public void setModel(Model model) {
 		this.model = model;
 	}
 
@@ -25,30 +49,27 @@ public class DefaultPageView {
 			loggedin = true;
 		}
 
-		// Create a JFrame
-		JFrame jframe = new JFrame("Vending Machine");
-		jframe.setSize(600, 800);
-		jframe.setResizable(true);
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setLocationRelativeTo(null);
+		// Set JFrame
+		this.jframe.setSize(600, 800);
+		this.jframe.setResizable(true);
+		this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.jframe.setLocationRelativeTo(null);
 
-		// Create a JPanel
-        JPanel jpanel = new JPanel();
-        jpanel.setLayout(null);
-        jframe.add(jpanel);
+		// Set JPanel
+        this.jpanel.setLayout(null);
+        this.jframe.add(this.jpanel);
 
 		// Create JButton for logged in user
-		JButton userButton = null;
 		if (loggedin) {
-			userButton = new JButton(this.model.getCurrentUser().getName());
+			this.userButton = new JButton(this.model.getCurrentUser().getName());
 		} else {
-			userButton = new JButton("Login");
+			this.userButton = new JButton("Login");
 		}
-		userButton.setBounds(10, 10, 100, 32);
-		jpanel.add(userButton);
+		this.userButton.setBounds(10, 10, 100, 32);
+		this.jpanel.add(userButton);
 		if (loggedin) {
 			// TO-DO: Show User info page; be able to change password
-			userButton.addActionListener(new AbstractAction() {
+			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
 
@@ -57,7 +78,7 @@ public class DefaultPageView {
 
 		} else {
 			// TO-DO: login page
-			userButton.addActionListener(new AbstractAction() {
+			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
 					System.out.println("Login clicked");
@@ -67,10 +88,10 @@ public class DefaultPageView {
 		}
 	
 		// JLabel for recent products
-		JLabel recentProductLabel = new JLabel("Top 5 Recent Products");
-		recentProductLabel.setFont(new Font("Arial", Font.PLAIN, 20));	
-		recentProductLabel.setBounds(18, 60, 400, 32);
-		jpanel.add(recentProductLabel);
+		this.recentProductLabel = new JLabel("Top 5 Recent Products");
+		this.recentProductLabel.setFont(new Font("Arial", Font.PLAIN, 20));	
+		this.recentProductLabel.setBounds(18, 60, 400, 32);
+		this.jpanel.add(this.recentProductLabel);
 
 		// JTable for recent Products
 		// Init data
@@ -87,16 +108,16 @@ public class DefaultPageView {
 			{4, recentProductsList.get(3).getTypeString(), recentProductsList.get(3).getName() ,recentProductsList.get(3).getPrice(), "-", recentProducts.get(recentProductsList.get(3)), "+"},
 			{5, recentProductsList.get(4).getTypeString(), recentProductsList.get(4).getName() ,recentProductsList.get(4).getPrice(), "-", recentProducts.get(recentProductsList.get(4)), "+"},
 		};
-		JTable recentProductsTable = new JTable(recentProductsTableData, recentProductsTableColumnNames) {
+		this.recentProductsTable = new JTable(recentProductsTableData, recentProductsTableColumnNames) {
 			@Override
 			public Object getValueAt(int row, int column) {
 				return recentProductsTableData[row][column];
 			}
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				// if (column == 5) return true;
-				// else return false;
-				return true;
+				if (column == 4 || column == 6) return true;
+				else return false;
+				// return true;
 			}
 			@Override
 			public void setValueAt(Object value, int row, int column) {
@@ -122,16 +143,48 @@ public class DefaultPageView {
 		JScrollPane recentProductsJScrollPane = new JScrollPane(recentProductsTable);
 		recentProductsJScrollPane.setBounds(18, 100, 564, 100);
 		// Add JScrollPane to JPanel
-		jpanel.add(recentProductsJScrollPane);
+		this.jpanel.add(recentProductsJScrollPane);
 		recentProductsJScrollPane.setVisible(true);
+
      
-        jframe.setVisible(true);
+        this.jframe.setVisible(true);
 	}
+
+	public void updateView() {
+		// Retrieve data from model
+		loadDataFromModleToRecentProductsTable();
+
+		// Redraw jpanel and recentProductsTable
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
+		this.recentProductsTable.repaint();
+	}
+
 
 	/**
 	 * ########################
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
+	 * */
+	private void loadDataFromModleToRecentProductsTable() {
+		HashMap<Product, Integer> recentProducts = this.model.getRecentProducts();
+		ArrayList<Product> recentProductsList = new ArrayList<Product>();
+		for (Product p: recentProducts.keySet()) {
+			recentProductsList.add(p);
+		}
+		// Set data to recentProductsTable
+		this.recentProductsTable.setValueAt(recentProducts.get(recentProductsList.get(0)), 0, 5);
+		this.recentProductsTable.setValueAt(recentProducts.get(recentProductsList.get(1)), 1, 5);
+		this.recentProductsTable.setValueAt(recentProducts.get(recentProductsList.get(2)), 2, 5);
+		this.recentProductsTable.setValueAt(recentProducts.get(recentProductsList.get(3)), 3, 5);
+		this.recentProductsTable.setValueAt(recentProducts.get(recentProductsList.get(4)), 4, 5);
+	}
+
+
+	/**
+	 * ######################
+	 * ### HELPER CLASSES ###
+	 * ######################
 	 * */
 
 	/**
@@ -156,6 +209,9 @@ public class DefaultPageView {
 		}
 	}
 
+	/**
+	 * Increase or decrease button editor
+	 * */
 	class IODButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
@@ -194,23 +250,13 @@ public class DefaultPageView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
-
+				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
-
-				System.out.println("row: " + row + " column: " + column + " :" + value);
-
-				if (column == 4) {
-					if (value < 1) {
-						value = 1;
-					}
-					jtable.setValueAt(value-1, row, 5);
-				} else {
-					jtable.setValueAt(value+1, row, 5);
-				}
-				
-				jtable.repaint();
+				String productName = jtable.getValueAt(row, 2).toString();	
+				// Parse to Controller to update
+				controller.updateRecentAmount(productName, value, column);
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -226,8 +272,8 @@ public class DefaultPageView {
 		protected void fireEditingStopped() {
 			super.fireEditingStopped();
 		}
-		
 	}
+
 }
 
 
