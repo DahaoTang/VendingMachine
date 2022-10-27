@@ -16,8 +16,12 @@ public class DefaultPageView {
 	private JPanel jpanel;
 
 	private JButton userButton;
-	private JLabel recentProductLabel;
+
+	private JLabel recentProductsLabel;
 	private JTable recentProductsTable;
+
+	private JLabel groupedProductsLabel;
+	private JTable groupedProductsTable;
 
 	public DefaultPageView() {
 		this.model = null;
@@ -27,8 +31,12 @@ public class DefaultPageView {
         this.jpanel = new JPanel();
 
 		this.userButton = null;
-		this.recentProductLabel = null;
+
+		this.recentProductsLabel = null;
 		this.recentProductsTable = null;
+
+		this.groupedProductsLabel = null;
+		this.groupedProductsTable = null;
 	}
 
 	public void setController(Controller controller) {
@@ -90,13 +98,12 @@ public class DefaultPageView {
 		}
 	
 		// JLabel for recent products
-		this.recentProductLabel = new JLabel("Top 5 Recent Products");
-		this.recentProductLabel.setFont(new Font("Arial", Font.PLAIN, 20));	
-		this.recentProductLabel.setBounds(18, 60, 400, 32);
-		this.jpanel.add(this.recentProductLabel);
+		this.recentProductsLabel = new JLabel("Top 5 Recent Products");
+		this.recentProductsLabel.setFont(new Font("Arial", Font.PLAIN, 20));	
+		this.recentProductsLabel.setBounds(18, 60, 400, 32);
+		this.jpanel.add(this.recentProductsLabel);
 
 		// JTable for recent Products
-		// Init data
 		String[] recentProductsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		HashMap<Product, Integer> recentProducts = this.model.getRecentProducts();
 		ArrayList<Product> recentProductsList = new ArrayList<Product>();
@@ -154,6 +161,60 @@ public class DefaultPageView {
 		// Add JScrollPane to JPanel
 		this.jpanel.add(recentProductsJScrollPane);
 		recentProductsJScrollPane.setVisible(true);
+
+		// JLabel for list of porducts
+		this.groupedProductsLabel = new JLabel("List of Products: ");
+		this.groupedProductsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		this.groupedProductsLabel.setBounds(18, 220, 400, 32);
+		this.jpanel.add(this.groupedProductsLabel);
+	
+		String[] groupedProductsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
+		HashMap<Product, Integer> groupedProducts = this.model.getListedProducts();
+		ArrayList<Product> groupedProductsList = new ArrayList<Product>();
+		for (Product p: groupedProducts.keySet()) {
+			groupedProductsList.add(p);
+		}
+		ArrayList<Object[]> groupedProductsTableDataList = new ArrayList<Object[]>();
+		for (int i = 0; i < groupedProductsList.size(); i++) {
+			Object[] groupedProductData = {
+				i, groupedProductsList.get(i).getTypeString(), groupedProductsList.get(i).getName(), 
+				groupedProductsList.get(i).getPrice(), "-", groupedProducts.get(groupedProductsList.get(i)) ,"+"
+			};
+			groupedProductsTableDataList.add(groupedProductData);
+		}
+		Object[][] groupedProductsTableData = new Object[groupedProductsTableDataList.size()][];
+		for (int i = 0; i < groupedProductsTableDataList.size(); i++) {
+			groupedProductsTableData[i] = groupedProductsTableDataList.get(i);
+		}
+		this.groupedProductsTable = new JTable(groupedProductsTableData, groupedProductsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return recentProductsTableData[row][column];
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				recentProductsTableData[row][column] = value;
+			}
+		};
+		// Set size
+		groupedProductsTable.getColumnModel().getColumn(0).setPreferredWidth(34);
+		recentProductsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+		recentProductsTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+		recentProductsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
+		recentProductsTable.getColumnModel().getColumn(4).setPreferredWidth(5);
+		recentProductsTable.getColumnModel().getColumn(5).setPreferredWidth(70);
+		recentProductsTable.getColumnModel().getColumn(6).setPreferredWidth(5);
+		recentProductsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		
 
      
         this.jframe.setVisible(true);
