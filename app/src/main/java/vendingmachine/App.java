@@ -29,6 +29,7 @@ public class App {
 // ####################
 
 		controller.launchWindow();
+		controller.updateView();
 
     }
 }

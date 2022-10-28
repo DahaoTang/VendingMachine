@@ -27,6 +27,10 @@ public class Controller {
 		this.model = model;
 	}
 
+	public void updateGroupedFromTypeChange(ProductType type) {
+		this.model.updateGroupedFromTypeChange(type);
+	}
+
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
 		Integer newAmount = value;
 		if (column == 4) {

@@ -12,8 +12,7 @@ public class Model {
 
 	private HashMap<Product, Integer> recentProducts;
 
-	private ProductType listedType;
-	private HashMap<Product, Integer> listedProducts;
+	private HashMap<Product, Integer> groupedProducts;
 
 	private HashMap<Product, Integer> selectedProducts;
 
@@ -30,12 +29,9 @@ public class Model {
 			this.recentProducts.put(p, 0);
 		}
 
-		this.listedType = ProductType.ALL;
-
-		this.listedProducts = new HashMap<Product, Integer>();
-		ArrayList<Product> allProducts = this.jdbc.getProductsAll();
-		for (Product p: allProducts) {
-			this.listedProducts.put(p, 0);
+		this.groupedProducts = new HashMap<Product, Integer>();
+		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
+			this.groupedProducts.put(p, 0);
 		}
 
 		this.selectedProducts = new HashMap<Product, Integer>();
@@ -45,16 +41,16 @@ public class Model {
 		return this.currentUser;
 	}
 
-	public HashMap<Product, Integer> getListedProducts() {
-		return this.listedProducts;
-	}
-
-	public ProductType getListedType() {
-		return this.listedType;
-	}
-
 	public HashMap<Product, Integer> getRecentProducts() {
 		return this.recentProducts;
+	}
+
+	public HashMap<Product, Integer> getGroupedProducts() {
+		return this.groupedProducts;
+	}
+
+	public ArrayList<Product> getProductsByType(ProductType type) {
+		return this.jdbc.getProductsByType(type);
 	}
 
 	public HashMap<Product, Integer> getSelectedProducts() {
@@ -73,28 +69,69 @@ public class Model {
 		this.jdbc = jdbc;
 	}
 
-	public void setListedProducts(HashMap<Product, Integer> listedProducts) {
-		this.listedProducts = listedProducts;
-	}
-
-	public void setListedType(ProductType listedType) {
-		this.listedType = listedType;
-	}
-
 	public void setRecentProducts(HashMap<Product, Integer> recentProducts) {
 		this.recentProducts = recentProducts;
+	}
+
+	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
+		this.groupedProducts = groupedProducts;
 	}
 
 	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
 
-	public void updateRecentAmount(String productName, Integer newAmount) {
-		for (Product p: this.recentProducts.keySet()) {
+	public void updateGroupedAmount(String productName, Integer newAmount) {
+		// Update grouped products amounts
+		for (Product p: this.groupedProducts.keySet()) {
 			if (p.getName().equals(productName)) {
-				recentProducts.put(p, newAmount);
+				this.selectedProducts.put(p, newAmount);
 			}
 		}
+		// Update selected
+		for (Product p: this.groupedProducts.keySet()) {
+			if (this.selectedProducts.containsKey(p)) {
+				if (this.groupedProducts.get(p) == 0) {
+					this.selectedProducts.remove(p);
+				} else {
+					this.selectedProducts.put(p, this.recentProducts.get(p));
+				}
+			}
+		}
+	}
+
+	public void updateGroupedFromTypeChange(ProductType type) {
+		this.groupedProducts = new HashMap<Product, Integer>();
+		for (Product p: this.jdbc.getProductsByType(type)) {
+			this.groupedProducts.put(p, 0);
+		}
+		for (Product p: this.selectedProducts.keySet()) {
+			if (p.getType().equals(type)) {
+				this.groupedProducts.put(p, this.selectedProducts.get(p));
+			}
+		}
+	}
+
+	public void updateRecentAmount(String productName, Integer newAmount) {
+		// Update recent products amounts
+		for (Product p: this.recentProducts.keySet()) {
+			if (p.getName().equals(productName)) {
+				this.recentProducts.put(p, newAmount);
+			}
+		}
+		// Update selected
+		for (Product p: this.recentProducts.keySet()) {
+			this.selectedProducts.put(p, this.recentProducts.get(p));
+			// if (this.selectedProducts.containsKey(p)) {
+				if (this.recentProducts.get(p) == 0) {
+					this.selectedProducts.remove(p);
+				}
+			// }
+		}
+	}
+
+	public void updateRecentAmountWhenLoggedIn() {
+
 	}
 
 }
