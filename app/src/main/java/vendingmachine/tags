@@ -21,6 +21,9 @@ Controller	Controller.java	/^public class Controller {$/;"	c
 DRINK	ProductType.java	/^	DRINK,$/;"	e	enum:ProductType	file:
 DefaultPageView	DefaultPageView.java	/^	public DefaultPageView() {$/;"	m	class:DefaultPageView
 DefaultPageView	DefaultPageView.java	/^public class DefaultPageView {$/;"	c
+GROUPED_PRODUCTS_LABEL_BP	DefaultPageView.java	/^	private final int[] GROUPED_PRODUCTS_LABEL_BP = {18, 220, 200, 32};$/;"	f	class:DefaultPageView	file:
+GROUPED_PRODUCTS_SCROLL_PANEL_BP	DefaultPageView.java	/^	private final int[] GROUPED_PRODUCTS_SCROLL_PANEL_BP = {18, 260, 564, 120};$/;"	f	class:DefaultPageView	file:
+GROUPED_PRODUCTS_TYPE_BOX_BP	DefaultPageView.java	/^	private final int[] GROUPED_PRODUCTS_TYPE_BOX_BP = {180, 221, 200, 32};$/;"	f	class:DefaultPageView	file:
 IODButtonEditor	DefaultPageView.java	/^		public IODButtonEditor(JTextField textField) {$/;"	m	class:DefaultPageView.IODButtonEditor
 IODButtonEditor	DefaultPageView.java	/^	class IODButtonEditor extends DefaultCellEditor {$/;"	c	class:DefaultPageView
 IODButtonRenderer	DefaultPageView.java	/^		public IODButtonRenderer() {$/;"	m	class:DefaultPageView.IODButtonRenderer
@@ -28,24 +31,38 @@ IODButtonRenderer	DefaultPageView.java	/^	class IODButtonRenderer extends JButto
 JDBC	JDBC.java	/^	public JDBC() {$/;"	m	class:JDBC
 JDBC	JDBC.java	/^	public JDBC(String dbPath) {$/;"	m	class:JDBC
 JDBC	JDBC.java	/^public class JDBC {$/;"	c
+LABEL_FONT	DefaultPageView.java	/^	private final String LABEL_FONT = "Arial";$/;"	f	class:DefaultPageView	file:
+LABEL_FONT_MODE	DefaultPageView.java	/^	private final int LABEL_FONT_MODE = Font.PLAIN;$/;"	f	class:DefaultPageView	file:
+LABEL_FONT_SIZE	DefaultPageView.java	/^	private final int LABEL_FONT_SIZE = 20;$/;"	f	class:DefaultPageView	file:
+ListedButtonEditor	DefaultPageView.java	/^		public ListedButtonEditor(JTextField textField) {$/;"	m	class:DefaultPageView.ListedButtonEditor
+ListedButtonEditor	DefaultPageView.java	/^	class ListedButtonEditor extends DefaultCellEditor {$/;"	c	class:DefaultPageView
+ListedButtonRenderer	DefaultPageView.java	/^		public ListedButtonRenderer() {$/;"	m	class:DefaultPageView.ListedButtonRenderer
+ListedButtonRenderer	DefaultPageView.java	/^	class ListedButtonRenderer extends JButton implements TableCellRenderer {$/;"	c	class:DefaultPageView
 Model	Model.java	/^	public Model(JDBC jdbc) {$/;"	m	class:Model
 Model	Model.java	/^public class Model {$/;"	c
+PRODUCTS_TABLE_COLUMN_WIDTH	DefaultPageView.java	/^	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 210, 70, 20, 70, 20};$/;"	f	class:DefaultPageView	file:
 Product	Product.java	/^	public Product() {$/;"	m	class:Product
 Product	Product.java	/^	public Product(Integer id, ProductType type, String name, Double price, Integer amount) {$/;"	m	class:Product
 Product	Product.java	/^public class Product {$/;"	c
 ProductType	ProductType.java	/^public enum ProductType {$/;"	g
+RECENT_PRODUCTS_LABEL_BP	DefaultPageView.java	/^	private final int[] RECENT_PRODUCTS_LABEL_BP = {18, 60, 300, 32};$/;"	f	class:DefaultPageView	file:
+RECENT_PRODUCTS_SCROLL_PANEL_BP	DefaultPageView.java	/^	private final int[] RECENT_PRODUCTS_SCROLL_PANEL_BP = {18, 100, 564, 100};$/;"	f	class:DefaultPageView	file:
+USER_BUTTON_BP	DefaultPageView.java	/^	private final int[] USER_BUTTON_BP = {10, 20, 100, 32};$/;"	f	class:DefaultPageView	file:
 User	User.java	/^	public User() {$/;"	m	class:User
 User	User.java	/^	public User(String name, String password, ArrayList<Product> recentProducts) {$/;"	m	class:User
 User	User.java	/^public class User {$/;"	c
+WINDOW_SIZE	DefaultPageView.java	/^	private final int[] WINDOW_SIZE = {600, 800};$/;"	f	class:DefaultPageView	file:
 amount	Cash.java	/^	private Integer amount;$/;"	f	class:Cash	file:
 amount	Product.java	/^	private Integer amount;$/;"	f	class:Product	file:
 button	DefaultPageView.java	/^		protected JButton button;$/;"	f	class:DefaultPageView.IODButtonEditor
+button	DefaultPageView.java	/^		protected JButton button;$/;"	f	class:DefaultPageView.ListedButtonEditor
 controller	DefaultPageView.java	/^	private Controller controller;$/;"	f	class:DefaultPageView	file:
 createTableCard	JDBC.java	/^	public void createTableCard() {$/;"	m	class:JDBC
 createTableCash	JDBC.java	/^	public void createTableCash() {$/;"	m	class:JDBC
 createTableGlobalRecentProducts	JDBC.java	/^	public void createTableGlobalRecentProducts() {$/;"	m	class:JDBC
 createTableProducts	JDBC.java	/^	public void createTableProducts() {$/;"	m	class:JDBC
 createTableUser	JDBC.java	/^	public void createTableUser() {$/;"	m	class:JDBC
+currentGroupedProductsType	DefaultPageView.java	/^	private ProductType currentGroupedProductsType;$/;"	f	class:DefaultPageView	file:
 currentUser	Model.java	/^	private User currentUser;$/;"	f	class:Model	file:
 dbConnection	JDBC.java	/^	private Connection dbConnection;$/;"	f	class:JDBC	file:
 dbPath	JDBC.java	/^	private String dbPath;$/;"	f	class:JDBC	file:
@@ -59,13 +76,14 @@ deleteProduct	JDBC.java	/^	public void deleteProduct(Product product) {$/;"	m	cl
 deleteUser	JDBC.java	/^	public void deleteUser(String name) {$/;"	m	class:JDBC
 deleteUser	JDBC.java	/^	public void deleteUser(User user) {$/;"	m	class:JDBC
 fireEditingStopped	DefaultPageView.java	/^		protected void fireEditingStopped() {$/;"	m	class:DefaultPageView.IODButtonEditor
+fireEditingStopped	DefaultPageView.java	/^		protected void fireEditingStopped() {$/;"	m	class:DefaultPageView.ListedButtonEditor
 getAmount	Cash.java	/^	public Integer getAmount() {$/;"	m	class:Cash
 getAmount	Product.java	/^	public Integer getAmount() {$/;"	m	class:Product
 getCellEditorValue	DefaultPageView.java	/^		public Object getCellEditorValue() {$/;"	m	class:DefaultPageView.IODButtonEditor
+getCellEditorValue	DefaultPageView.java	/^		public Object getCellEditorValue() {$/;"	m	class:DefaultPageView.ListedButtonEditor
 getCurrentUser	Model.java	/^	public User getCurrentUser() {$/;"	m	class:Model
+getGroupedProducts	Model.java	/^	public HashMap<Product, Integer> getGroupedProducts() {$/;"	m	class:Model
 getId	Product.java	/^	public Integer getId() {$/;"	m	class:Product
-getListedProducts	Model.java	/^	public HashMap<Product, Integer> getListedProducts() {$/;"	m	class:Model
-getListedType	Model.java	/^	public ProductType getListedType() {$/;"	m	class:Model
 getName	Card.java	/^	public String getName() {$/;"	m	class:Card
 getName	Cash.java	/^	public String getName() {$/;"	m	class:Cash
 getName	Product.java	/^	public String getName() {$/;"	m	class:Product
@@ -77,17 +95,24 @@ getProduct	JDBC.java	/^	public Product getProduct(Integer id) {$/;"	m	class:JDBC
 getProduct	JDBC.java	/^	public Product getProduct(String name) {$/;"	m	class:JDBC
 getProductsAll	JDBC.java	/^	public ArrayList<Product> getProductsAll() {$/;"	m	class:JDBC
 getProductsByType	JDBC.java	/^	public ArrayList<Product> getProductsByType(ProductType ptype) {$/;"	m	class:JDBC
+getProductsByType	Model.java	/^	public ArrayList<Product> getProductsByType(ProductType type) {$/;"	m	class:Model
 getRecent	JDBC.java	/^	public ArrayList<Product> getRecent() {$/;"	m	class:JDBC
 getRecentProducts	Model.java	/^	public HashMap<Product, Integer> getRecentProducts() {$/;"	m	class:Model
 getRecentProducts	User.java	/^	public ArrayList<Product> getRecentProducts() {$/;"	m	class:User
 getSelectedProducts	Model.java	/^	public HashMap<Product, Integer> getSelectedProducts() {$/;"	m	class:Model
-getTableCellEditorComponent	DefaultPageView.java	/^		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {$/;"	m	class:DefaultPageView.IODButtonEditor
-getTableCellRendererComponent	DefaultPageView.java	/^		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {$/;"	m	class:DefaultPageView.IODButtonRenderer
+getTableCellEditorComponent	DefaultPageView.java	/^		public Component getTableCellEditorComponent(JTable table, Object value, $/;"	m	class:DefaultPageView.IODButtonEditor
+getTableCellEditorComponent	DefaultPageView.java	/^		public Component getTableCellEditorComponent(JTable table, Object value, $/;"	m	class:DefaultPageView.ListedButtonEditor
+getTableCellRendererComponent	DefaultPageView.java	/^		public Component getTableCellRendererComponent(JTable table, Object value, $/;"	m	class:DefaultPageView.IODButtonRenderer
+getTableCellRendererComponent	DefaultPageView.java	/^		public Component getTableCellRendererComponent(JTable table, Object value, $/;"	m	class:DefaultPageView.ListedButtonRenderer
 getTotalAmount	Model.java	/^	public Double getTotalAmount() {$/;"	m	class:Model
 getType	Product.java	/^	public ProductType getType() {$/;"	m	class:Product
 getTypeString	Product.java	/^	public String getTypeString() {$/;"	m	class:Product
 getUser	JDBC.java	/^	public User getUser(String name) {$/;"	m	class:JDBC
 getValue	Cash.java	/^	public Double getValue() {$/;"	m	class:Cash
+groupedProducts	Model.java	/^	private HashMap<Product, Integer> groupedProducts;$/;"	f	class:Model	file:
+groupedProductsLabel	DefaultPageView.java	/^	private JLabel groupedProductsLabel;$/;"	f	class:DefaultPageView	file:
+groupedProductsScrollPane	DefaultPageView.java	/^	private JScrollPane groupedProductsScrollPane;$/;"	f	class:DefaultPageView	file:
+groupedProductsTypeBox	DefaultPageView.java	/^	private JComboBox<String> groupedProductsTypeBox;$/;"	f	class:DefaultPageView	file:
 id	Product.java	/^	private Integer id;$/;"	f	class:Product	file:
 ifHasUser	JDBC.java	/^	public boolean ifHasUser(String name) {$/;"	m	class:JDBC
 ifMatchUser	JDBC.java	/^	public boolean ifMatchUser(String name, String password) {$/;"	m	class:JDBC
@@ -98,16 +123,16 @@ insertProduct	JDBC.java	/^	public void insertProduct(Product product) {$/;"	m	cl
 insertRecentAll	JDBC.java	/^	public void insertRecentAll(ArrayList<Product> recentProducts) {$/;"	m	class:JDBC
 insertUser	JDBC.java	/^	public void insertUser(User user) {$/;"	m	class:JDBC
 isPushed	DefaultPageView.java	/^		private boolean isPushed;$/;"	f	class:DefaultPageView.IODButtonEditor	file:
+isPushed	DefaultPageView.java	/^		private boolean isPushed;$/;"	f	class:DefaultPageView.ListedButtonEditor	file:
 jdbc	Model.java	/^	private JDBC jdbc;$/;"	f	class:Model	file:
 jframe	DefaultPageView.java	/^	private JFrame jframe;$/;"	f	class:DefaultPageView	file:
 jpanel	DefaultPageView.java	/^	private JPanel jpanel;$/;"	f	class:DefaultPageView	file:
 jtable	DefaultPageView.java	/^		private JTable jtable;$/;"	f	class:DefaultPageView.IODButtonEditor	file:
+jtable	DefaultPageView.java	/^		private JTable jtable;$/;"	f	class:DefaultPageView.ListedButtonEditor	file:
 label	DefaultPageView.java	/^		private String label;$/;"	f	class:DefaultPageView.IODButtonEditor	file:
+label	DefaultPageView.java	/^		private String label;$/;"	f	class:DefaultPageView.ListedButtonEditor	file:
 launchWindow	Controller.java	/^	public void launchWindow() {$/;"	m	class:Controller
 launchWindow	DefaultPageView.java	/^	public void launchWindow() {$/;"	m	class:DefaultPageView
-listedProducts	Model.java	/^	private HashMap<Product, Integer> listedProducts;$/;"	f	class:Model	file:
-listedType	Model.java	/^	private ProductType listedType;$/;"	f	class:Model	file:
-loadDataFromModleToRecentProductsTable	DefaultPageView.java	/^	private void loadDataFromModleToRecentProductsTable() {$/;"	m	class:DefaultPageView	file:
 main	App.java	/^    public static void main(String[] args) {$/;"	m	class:App
 model	Controller.java	/^	private Model model;$/;"	f	class:Controller	file:
 model	DefaultPageView.java	/^	private Model model;$/;"	f	class:DefaultPageView	file:
@@ -118,20 +143,21 @@ name	User.java	/^	private String name;$/;"	f	class:User	file:
 number	Card.java	/^	private String number;$/;"	f	class:Card	file:
 password	User.java	/^	private String password;$/;"	f	class:User	file:
 price	Product.java	/^	private Double price;$/;"	f	class:Product	file:
-recentProductLabel	DefaultPageView.java	/^	private JLabel recentProductLabel;$/;"	f	class:DefaultPageView	file:
 recentProducts	Model.java	/^	private HashMap<Product, Integer> recentProducts;$/;"	f	class:Model	file:
 recentProducts	User.java	/^	private ArrayList<Product> recentProducts;$/;"	f	class:User	file:
+recentProductsJScrollPane	DefaultPageView.java	/^	private JScrollPane recentProductsJScrollPane;$/;"	f	class:DefaultPageView	file:
+recentProductsLabel	DefaultPageView.java	/^	private JLabel recentProductsLabel;$/;"	f	class:DefaultPageView	file:
 recentProductsTable	DefaultPageView.java	/^	private JTable recentProductsTable;$/;"	f	class:DefaultPageView	file:
 selectedProducts	Model.java	/^	private HashMap<Product, Integer> selectedProducts;$/;"	f	class:Model	file:
 setAmount	Cash.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Cash
 setAmount	Product.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Product
+setColumnWidth	DefaultPageView.java	/^	private void setColumnWidth(JTable table, int[] sizeArray) {$/;"	m	class:DefaultPageView	file:
 setController	DefaultPageView.java	/^	public void setController(Controller controller) {$/;"	m	class:DefaultPageView
 setCurrentUser	Model.java	/^	public void setCurrentUser(User currentUser) {$/;"	m	class:Model
 setDefaultPageView	Controller.java	/^	public void setDefaultPageView(DefaultPageView defaultPageView) {$/;"	m	class:Controller
+setGroupedProducts	Model.java	/^	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {$/;"	m	class:Model
 setId	Product.java	/^	public void setId(Integer id) {$/;"	m	class:Product
 setJDBC	Model.java	/^	public void setJDBC(JDBC jdbc) {$/;"	m	class:Model
-setListedProducts	Model.java	/^	public void setListedProducts(HashMap<Product, Integer> listedProducts) {$/;"	m	class:Model
-setListedType	Model.java	/^	public void setListedType(ProductType listedType) {$/;"	m	class:Model
 setModel	Controller.java	/^	public void setModel(Model model) {$/;"	m	class:Controller
 setModel	DefaultPageView.java	/^	public void setModel(Model model) {$/;"	m	class:DefaultPageView
 setName	Card.java	/^	public void setName(String name) {$/;"	m	class:Card
@@ -148,16 +174,27 @@ setSelectedProducts	Model.java	/^	public void setSelectedProducts(HashMap<Produc
 setType	Product.java	/^	public void setType(ProductType type) {$/;"	m	class:Product
 setValue	Cash.java	/^	public void setValue(Double value) {$/;"	m	class:Cash
 stopCellEditing	DefaultPageView.java	/^		public boolean stopCellEditing() {$/;"	m	class:DefaultPageView.IODButtonEditor
+stopCellEditing	DefaultPageView.java	/^		public boolean stopCellEditing() {$/;"	m	class:DefaultPageView.ListedButtonEditor
 totalAmout	Model.java	/^	private Double totalAmout;$/;"	f	class:Model	file:
 tryConnectToDB	JDBC.java	/^	private void tryConnectToDB() {$/;"	m	class:JDBC	file:
 type	Product.java	/^	private ProductType type;$/;"	f	class:Product	file:
 updateCard	JDBC.java	/^	public void updateCard(Card card) {$/;"	m	class:JDBC
 updateCash	JDBC.java	/^	public void updateCash(Cash cash) {$/;"	m	class:JDBC
 updateGlobalRecent	JDBC.java	/^	public void updateGlobalRecent(ArrayList<Product> recentProducts) {$/;"	m	class:JDBC
+updateGroupedAmount	Controller.java	/^	public void updateGroupedAmount(String productName, Integer value, Integer column) {$/;"	m	class:Controller
+updateGroupedAmount	Model.java	/^	public void updateGroupedAmount(String productName, Integer newAmount) {$/;"	m	class:Model
+updateGroupedFromTypeChange	Controller.java	/^	public void updateGroupedFromTypeChange(ProductType type) {$/;"	m	class:Controller
+updateGroupedFromTypeChange	Model.java	/^	public void updateGroupedFromTypeChange(ProductType type) {$/;"	m	class:Model
+updateGroupedProductsTable	DefaultPageView.java	/^	private void updateGroupedProductsTable(ProductType type) {$/;"	m	class:DefaultPageView	file:
 updateProduct	JDBC.java	/^	public void updateProduct(Product product) {$/;"	m	class:JDBC
+updateRecent	Controller.java	/^	public void updateRecent() {$/;"	m	class:Controller
+updateRecent	Model.java	/^	public void updateRecent() {$/;"	m	class:Model
 updateRecentAmount	Controller.java	/^	public void updateRecentAmount(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 updateRecentAmount	Model.java	/^	public void updateRecentAmount(String productName, Integer newAmount) {$/;"	m	class:Model
+updateRecentAmountWhenLoggedIn	Model.java	/^	public void updateRecentAmountWhenLoggedIn() {$/;"	m	class:Model
+updateRecentProductsTable	DefaultPageView.java	/^	private void updateRecentProductsTable() {$/;"	m	class:DefaultPageView	file:
 updateUser	JDBC.java	/^	public void updateUser(User user) {$/;"	m	class:JDBC
+updateUserButton	DefaultPageView.java	/^	private void updateUserButton() {$/;"	m	class:DefaultPageView	file:
 updateView	Controller.java	/^	public void updateView() {$/;"	m	class:Controller
 updateView	DefaultPageView.java	/^	public void updateView() {$/;"	m	class:DefaultPageView
 userButton	DefaultPageView.java	/^	private JButton userButton;$/;"	f	class:DefaultPageView	file:

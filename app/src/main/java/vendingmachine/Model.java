@@ -24,10 +24,6 @@ public class Model {
 		this.totalAmout = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
-		ArrayList<Product> recentProductsList = this.jdbc.getRecent();
-		for (Product p: recentProductsList) {
-			this.recentProducts.put(p, 0);
-		}
 
 		this.groupedProducts = new HashMap<Product, Integer>();
 		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
@@ -81,57 +77,67 @@ public class Model {
 		this.selectedProducts = selectedProducts;
 	}
 
-	public void updateGroupedAmount(String productName, Integer newAmount) {
-		// Update grouped products amounts
-		for (Product p: this.groupedProducts.keySet()) {
-			if (p.getName().equals(productName)) {
-				this.selectedProducts.put(p, newAmount);
-			}
+	public void updateGrouped(ProductType type) {
+		System.out.println("MODEL: update group");
+		this.groupedProducts = new HashMap<Product, Integer>();
+		for (Product p: this.jdbc.getProductsByType(type)) {
+			this.groupedProducts.put(p, 0);
 		}
-		// Update selected
-		for (Product p: this.groupedProducts.keySet()) {
-			if (this.selectedProducts.containsKey(p)) {
-				if (this.groupedProducts.get(p) == 0) {
-					this.selectedProducts.remove(p);
-				} else {
-					this.selectedProducts.put(p, this.recentProducts.get(p));
+		for (Product p1: this.groupedProducts.keySet()) {
+			for (Product p2: this.selectedProducts.keySet()) {
+				if (p1.getName().equals(p2.getName())) {
+					this.groupedProducts.put(p1, this.selectedProducts.get(p2));
 				}
 			}
 		}
 	}
 
-	public void updateGroupedFromTypeChange(ProductType type) {
-		this.groupedProducts = new HashMap<Product, Integer>();
-		for (Product p: this.jdbc.getProductsByType(type)) {
-			this.groupedProducts.put(p, 0);
+	public void updateGroupedAmount(String productName, Integer newAmount) {
+		System.out.println("MODEL: ");
+		// Update grouped products amounts
+		for (Product p: this.groupedProducts.keySet()) {
+			if (p.getName().equals(productName)) {
+				this.groupedProducts.put(p, newAmount);
+				if (newAmount == 0) {
+					this.selectedProducts.remove(p);
+				} else {
+					this.selectedProducts.put(p, newAmount);
+				}
+				System.out.println(p.getName() + " " + newAmount);
+			}
 		}
-		for (Product p: this.selectedProducts.keySet()) {
-			if (p.getType().equals(type)) {
-				this.groupedProducts.put(p, this.selectedProducts.get(p));
+	}
+
+	public void updateRecent() {
+		System.out.println("MODEL: update recent");
+		this.recentProducts = new HashMap<Product, Integer>();
+		ArrayList<Product> recentProductsList = this.jdbc.getRecent();
+		for (Product p: recentProductsList) {
+			this.recentProducts.put(p, 0);
+		}
+		for (Product p1: this.recentProducts.keySet()) {
+			for (Product p2: this.selectedProducts.keySet()) {
+				if (p1.getName().equals(p2.getName())) {
+					this.recentProducts.put(p1, this.selectedProducts.get(p2));
+				}
 			}
 		}
 	}
 
 	public void updateRecentAmount(String productName, Integer newAmount) {
+		System.out.println("MODEL: ");
 		// Update recent products amounts
 		for (Product p: this.recentProducts.keySet()) {
 			if (p.getName().equals(productName)) {
 				this.recentProducts.put(p, newAmount);
+				if (newAmount == 0) {
+					this.selectedProducts.remove(p);
+				} else {
+					this.selectedProducts.put(p, newAmount);
+				}
+				System.out.println(p.getName() + " " + newAmount);
 			}
 		}
-		// Update selected
-		for (Product p: this.recentProducts.keySet()) {
-			this.selectedProducts.put(p, this.recentProducts.get(p));
-			// if (this.selectedProducts.containsKey(p)) {
-				if (this.recentProducts.get(p) == 0) {
-					this.selectedProducts.remove(p);
-				}
-			// }
-		}
-	}
-
-	public void updateRecentAmountWhenLoggedIn() {
-
 	}
 
 }

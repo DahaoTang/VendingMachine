@@ -27,8 +27,25 @@ public class Controller {
 		this.model = model;
 	}
 
-	public void updateGroupedFromTypeChange(ProductType type) {
-		this.model.updateGroupedFromTypeChange(type);
+	public void updateGroupedAmount(String productName, Integer value, Integer column) {
+		Integer newAmount = value;
+		if (column == 4) {
+			if (newAmount > 0) newAmount--;
+		} else {
+			newAmount++;
+		}
+		System.out.println("CONTROLLER: updateGroupedAmount: " + productName + " " + newAmount);
+		this.model.updateGroupedAmount(productName, newAmount);
+	}
+
+	public void updateGrouped(ProductType type) {
+		System.out.println("CONTROLLER: updateGrouped");
+		this.model.updateGrouped(type);
+	}
+
+	public void updateRecent() {
+		System.out.println("CONTROLLER: updateRecent");
+		this.model.updateRecent();
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
@@ -38,8 +55,8 @@ public class Controller {
 		} else {
 			newAmount++;
 		}
+		System.out.println("CONTROLLER: updateRecentAmount: " + productName + " " + newAmount);
 		this.model.updateRecentAmount(productName, newAmount);
-		updateView();	
 	}
 
 	public void updateView() {
