@@ -152,11 +152,14 @@ public class LoginView implements WindowListener {
 		this.loginButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TO-DO: Check user info
-				if (ifLoggedIn()) {
-
+				String userName = userNameTextField.getText();
+				String password = passwordField.getText();
+				if (ifLoggedIn(userName, password)){
+					jframe.dispose();
+					controller.setCurrentUser(userName);
+					controller.updateAfterLogin();
 				} else {
-					
+					JOptionPane.showMessageDialog(null, "Invalid user name or password.");
 				}
 			}
 		});
@@ -173,10 +176,10 @@ public class LoginView implements WindowListener {
 	public void windowClosed(WindowEvent e) {
 		this.defaultPageViewJFrame.dispose();
 		DefaultPageView defaultPageView = new DefaultPageView();
+		this.controller.setDefaultPageView(defaultPageView);
 		defaultPageView.setModel(this.model);
 		defaultPageView.setController(this.controller);
 		defaultPageView.launchWindow();
-		defaultPageView.updateView();
 	}
 
 	@Override
@@ -202,8 +205,7 @@ public class LoginView implements WindowListener {
 	 * ########################
 	 * */
 
-	private Boolean ifLoggedIn() {
-
-		return false;
+	private Boolean ifLoggedIn(String userName, String password) {
+		return this.controller.ifLoggedIn(userName, password);
 	}
 }

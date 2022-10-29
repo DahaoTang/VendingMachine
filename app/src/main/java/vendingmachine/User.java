@@ -22,7 +22,17 @@ public class User {
 	public User(String name, String password, ArrayList<Product> recentProducts) {
 		this.name = name;
 		this.password = password;
-		this.recentProducts = recentProducts;
+		this.recentProducts = new ArrayList<Product>();
+		for (Product p: recentProducts) {
+			Product newProduct = new Product(
+					p.getId(),
+					p.getType(),
+					p.getName(),
+					p.getPrice(),
+					p.getAmount()
+				);
+			this.recentProducts.add(newProduct);
+		}
 	}
 
 	public String getName() {
@@ -52,5 +62,17 @@ public class User {
 	public void setRecentProduct(Integer index, Product product) {
 		index = index % 5;
 		this.recentProducts.add(index, product);
+	}
+
+	public String toString() {
+		String output = "";
+		output += "Name: " + this.name + "\n";
+		output += "Password: " + this.password + "\n";
+		output += "Rencet Products: " + this.recentProducts.get(0).getName() + ", ";
+		output += this.recentProducts.get(1).getName() + ", ";
+		output += this.recentProducts.get(2).getName() + ",";
+		output += this.recentProducts.get(3).getName() + ", ";
+		output += this.recentProducts.get(4).getName();
+		return output;
 	}
 }

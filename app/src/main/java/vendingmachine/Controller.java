@@ -1,5 +1,6 @@
 package vendingmachine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller {
@@ -27,6 +28,38 @@ public class Controller {
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+	public Boolean ifLoggedIn(String userName, String password) {
+		if (this.model.ifHasUser(userName)) {
+			if (this.model.ifMatchUser(userName, password)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void setCurrentUser(String userName) {
+		this.model.setCurrentUser(userName);
+	}
+
+	public void updateAfterLogin() {
+		System.out.println("CONTROLLER: updateAfterLogin");
+		System.out.println(this.model.getCurrentUser());
+		// Rencet products
+		HashMap<Product, Integer> recentProducts = new HashMap<Product, Integer>();
+		for (Product p: this.model.getCurrentUser().getRecentProducts()) {
+			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			recentProducts.put(newProduct, 0);
+		}
+		for (Product rp: recentProducts.keySet()) {
+			for (Product sp: this.model.getSelectedProducts().keySet()) {
+				if (rp.getName().equals(sp.getName())) {
+					recentProducts.put(rp, this.model.getSelectedProducts().get(sp));
+				}
+			}
+		}
+		this.model.setRecentProducts(recentProducts);
 	}
 
 	public void updateGroupedAmount(String productName, Integer value, Integer column) {
@@ -110,7 +143,8 @@ public class Controller {
 		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
 		for (Product p: this.model.getProductsByType(type)) {
-			groupedProducts.put(p, 0);
+			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			groupedProducts.put(newProduct, 0);
 		}
 		for (Product gp: groupedProducts.keySet()) {
 			for (Product sp: selectedProducts.keySet()) {

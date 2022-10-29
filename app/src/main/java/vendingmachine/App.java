@@ -18,7 +18,5 @@ public class App {
 		defaultPageView.setModel(model);
 
 		controller.launchWindow();
-		controller.updateView();
-
     }
 }

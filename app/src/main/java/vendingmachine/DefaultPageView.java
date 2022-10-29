@@ -144,16 +144,14 @@ public class DefaultPageView {
 			this.userButton.setText(this.model.getCurrentUser().getName());
 		}
 		if (this.model.getCurrentUser().getName() != null) {
-			// TO-DO: Show User info page; be able to change password
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-
+					JOptionPane.showMessageDialog(null, "Username: " + model.getCurrentUser().getName() + "\n");
 				}
 			});
 
 		} else {
-			// TO-DO: login page
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
@@ -448,6 +446,7 @@ public class DefaultPageView {
 	private void buildRecentProductsTable() {
 		// Loead data from model
 		Object[][] productsData = new Object[this.model.getRecentProducts().keySet().size()][7];
+		System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " + productsData.length);
 		// Create table
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {

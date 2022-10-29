@@ -26,11 +26,13 @@ public class Model {
 		this.selectedProducts = new HashMap<Product, Integer>();
 		
 		for (Product p: this.jdbc.getRecent()) {
-			this.recentProducts.put(p, 0);
+			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			this.recentProducts.put(newProduct, 0);
 		}
 
 		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
-			this.groupedProducts.put(p, 0);
+			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			this.groupedProducts.put(newProduct, 0);
 		}
 		for (Product gp: this.groupedProducts.keySet()) {
 			for (Product sp: this.selectedProducts.keySet()) {
@@ -42,12 +44,24 @@ public class Model {
 		}
 	}
 
+	public Boolean ifHasUser(String userName) {
+		return this.jdbc.ifHasUser(userName);
+	}
+
+	public Boolean ifMatchUser(String userName, String password) {
+		return this.jdbc.ifMatchUser(userName, password);
+	}
+
 	public User getCurrentUser() {
 		return this.currentUser;
 	}
 
 	public HashMap<Product, Integer> getGroupedProducts() {
 		return this.groupedProducts;
+	}
+
+	public JDBC getJDBC() {
+		return this.jdbc;
 	}
 
 	public Double getPrice(String productName) {
@@ -70,8 +84,9 @@ public class Model {
 		return this.totalPrice;
 	}
 
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
+	public void setCurrentUser(String userName) {
+		User user = this.jdbc.getUser(userName);
+		this.currentUser = user;
 	}
 
 	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
