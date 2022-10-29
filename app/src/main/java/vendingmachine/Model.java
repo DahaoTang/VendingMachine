@@ -8,7 +8,7 @@ public class Model {
 	private JDBC jdbc;
 
 	private User currentUser;
-	private Double totalAmount;
+	private Double totalPrice;
 
 	private HashMap<Product, Integer> recentProducts;
 	private HashMap<Product, Integer> groupedProducts;
@@ -19,7 +19,7 @@ public class Model {
 		this.jdbc = jdbc;
 
 		this.currentUser = new User();
-		this.totalAmount = 0.0;
+		this.totalPrice = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
 		this.groupedProducts = new HashMap<Product, Integer>();
@@ -66,8 +66,8 @@ public class Model {
 		return this.selectedProducts;
 	}
 
-	public Double getTotalAmount() {
-		return this.totalAmount;
+	public Double getTotalPrice() {
+		return this.totalPrice;
 	}
 
 	public void setCurrentUser(User currentUser) {
@@ -90,7 +90,7 @@ public class Model {
 		this.selectedProducts = selectedProducts;
 	}
 
-	public void setTotalAmount(Double totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }

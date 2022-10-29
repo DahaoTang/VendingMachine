@@ -1,6 +1,5 @@
 package vendingmachine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller {
@@ -31,19 +30,19 @@ public class Controller {
 	}
 
 	public void updateGroupedAmount(String productName, Integer value, Integer column) {
-		Double totalAmout = this.model.getTotalAmount();
+		Double totalPrice = this.model.getTotalPrice();
 		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
 			if (newAmount > 0) {
 				newAmount--;
-				totalAmout -= price;
+				totalPrice -= price;
 			}
 		} else {
 			newAmount++;
-			totalAmout += price;
+			totalPrice += price;
 		}
-		this.model.setTotalAmount(totalAmout);
+		this.model.setTotalPrice(totalPrice);
 		System.out.println("CONTROLLER: updateGroupedAmount: " + productName + " " + newAmount);
 
 		// Retrieve data from model
@@ -121,21 +120,20 @@ public class Controller {
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
-		Double totalAmout = this.model.getTotalAmount();
+		Double totalPrice = this.model.getTotalPrice();
 		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
 			if (newAmount > 0) {
 				newAmount--;
-				totalAmout -= price;
+				totalPrice -= price;
 			}
 		} else {
 			newAmount++;
-			totalAmout += price;
+			totalPrice += price;
 		}
-		this.model.setTotalAmount(totalAmout);
+		this.model.setTotalPrice(totalPrice);
 		System.out.println("CONTROLLER: updateRecentAmount: " + productName + " " + newAmount);
-		// this.model.updateRecentAmount(productName, newAmount);
 		
 		// Retrieve data from model
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
@@ -190,19 +188,19 @@ public class Controller {
 	}
 
 	public void updateSelectedAmount(String productName, Integer value, Integer column) {
-		Double totalAmout = this.model.getTotalAmount();
+		Double totalPrice = this.model.getTotalPrice();
 		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
 			if (newAmount > 0) {
 				newAmount--;
-				totalAmout -= price;
+				totalPrice -= price;
 			}
 		} else {
 			newAmount++;
-			totalAmout += price;
+			totalPrice += price;
 		}
-		this.model.setTotalAmount(totalAmout);
+		this.model.setTotalPrice(totalPrice);
 		System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
 		// this.model.updateSelectedAmount(productName, newAmount);
 

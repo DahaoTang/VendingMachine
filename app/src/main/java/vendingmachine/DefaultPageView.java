@@ -38,8 +38,8 @@ public class DefaultPageView {
 	private JTable selectedProductsTable;
 	private JScrollPane selectedProductsScrollPane;
 
-	private JLabel totalAmountLabel;
-	private Double totalAmount;
+	private JLabel totalPriceLabel;
+	private Double totalPrice;
 
 
 	// WINDOW LAYNOUT DATA
@@ -93,8 +93,8 @@ public class DefaultPageView {
 		this.selectedProductsTable = new JTable();
 		this.selectedProductsScrollPane = new JScrollPane();
 
-		this.totalAmountLabel = new JLabel();
-		this.totalAmount = 0.0;
+		this.totalPriceLabel = new JLabel();
+		this.totalPrice = 0.0;
 	}
 
 	public void setController(Controller controller) {
@@ -254,15 +254,15 @@ public class DefaultPageView {
 		 * ====================
 		 * */
 		// JLabel for total amount
-		this.totalAmountLabel.setText("Total Amount: " + this.totalAmount);
-		this.totalAmountLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
-		this.totalAmountLabel.setBounds(
+		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
+		this.totalPriceLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
+		this.totalPriceLabel.setBounds(
 				TOTAL_AMOUNT_BP[0],
 				TOTAL_AMOUNT_BP[1],
 				TOTAL_AMOUNT_BP[2],
 				TOTAL_AMOUNT_BP[3]
 			);
-		this.jpanel.add(this.totalAmountLabel);
+		this.jpanel.add(this.totalPriceLabel);
 
      
         this.jframe.setVisible(true);
@@ -273,7 +273,7 @@ public class DefaultPageView {
 		updateRecentProductsTable();
 		updateGroupedProductsTableWithSameType();
 		updateSelectedProductsTable();
-		updateTotalAmount();
+		updateTotalPrice();
 	}
 
 
@@ -647,11 +647,11 @@ public class DefaultPageView {
 		drawSelectedProductsTable();
 	}
 
-	private void updateTotalAmount() {
-		this.jpanel.remove(this.totalAmountLabel);
-		this.totalAmount = this.model.getTotalAmount();
-		this.totalAmountLabel.setText("Total Amount: " + this.totalAmount);
-		this.jpanel.add(this.totalAmountLabel);
+	private void updateTotalPrice() {
+		this.jpanel.remove(this.totalPriceLabel);
+		this.totalPrice = this.model.getTotalPrice();
+		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
+		this.jpanel.add(this.totalPriceLabel);
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
 	}
