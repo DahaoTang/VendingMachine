@@ -202,7 +202,6 @@ public class Controller {
 		}
 		this.model.setTotalPrice(totalPrice);
 		System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
-		// this.model.updateSelectedAmount(productName, newAmount);
 
 		// Retrieve data from model
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
@@ -245,7 +244,6 @@ public class Controller {
 		this.model.setGroupedProducts(groupedProducts);
 		this.model.setRecentProducts(recentProducts);
 		this.model.setSelectedProducts(selectedProducts);
-
 	}
 
 	public void updateView() {
