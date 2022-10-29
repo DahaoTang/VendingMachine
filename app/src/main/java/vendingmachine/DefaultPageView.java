@@ -5,8 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import org.hamcrest.core.IsNot;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,11 +34,16 @@ public class DefaultPageView {
 	private JComboBox<String> groupedProductsTypeBox;
 	private ProductType currentGroupedProductsType;
 
+	private JLabel selectedProductsLabel;
+	private JTable selectedProductsTable;
+	private JScrollPane selectedProductsScrollPane;
+
+
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 800};
 	private final int[] USER_BUTTON_BP = {10, 20, 100, 32};
 
-	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 210, 70, 20, 70, 20};
+	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 180, 70, 20, 70, 20};
 
 	private final int LABEL_FONT_SIZE = 20;
 	private final String LABEL_FONT = "Arial";
@@ -49,10 +52,12 @@ public class DefaultPageView {
 	private final int[] RECENT_PRODUCTS_LABEL_BP = {18, 60, 300, 32};
 	private final int[] RECENT_PRODUCTS_SCROLL_PANE_BP = {18, 100, 564, 100};
 
-	private final int[] GROUPED_PRODUCTS_TYPE_BOX_BP = {180, 221, 200, 32};
-
 	private final int[] GROUPED_PRODUCTS_LABEL_BP = {18, 220, 200, 32};
+	private final int[] GROUPED_PRODUCTS_TYPE_BOX_BP = {180, 221, 200, 32};
 	private final int[] GROUPED_PRODUCTS_SCROLL_PANE_BP = {18, 260, 564, 120};
+
+	private final int[] SELECTED_PRODUCTS_LABEL_BP = {18, 400, 200, 32};
+	private final int[] SELECTED_PRODUCTS_SCROLL_PANE_BP = {18, 440, 564, 200};
 
 
 	public DefaultPageView() {
@@ -78,6 +83,10 @@ public class DefaultPageView {
 
 		this.groupedProductsTypeBox = new JComboBox<String>();
 		this.currentGroupedProductsType = ProductType.DRINK;
+
+		this.selectedProductsLabel = new JLabel();
+		this.selectedProductsTable = new JTable();
+		this.selectedProductsScrollPane = new JScrollPane();
 	}
 
 	public void setController(Controller controller) {
@@ -135,7 +144,7 @@ public class DefaultPageView {
 		 * =======================
 		 * */
 		// JLabel for recent products
-		this.recentProductsLabel.setText("Top 5 Recent Products");
+		this.recentProductsLabel.setText("Top 5 Recent Products: ");
 		this.recentProductsLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));	
 		this.recentProductsLabel.setBounds(
 				RECENT_PRODUCTS_LABEL_BP[0], 
@@ -206,6 +215,29 @@ public class DefaultPageView {
 		// JTable for grouped products
 		buildGroupedProductsTable();
 		updateGroupedProductsTableWithTypeChanged(this.currentGroupedProductsType);
+
+		/**
+		 * =========================
+		 * ### Selected Products ###
+		 * =========================
+		 * */
+
+		// JLabel for selected products
+		this.selectedProductsLabel.setText("Selected Products: ");
+		this.selectedProductsLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
+		this.selectedProductsLabel.setBounds(
+				SELECTED_PRODUCTS_LABEL_BP[0],
+				SELECTED_PRODUCTS_LABEL_BP[1],
+				SELECTED_PRODUCTS_LABEL_BP[2],
+				SELECTED_PRODUCTS_LABEL_BP[3]
+			);
+		this.jpanel.add(this.selectedProductsLabel);
+
+		// JTable for selected products
+		buildSelectedProductsTable();
+		loadSelectedProductsTableData();
+		drawSelectedProductsTable();
+
      
         this.jframe.setVisible(true);
 	}
@@ -214,6 +246,7 @@ public class DefaultPageView {
 		updateUserButton();
 		updateRecentProductsTable();
 		updateGroupedProductsTableWithSameType();
+		updateSelectedProductsTable();
 	}
 
 
@@ -250,9 +283,9 @@ public class DefaultPageView {
 		setColumnWidth(this.groupedProductsTable_DRINK, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_DRINK.setRowSelectionAllowed(false);
 		// Set buttons
-		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
-		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CHOCOLATE table
@@ -279,9 +312,9 @@ public class DefaultPageView {
 		setColumnWidth(this.groupedProductsTable_CHOCOLATE, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CHOCOLATE.setRowSelectionAllowed(false);
 		// Set buttons
-		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
-		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CHIP table
@@ -308,9 +341,9 @@ public class DefaultPageView {
 		setColumnWidth(this.groupedProductsTable_CHIP, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CHIP.setRowSelectionAllowed(false);
 		// Set buttons
-		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
-		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CANDY table
@@ -337,9 +370,9 @@ public class DefaultPageView {
 		setColumnWidth(this.groupedProductsTable_CANDY, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CANDY.setRowSelectionAllowed(false);
 		// Set buttons
-		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
-		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 	}
@@ -378,6 +411,40 @@ public class DefaultPageView {
 		this.recentProductsTable.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 	}
 
+	public void buildSelectedProductsTable() {
+		// Loead data from model
+		Object[][] productsData = new Object[this.model.getSelectedProducts().keySet().size()][7];
+		// Create table
+		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
+		this.selectedProductsTable = new JTable(productsData, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData[row][column] = value;
+			}
+		};
+		// Set column width
+		setColumnWidth(this.selectedProductsTable, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.selectedProductsTable.setRowSelectionAllowed(false);
+		// Set buttons
+		this.selectedProductsTable.getColumnModel().getColumn(4).setCellEditor(new SelectedButtonEditor(new JTextField(), this.controller));
+		this.selectedProductsTable.getColumnModel().getColumn(4).setCellRenderer(new SelectedButtonRenderer());
+		this.selectedProductsTable.getColumnModel().getColumn(6).setCellEditor(new SelectedButtonEditor(new JTextField(), this.controller));
+		this.selectedProductsTable.getColumnModel().getColumn(6).setCellRenderer(new SelectedButtonRenderer());
+	}
+
 	private void drawGroupedProductsTable() {
 		this.jpanel.remove(this.groupedProductsScrollPane);
 		this.groupedProductsScrollPane = new JScrollPane(this.groupedProductsTable);
@@ -406,6 +473,22 @@ public class DefaultPageView {
 		this.recentProductsScrollPane.repaint();
 		this.recentProductsScrollPane.setVisible(true);
 		this.jpanel.add(this.recentProductsScrollPane);
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
+	}
+
+	private void drawSelectedProductsTable() {
+		this.jpanel.remove(this.selectedProductsScrollPane);
+		this.selectedProductsScrollPane = new JScrollPane(this.selectedProductsTable);
+		this.selectedProductsScrollPane.setBounds(
+				SELECTED_PRODUCTS_SCROLL_PANE_BP[0], 
+				SELECTED_PRODUCTS_SCROLL_PANE_BP[1], 
+				SELECTED_PRODUCTS_SCROLL_PANE_BP[2], 
+				SELECTED_PRODUCTS_SCROLL_PANE_BP[3]
+			);
+		this.selectedProductsScrollPane.repaint();
+		this.selectedProductsScrollPane.setVisible(true);
+		this.jpanel.add(this.selectedProductsScrollPane);
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
 	}
@@ -468,6 +551,36 @@ public class DefaultPageView {
 		}
 	}
 
+	private void loadSelectedProductsTableData() {
+		// Update table data
+		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
+		ArrayList<String> productNameList = new ArrayList<String>();
+		for (Product p: selectedProducts.keySet()) {
+			productNameList.add(p.getName());
+		}
+		// Sort to fix the order
+		productNameList.sort(Comparator.naturalOrder());
+		for (int i = 0; i < productNameList.size(); i++) {
+			// Maintain order
+			Product p = new Product();
+			for (Product p0: selectedProducts.keySet()) {
+				if (p0.getName().equals(productNameList.get(i))) {
+					p = p0;
+					break;
+				}
+			}
+			// Set table data
+			this.selectedProductsTable.setValueAt(i+1, i, 0);
+			this.selectedProductsTable.setValueAt(p.getTypeString(), i, 1);
+			this.selectedProductsTable.setValueAt(p.getName(), i, 2);
+			this.selectedProductsTable.setValueAt(p.getPrice(), i, 3);
+			this.selectedProductsTable.setValueAt("-", i, 4);
+			this.selectedProductsTable.setValueAt(selectedProducts.get(p), i, 5);
+			this.selectedProductsTable.setValueAt("+", i, 6);
+		}
+
+	}
+
 	private void setColumnWidth(JTable table, int[] sizeArray) {
 		for (int i = 0; i < sizeArray.length; i++) {
 			table.getColumnModel().getColumn(i).setMaxWidth(sizeArray[i]);
@@ -500,6 +613,12 @@ public class DefaultPageView {
 		drawRecentProductsTable();
 	}
 
+	private void updateSelectedProductsTable() {
+		buildSelectedProductsTable();
+		loadSelectedProductsTableData();
+		drawSelectedProductsTable();
+	}
+
 	private void updateUserButton() {
 		this.jpanel.remove(this.userButton);
 		if (this.model.getCurrentUser().getName() == null) {
@@ -520,7 +639,7 @@ public class DefaultPageView {
 	 * */
 
 	/**
-	 * Increase or decrease button renderer for recentProductsTable
+	 * Increase or decrease button renderer for recent products table
 	 * */
 	class IODButtonRenderer extends JButton implements TableCellRenderer {
 
@@ -544,7 +663,7 @@ public class DefaultPageView {
 	}
 
 	/**
-	 * Increase or decrease button editor for recentProductsTable
+	 * Increase or decrease button editor for recent products table
 	 * */
 	class IODButtonEditor extends DefaultCellEditor {
 
@@ -593,7 +712,6 @@ public class DefaultPageView {
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				System.out.println("update recent: " + productName + " " + value);
 				this.controller.updateRecentAmount(productName, value, column);
 				this.controller.updateView();
 			}
@@ -614,11 +732,11 @@ public class DefaultPageView {
 	}
 
 	/**
-	 * Increase or decrease button renderer for groupedProductsTable
+	 * Increase or decrease button renderer for grouped products table
 	 * */
-	class ListedButtonRenderer extends JButton implements TableCellRenderer {
+	class GroupedButtonRenderer extends JButton implements TableCellRenderer {
 
-		public ListedButtonRenderer() {
+		public GroupedButtonRenderer() {
 			setOpaque(true);
 		}
 
@@ -638,9 +756,9 @@ public class DefaultPageView {
 	}
 
 	/**
-	 * Increase or decrease button editor for groupedProductsTable
+	 * Increase or decrease button editor for grouped products table
 	 * */
-	class ListedButtonEditor extends DefaultCellEditor {
+	class GroupedButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
 		private String label;
@@ -648,7 +766,7 @@ public class DefaultPageView {
 		private JTable jtable;
 		private Controller controller;
 
-		public ListedButtonEditor(JTextField textField, Controller controller) {
+		public GroupedButtonEditor(JTextField textField, Controller controller) {
 			super(textField);
 			this.button = new JButton();
 			this.setClickCountToStart(1);
@@ -687,8 +805,100 @@ public class DefaultPageView {
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				System.out.println("update grouped: " + productName + " " + value);
 				this.controller.updateGroupedAmount(productName, value, column);
+				this.controller.updateView();
+			}
+			this.isPushed = false;
+			return new String(label);
+		}
+
+		@Override
+		public boolean stopCellEditing() {
+			this.isPushed = false;
+			return super.stopCellEditing();
+		}
+
+		@Override
+		protected void fireEditingStopped() {
+			super.fireEditingStopped();
+		}
+	}
+
+	/**
+	 * Increase or decrease button renderer for selected products table
+	 * */
+	class SelectedButtonRenderer extends JButton implements TableCellRenderer {
+
+		public SelectedButtonRenderer() {
+			setOpaque(true);
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, 
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			if (isSelected) {
+				setForeground(table.getSelectionForeground());
+				setBackground(table.getSelectionBackground());
+			} else {
+				setForeground(table.getForeground());
+				setBackground(UIManager.getColor("Button.background"));
+			}
+			setText((value == null) ? "" : value.toString());
+			return this;
+		}
+	}
+
+	/**
+	 * Increase or decrease button editor for selected products table
+	 * */
+	class SelectedButtonEditor extends DefaultCellEditor {
+
+		protected JButton button;
+		private String label;
+		private boolean isPushed;
+		private JTable jtable;
+		private Controller controller;
+
+		public SelectedButtonEditor(JTextField textField, Controller controller) {
+			super(textField);
+			this.button = new JButton();
+			this.setClickCountToStart(1);
+			this.button.setOpaque(true);
+			this.button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					fireEditingStopped();
+				}
+			});
+			this.controller = controller;
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, 
+				boolean isSelected, int row, int column) {
+			if (isSelected) {
+				this.button.setForeground(table.getSelectionForeground());
+				this.button.setBackground(table.getSelectionBackground());
+			} else {
+				this.button.setForeground(table.getForeground());
+				this.button.setBackground(table.getBackground());
+			}
+			this.label = (value == null) ? "" : value.toString();
+			this.button.setText(label);
+			this.isPushed = true;
+			this.jtable = table;
+			return this.button;
+		}
+
+		@Override
+		public Object getCellEditorValue() {
+			if (isPushed) {
+				// Get data from JTable
+				int row = jtable.getSelectedRow();
+				int column = jtable.getSelectedColumn();
+				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
+				String productName = jtable.getValueAt(row, 2).toString();	
+				// Parse to Controller to update
+				this.controller.updateSelectedAmount(productName, value, column);
 				this.controller.updateView();
 			}
 			this.isPushed = false;

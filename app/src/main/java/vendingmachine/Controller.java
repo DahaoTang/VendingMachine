@@ -54,6 +54,17 @@ public class Controller {
 		this.model.updateRecentAmount(productName, newAmount);
 	}
 
+	public void updateSelectedAmount(String productName, Integer value, Integer column) {
+		Integer newAmount = value;
+		if (column == 4) {
+			if (newAmount > 0) newAmount--;
+		} else {
+			newAmount++;
+		}
+		System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
+		this.model.updateSelectedAmount(productName, newAmount);
+	}
+
 	public void updateView() {
 		this.defaultPageView.updateView();
 	}
