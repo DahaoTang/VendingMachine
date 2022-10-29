@@ -117,6 +117,7 @@ public class DefaultPageView {
         this.jpanel.setLayout(null);
         this.jframe.add(this.jpanel);
 
+
 		/**
 		 * =========================
 		 * ### Login / User Info ###
@@ -146,6 +147,7 @@ public class DefaultPageView {
 			});
 		}
 	
+
 		/**
 		 * =======================
 		 * ### Recent Products ###
@@ -167,6 +169,7 @@ public class DefaultPageView {
 		loadRecentProductsTableData();
 		drawRecentProductsTable();
 	
+
 		/**
 		 * ========================
 		 * ### Grouped Products ###
@@ -215,21 +218,19 @@ public class DefaultPageView {
 				}
 			}
 		});
-		// Set visible
 		this.groupedProductsTypeBox.setVisible(true);
-		// Add JScrollPane to JPanel
 		this.jpanel.add(this.groupedProductsTypeBox);
 
 		// JTable for grouped products
 		buildGroupedProductsTable();
 		updateGroupedProductsTableWithTypeChanged(this.currentGroupedProductsType);
 
+
 		/**
 		 * =========================
 		 * ### Selected Products ###
 		 * =========================
 		 * */
-
 		// JLabel for selected products
 		this.selectedProductsLabel.setText("Selected Products: ");
 		this.selectedProductsLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
@@ -252,7 +253,7 @@ public class DefaultPageView {
 		 * ### Total Amount ###
 		 * ====================
 		 * */
-
+		// JLabel for total amount
 		this.totalAmountLabel.setText("Total Amount: " + this.totalAmount);
 		this.totalAmountLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
 		this.totalAmountLabel.setBounds(
@@ -276,6 +277,7 @@ public class DefaultPageView {
 	}
 
 
+
 	/**
 	 * ########################
 	 * ### HELPER FUNCTIONS ###
@@ -283,6 +285,7 @@ public class DefaultPageView {
 	 * */
 
 	private void buildGroupedProductsTable() {
+		// Set column names
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 
 		// Build DRINK table
@@ -604,7 +607,6 @@ public class DefaultPageView {
 			this.selectedProductsTable.setValueAt(selectedProducts.get(p), i, 5);
 			this.selectedProductsTable.setValueAt("+", i, 6);
 		}
-
 	}
 
 	private void setColumnWidth(JTable table, int[] sizeArray) {
@@ -612,6 +614,11 @@ public class DefaultPageView {
 			table.getColumnModel().getColumn(i).setMaxWidth(sizeArray[i]);
 			table.getColumnModel().getColumn(i).setMinWidth(sizeArray[i]);
 		}
+	}
+
+	private void updateGroupedProductsTableWithSameType() {
+		loadGroupedProductsTableData();
+		drawGroupedProductsTable();
 	}
 
 	private void updateGroupedProductsTableWithTypeChanged(ProductType newType) {
@@ -627,11 +634,6 @@ public class DefaultPageView {
 		}
 		this.controller.changeGroup(newType);
 		updateGroupedProductsTableWithSameType();
-	}
-
-	private void updateGroupedProductsTableWithSameType() {
-		loadGroupedProductsTableData();
-		drawGroupedProductsTable();
 	}
 
 	private void updateRecentProductsTable() {
@@ -665,6 +667,7 @@ public class DefaultPageView {
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
 	}
+
 
 
 	/**
