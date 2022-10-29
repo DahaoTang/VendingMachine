@@ -124,29 +124,15 @@ public class DefaultPageView {
 		 * =========================
 		 * */
 		// Set up JButton for logged in user
+		this.userButton.setBounds(
+				USER_BUTTON_BP[0], 
+				USER_BUTTON_BP[1], 
+				USER_BUTTON_BP[2], 
+				USER_BUTTON_BP[3]
+			);
+		this.jpanel.add(this.userButton);
 		updateUserButton();
-		this.userButton.setBounds(USER_BUTTON_BP[0], USER_BUTTON_BP[1], USER_BUTTON_BP[2], USER_BUTTON_BP[3]);
-		this.jpanel.add(userButton);
-		if (this.model.getCurrentUser().getName() != null) {
-			// TO-DO: Show User info page; be able to change password
-			this.userButton.addActionListener(new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-
-				}
-			});
-
-		} else {
-			// TO-DO: login page
-			this.userButton.addActionListener(new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					System.out.println("Login clicked");
-
-				}
-			});
-		}
-	
+		
 
 		/**
 		 * =======================
@@ -166,8 +152,7 @@ public class DefaultPageView {
 
 		// JTable for recent Products
 		buildRecentProductsTable();
-		loadRecentProductsTableData();
-		drawRecentProductsTable();
+		updateRecentProductsTable();
 	
 
 		/**
@@ -243,9 +228,7 @@ public class DefaultPageView {
 		this.jpanel.add(this.selectedProductsLabel);
 
 		// JTable for selected products
-		buildSelectedProductsTable();
-		loadSelectedProductsTableData();
-		drawSelectedProductsTable();
+		updateSelectedProductsTable();
 
 
 		/**
@@ -662,6 +645,25 @@ public class DefaultPageView {
 			this.userButton.setText("Login");;
 		} else {
 			this.userButton.setText(this.model.getCurrentUser().getName());
+		}
+		if (this.model.getCurrentUser().getName() != null) {
+			// TO-DO: Show User info page; be able to change password
+			this.userButton.addActionListener(new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+
+				}
+			});
+
+		} else {
+			// TO-DO: login page
+			this.userButton.addActionListener(new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+					System.out.println("Login clicked");
+
+				}
+			});
 		}
 		this.jpanel.add(this.userButton);
 		this.jpanel.revalidate();
