@@ -24,13 +24,13 @@ public class Model {
 		this.totalAmout = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
-
-		this.groupedProducts = new HashMap<Product, Integer>();
-		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
-			this.groupedProducts.put(p, 0);
+		for (Product p: this.jdbc.getRecent()) {
+			this.recentProducts.put(p, 0);
 		}
-
+		this.groupedProducts = new HashMap<Product, Integer>();
 		this.selectedProducts = new HashMap<Product, Integer>();
+
+		changeGroup(ProductType.DRINK);
 	}
 
 	public User getCurrentUser() {
@@ -77,8 +77,8 @@ public class Model {
 		this.selectedProducts = selectedProducts;
 	}
 
-	public void updateGrouped(ProductType type) {
-		System.out.println("MODEL: update group");
+	public void changeGroup(ProductType type) {
+		System.out.println("MODEL: changeGroup");
 		this.groupedProducts = new HashMap<Product, Integer>();
 		for (Product p: this.jdbc.getProductsByType(type)) {
 			this.groupedProducts.put(p, 0);
@@ -106,19 +106,10 @@ public class Model {
 				System.out.println(p.getName() + " " + newAmount);
 			}
 		}
-	}
-
-	public void updateRecent() {
-		System.out.println("MODEL: update recent");
-		this.recentProducts = new HashMap<Product, Integer>();
-		ArrayList<Product> recentProductsList = this.jdbc.getRecent();
-		for (Product p: recentProductsList) {
-			this.recentProducts.put(p, 0);
-		}
-		for (Product p1: this.recentProducts.keySet()) {
-			for (Product p2: this.selectedProducts.keySet()) {
+		for (Product p1: this.groupedProducts.keySet()) {
+			for (Product p2: this.recentProducts.keySet()) {
 				if (p1.getName().equals(p2.getName())) {
-					this.recentProducts.put(p1, this.selectedProducts.get(p2));
+					this.recentProducts.put(p2, this.groupedProducts.get(p1));
 				}
 			}
 		}
@@ -136,6 +127,13 @@ public class Model {
 					this.selectedProducts.put(p, newAmount);
 				}
 				System.out.println(p.getName() + " " + newAmount);
+			}
+		}
+		for (Product p1: this.recentProducts.keySet()) {
+			for (Product p2: this.groupedProducts.keySet()) {
+				if (p1.getName().equals(p2.getName())) {
+					this.groupedProducts.put(p2, this.recentProducts.get(p1));
+				}
 			}
 		}
 	}

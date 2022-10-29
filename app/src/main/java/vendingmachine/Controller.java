@@ -38,14 +38,9 @@ public class Controller {
 		this.model.updateGroupedAmount(productName, newAmount);
 	}
 
-	public void updateGrouped(ProductType type) {
-		System.out.println("CONTROLLER: updateGrouped");
-		this.model.updateGrouped(type);
-	}
-
-	public void updateRecent() {
-		System.out.println("CONTROLLER: updateRecent");
-		this.model.updateRecent();
+	public void changeGroup(ProductType type) {
+		System.out.println("CONTROLLER: changeGroup");
+		this.model.changeGroup(type);
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {

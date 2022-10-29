@@ -5,6 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import org.hamcrest.core.IsNot;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -20,9 +22,15 @@ public class DefaultPageView {
 	private JButton userButton;
 
 	private JLabel recentProductsLabel;
+	private JTable recentProductsTable;
 	private JScrollPane recentProductsScrollPane;
 
 	private JLabel groupedProductsLabel;
+	private JTable groupedProductsTable;
+	private JTable groupedProductsTable_DRINK;
+	private JTable groupedProductsTable_CHOCOLATE;
+	private JTable groupedProductsTable_CHIP;
+	private JTable groupedProductsTable_CANDY;
 	private JScrollPane groupedProductsScrollPane;
 
 	private JComboBox<String> groupedProductsTypeBox;
@@ -57,9 +65,15 @@ public class DefaultPageView {
 		this.userButton = new JButton();
 
 		this.recentProductsLabel = new JLabel();
+		this.recentProductsTable = new JTable();
 		this.recentProductsScrollPane = new JScrollPane();
 
 		this.groupedProductsLabel = new JLabel();
+		this.groupedProductsTable = new JTable();
+		this.groupedProductsTable_DRINK = new JTable();
+		this.groupedProductsTable_CHOCOLATE = new JTable();
+		this.groupedProductsTable_CHIP = new JTable();
+		this.groupedProductsTable_CANDY = new JTable();
 		this.groupedProductsScrollPane = new JScrollPane();
 
 		this.groupedProductsTypeBox = new JComboBox<String>();
@@ -132,7 +146,9 @@ public class DefaultPageView {
 		this.jpanel.add(this.recentProductsLabel);
 
 		// JTable for recent Products
-		updateRecentProductsTable();
+		buildRecentProductsTable();
+		loadRecentProductsTableData();
+		drawRecentProductsTable();
 	
 		/**
 		 * ========================
@@ -150,7 +166,7 @@ public class DefaultPageView {
 			);
 		this.jpanel.add(this.groupedProductsLabel);
 	
-		// JTable for grouped products
+		// JComboBox for grouped products
 		this.groupedProductsTypeBox.setBounds(
 				GROUPED_PRODUCTS_TYPE_BOX_BP[0], 
 				GROUPED_PRODUCTS_TYPE_BOX_BP[1], 
@@ -170,13 +186,13 @@ public class DefaultPageView {
 						JComboBox<?> cb = (JComboBox<?>)source;
 						Object selectedItem = cb.getSelectedItem();
 						if (selectedItem.equals("Drinks")) {
-							updateGroupedProductsTable(ProductType.DRINK);
+							updateGroupedProductsTableWithTypeChanged(ProductType.DRINK);
 						} else if (selectedItem.equals("Chocolates")) {
-							updateGroupedProductsTable(ProductType.CHOCOLATE);
+							updateGroupedProductsTableWithTypeChanged(ProductType.CHOCOLATE);
 						} else if (selectedItem.equals("Chips")) {
-							updateGroupedProductsTable(ProductType.CHIP);
+							updateGroupedProductsTableWithTypeChanged(ProductType.CHIP);
 						} else if (selectedItem.equals("Candies")) {
-							updateGroupedProductsTable(ProductType.CANDY);
+							updateGroupedProductsTableWithTypeChanged(ProductType.CANDY);
 						}
 					}
 				}
@@ -186,24 +202,18 @@ public class DefaultPageView {
 		this.groupedProductsTypeBox.setVisible(true);
 		// Add JScrollPane to JPanel
 		this.jpanel.add(this.groupedProductsTypeBox);
+
+		// JTable for grouped products
+		buildGroupedProductsTable();
+		updateGroupedProductsTableWithTypeChanged(this.currentGroupedProductsType);
      
         this.jframe.setVisible(true);
 	}
 
 	public void updateView() {
-
-		// Update login button
 		updateUserButton();
-
-		// Update recent products table
 		updateRecentProductsTable();
-
-		// Update grouped products table
-		updateGroupedProductsTable(this.currentGroupedProductsType);
-
-		// Redraw jpanel and recentProductsTable
-		this.jpanel.revalidate();
-		this.jpanel.repaint();
+		updateGroupedProductsTableWithSameType();
 	}
 
 
@@ -213,6 +223,251 @@ public class DefaultPageView {
 	 * ########################
 	 * */
 
+	private void buildGroupedProductsTable() {
+		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
+
+		// Build DRINK table
+		Object[][] productsData_DRINK = new Object[this.model.getProductsByType(ProductType.DRINK).size()][7];
+		this.groupedProductsTable_DRINK = new JTable(productsData_DRINK, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData_DRINK[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData_DRINK[row][column] = value;
+			}
+		};
+		setColumnWidth(this.groupedProductsTable_DRINK, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.groupedProductsTable_DRINK.setRowSelectionAllowed(false);
+		// Set buttons
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+
+		// Build CHOCOLATE table
+		Object[][] productsData_CHOCOLATE = new Object[this.model.getProductsByType(ProductType.CHOCOLATE).size()][7];
+		this.groupedProductsTable_CHOCOLATE = new JTable(productsData_CHOCOLATE, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData_CHOCOLATE[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData_CHOCOLATE[row][column] = value;
+			}
+		};
+		setColumnWidth(this.groupedProductsTable_CHOCOLATE, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.groupedProductsTable_CHOCOLATE.setRowSelectionAllowed(false);
+		// Set buttons
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+
+		// Build CHIP table
+		Object[][] productsData_CHIP = new Object[this.model.getProductsByType(ProductType.CHIP).size()][7];
+		this.groupedProductsTable_CHIP = new JTable(productsData_CHIP, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData_CHIP[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData_CHIP[row][column] = value;
+			}
+		};
+		setColumnWidth(this.groupedProductsTable_CHIP, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.groupedProductsTable_CHIP.setRowSelectionAllowed(false);
+		// Set buttons
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+
+		// Build CANDY table
+		Object[][] productsData_CANDY = new Object[this.model.getProductsByType(ProductType.CANDY).size()][7];
+		this.groupedProductsTable_CANDY = new JTable(productsData_CANDY, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData_CANDY[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData_CANDY[row][column] = value;
+			}
+		};
+		setColumnWidth(this.groupedProductsTable_CANDY, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.groupedProductsTable_CANDY.setRowSelectionAllowed(false);
+		// Set buttons
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+
+	}
+
+	private void buildRecentProductsTable() {
+		// Loead data from model
+		Object[][] productsData = new Object[this.model.getRecentProducts().keySet().size()][7];
+		// Create table
+		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
+		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				return productsData[row][column];
+
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column == 4 || column == 6) return true;
+				else return false;
+			}
+
+			@Override
+			public void setValueAt(Object value, int row, int column) {
+				productsData[row][column] = value;
+			}
+		};
+		// Set column width
+		setColumnWidth(this.recentProductsTable, PRODUCTS_TABLE_COLUMN_WIDTH);
+		this.recentProductsTable.setRowSelectionAllowed(false);
+		// Set buttons
+		this.recentProductsTable.getColumnModel().getColumn(4).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
+		this.recentProductsTable.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.recentProductsTable.getColumnModel().getColumn(6).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
+		this.recentProductsTable.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+	}
+
+	private void drawGroupedProductsTable() {
+		this.jpanel.remove(this.groupedProductsScrollPane);
+		this.groupedProductsScrollPane = new JScrollPane(this.groupedProductsTable);
+		this.groupedProductsScrollPane.setBounds(
+				GROUPED_PRODUCTS_SCROLL_PANE_BP[0], 
+				GROUPED_PRODUCTS_SCROLL_PANE_BP[1], 
+				GROUPED_PRODUCTS_SCROLL_PANE_BP[2], 
+				GROUPED_PRODUCTS_SCROLL_PANE_BP[3]
+			);
+		this.groupedProductsScrollPane.repaint();
+		this.groupedProductsScrollPane.setVisible(true);
+		this.jpanel.add(this.groupedProductsScrollPane);
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
+	}
+
+	private void drawRecentProductsTable() {
+		this.jpanel.remove(this.recentProductsScrollPane);
+		this.recentProductsScrollPane = new JScrollPane(this.recentProductsTable);
+		this.recentProductsScrollPane.setBounds(
+				RECENT_PRODUCTS_SCROLL_PANE_BP[0], 
+				RECENT_PRODUCTS_SCROLL_PANE_BP[1], 
+				RECENT_PRODUCTS_SCROLL_PANE_BP[2], 
+				RECENT_PRODUCTS_SCROLL_PANE_BP[3]
+			);
+		this.recentProductsScrollPane.repaint();
+		this.recentProductsScrollPane.setVisible(true);
+		this.jpanel.add(this.recentProductsScrollPane);
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
+	}
+
+	private void loadGroupedProductsTableData() {
+		// Update table data
+		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
+		ArrayList<String> productNameList = new ArrayList<String>();
+		for (Product p: groupedProducts.keySet()) {
+			productNameList.add(p.getName());
+		}
+		// Sort to fix the order
+		productNameList.sort(Comparator.naturalOrder());
+		for (int i = 0; i < productNameList.size(); i++) {
+			// Maintain order
+			Product p = new Product();
+			for (Product p0: groupedProducts.keySet()) {
+				if (p0.getName().equals(productNameList.get(i))) {
+					p = p0;
+					break;
+				}
+			}
+			// Set table data
+			this.groupedProductsTable.setValueAt(i+1, i, 0);
+			this.groupedProductsTable.setValueAt(p.getTypeString(), i, 1);
+			this.groupedProductsTable.setValueAt(p.getName(), i, 2);
+			this.groupedProductsTable.setValueAt(p.getPrice(), i, 3);
+			this.groupedProductsTable.setValueAt("-", i, 4);
+			this.groupedProductsTable.setValueAt(groupedProducts.get(p), i, 5);
+			this.groupedProductsTable.setValueAt("+", i, 6);
+		}
+	}
+
+	private void loadRecentProductsTableData() {
+		// Update table data
+		HashMap<Product, Integer> recenrProducts = this.model.getRecentProducts();
+		ArrayList<String> productNameList = new ArrayList<String>();
+		for (Product p: recenrProducts.keySet()) {
+			productNameList.add(p.getName());
+		}
+		// Sort to fix the order
+		productNameList.sort(Comparator.naturalOrder());
+		for (int i = 0; i < productNameList.size(); i++) {
+			// Maintain order
+			Product p = new Product();
+			for (Product p0: recenrProducts.keySet()) {
+				if (p0.getName().equals(productNameList.get(i))) {
+					p = p0;
+					break;
+				}
+			}
+			// Set table data
+			this.recentProductsTable.setValueAt(i+1, i, 0);
+			this.recentProductsTable.setValueAt(p.getTypeString(), i, 1);
+			this.recentProductsTable.setValueAt(p.getName(), i, 2);
+			this.recentProductsTable.setValueAt(p.getPrice(), i, 3);
+			this.recentProductsTable.setValueAt("-", i, 4);
+			this.recentProductsTable.setValueAt(recenrProducts.get(p), i, 5);
+			this.recentProductsTable.setValueAt("+", i, 6);
+		}
+	}
+
 	private void setColumnWidth(JTable table, int[] sizeArray) {
 		for (int i = 0; i < sizeArray.length; i++) {
 			table.getColumnModel().getColumn(i).setMaxWidth(sizeArray[i]);
@@ -220,168 +475,41 @@ public class DefaultPageView {
 		}
 	}
 
-	private void updateGroupedProductsTable(ProductType type) {
-		// Update the type of the current grouped products
-		this.currentGroupedProductsType = type;
-		// update groupedProducts
-		this.controller.updateGrouped(type);
-
-		// Load and init table data
-		HashMap<Product, Integer> products = this.model.getGroupedProducts();
-		ArrayList<String> productNameList = new ArrayList<String>();
-		for (Product p: products.keySet()) {
-			productNameList.add(p.getName());
+	private void updateGroupedProductsTableWithTypeChanged(ProductType newType) {
+		this.currentGroupedProductsType = newType;
+		if (newType.equals(ProductType.DRINK)) {
+			this.groupedProductsTable = this.groupedProductsTable_DRINK;
+		} else if (newType.equals(ProductType.CHOCOLATE)) {
+			this.groupedProductsTable = this.groupedProductsTable_CHOCOLATE;
+		} else if (newType.equals(ProductType.CHIP)) {
+			this.groupedProductsTable = this.groupedProductsTable_CHIP;
+		} else if (newType.equals(ProductType.CANDY)) {
+			this.groupedProductsTable = this.groupedProductsTable_CANDY;
 		}
-		// Sort to fix the order
-		productNameList.sort(Comparator.naturalOrder());
-		Object[][] productsData = new Object[productNameList.size()][7];
-		// Create table
-		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
-		JTable productsTable = new JTable(productsData, productsTableColumnNames) {
+		this.controller.changeGroup(newType);
+		updateGroupedProductsTableWithSameType();
+	}
 
-			@Override
-			public Object getValueAt(int row, int column) {
-				return productsData[row][column];
-
-			}
-
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				if (column == 4 || column == 6) return true;
-				else return false;
-			}
-
-			@Override
-			public void setValueAt(Object value, int row, int column) {
-				productsData[row][column] = value;
-			}
-		};
-		productsTable.setRowSelectionAllowed(false);
-		// Update table data
-		for (int i = 0; i < productNameList.size(); i++) {
-			// Maintain order
-			Product p = new Product();
-			for (Product p0: products.keySet()) {
-				if (p0.getName().equals(productNameList.get(i))) {
-					p = p0;
-					break;
-				}
-			}
-			// Update table data
-			productsTable.setValueAt(i+1, i, 0);
-			productsTable.setValueAt(p.getTypeString(), i, 1);
-			productsTable.setValueAt(p.getName(), i, 2);
-			productsTable.setValueAt(p.getPrice(), i, 3);
-			productsTable.setValueAt("-", i, 4);
-			productsTable.setValueAt(products.get(p), i, 5);
-			productsTable.setValueAt("+", i, 6);
-		}
-		// Set column width
-		setColumnWidth(productsTable, PRODUCTS_TABLE_COLUMN_WIDTH);
-		// Set buttons
-		productsTable.getColumnModel().getColumn(4).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
-		productsTable.getColumnModel().getColumn(4).setCellRenderer(new ListedButtonRenderer());
-		productsTable.getColumnModel().getColumn(6).setCellEditor(new ListedButtonEditor(new JTextField(), this.controller));
-		productsTable.getColumnModel().getColumn(6).setCellRenderer(new ListedButtonRenderer());
-		// Add to scroll panel
-		this.jpanel.remove(this.groupedProductsScrollPane);
-		this.groupedProductsScrollPane = new JScrollPane(productsTable);
-		this.groupedProductsScrollPane.setBounds(
-				GROUPED_PRODUCTS_SCROLL_PANE_BP[0], 
-				GROUPED_PRODUCTS_SCROLL_PANE_BP[1], 
-				GROUPED_PRODUCTS_SCROLL_PANE_BP[2], 
-				GROUPED_PRODUCTS_SCROLL_PANE_BP[3]
-			);
-		this.groupedProductsScrollPane.setVisible(true);
-		this.groupedProductsScrollPane.repaint();
-		this.jpanel.add(this.groupedProductsScrollPane);
-		this.jpanel.revalidate();
-		this.jpanel.repaint();
+	private void updateGroupedProductsTableWithSameType() {
+		loadGroupedProductsTableData();
+		drawGroupedProductsTable();
 	}
 
 	private void updateRecentProductsTable() {
-		// Update recent products
-		this.controller.updateRecent();
-
-		// Re-loead data from model
-		HashMap<Product, Integer> products = this.model.getRecentProducts();
-		ArrayList<String> productNameList = new ArrayList<String>();
-		for (Product p: products.keySet()) {
-			productNameList.add(p.getName());
-		}
-		// Sort to fix the order
-		productNameList.sort(Comparator.naturalOrder());
-		Object[][] productsData = new Object[productNameList.size()][7];
-		// Create table
-		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
-		JTable productsTable = new JTable(productsData, productsTableColumnNames) {
-
-			@Override
-			public Object getValueAt(int row, int column) {
-				return productsData[row][column];
-
-			}
-
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				if (column == 4 || column == 6) return true;
-				else return false;
-			}
-
-			@Override
-			public void setValueAt(Object value, int row, int column) {
-				productsData[row][column] = value;
-			}
-		};
-		productsTable.setRowSelectionAllowed(false);
-		// Update table data
-		for (int i = 0; i < productNameList.size(); i++) {
-			// Maintain order
-			Product p = new Product();
-			for (Product p0: products.keySet()) {
-				if (p0.getName().equals(productNameList.get(i))) {
-					p = p0;
-					break;
-				}
-			}
-			// Update table data
-			productsTable.setValueAt(i+1, i, 0);
-			productsTable.setValueAt(p.getTypeString(), i, 1);
-			productsTable.setValueAt(p.getName(), i, 2);
-			productsTable.setValueAt(p.getPrice(), i, 3);
-			productsTable.setValueAt("-", i, 4);
-			productsTable.setValueAt(products.get(p), i, 5);
-			productsTable.setValueAt("+", i, 6);
-		}
-		// Set column width
-		setColumnWidth(productsTable, PRODUCTS_TABLE_COLUMN_WIDTH);
-		// Set buttons
-		productsTable.getColumnModel().getColumn(4).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
-		productsTable.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
-		productsTable.getColumnModel().getColumn(6).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
-		productsTable.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
-		// Add to scroll panel
-		this.jpanel.remove(this.recentProductsScrollPane);
-		this.recentProductsScrollPane = new JScrollPane(productsTable);
-		this.recentProductsScrollPane.setBounds(
-				RECENT_PRODUCTS_SCROLL_PANE_BP[0], 
-				RECENT_PRODUCTS_SCROLL_PANE_BP[1], 
-				RECENT_PRODUCTS_SCROLL_PANE_BP[2], 
-				RECENT_PRODUCTS_SCROLL_PANE_BP[3]
-			);
-		this.recentProductsScrollPane.setVisible(true);
-		this.recentProductsScrollPane.repaint();
-		this.jpanel.add(this.recentProductsScrollPane);
-		this.jpanel.revalidate();
-		this.jpanel.repaint();
+		loadRecentProductsTableData();
+		drawRecentProductsTable();
 	}
 
 	private void updateUserButton() {
+		this.jpanel.remove(this.userButton);
 		if (this.model.getCurrentUser().getName() == null) {
 			this.userButton.setText("Login");;
 		} else {
 			this.userButton.setText(this.model.getCurrentUser().getName());
 		}
+		this.jpanel.add(this.userButton);
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
 	}
 
 
@@ -467,7 +595,7 @@ public class DefaultPageView {
 				// Parse to Controller to update
 				System.out.println("update recent: " + productName + " " + value);
 				this.controller.updateRecentAmount(productName, value, column);
-				updateView();
+				this.controller.updateView();
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -561,7 +689,7 @@ public class DefaultPageView {
 				// Parse to Controller to update
 				System.out.println("update grouped: " + productName + " " + value);
 				this.controller.updateGroupedAmount(productName, value, column);
-				updateView();
+				this.controller.updateView();
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -580,5 +708,4 @@ public class DefaultPageView {
 	}
 
 }
-
 

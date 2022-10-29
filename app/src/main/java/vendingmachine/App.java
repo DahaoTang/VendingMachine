@@ -17,17 +17,6 @@ public class App {
 		defaultPageView.setController(controller);
 		defaultPageView.setModel(model);
 
-// ######################
-// ### Testing Starts ###
-// ######################
-
-
-
-
-// ####################
-// ### Testing Ends ###
-// ####################
-
 		controller.launchWindow();
 		controller.updateView();
 
