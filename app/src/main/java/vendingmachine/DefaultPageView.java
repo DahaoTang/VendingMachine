@@ -38,6 +38,9 @@ public class DefaultPageView {
 	private JTable selectedProductsTable;
 	private JScrollPane selectedProductsScrollPane;
 
+	private JLabel totalAmountLabel;
+	private Double totalAmount;
+
 
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 800};
@@ -58,6 +61,8 @@ public class DefaultPageView {
 
 	private final int[] SELECTED_PRODUCTS_LABEL_BP = {18, 400, 200, 32};
 	private final int[] SELECTED_PRODUCTS_SCROLL_PANE_BP = {18, 440, 564, 200};
+
+	private final int[] TOTAL_AMOUNT_BP = {18, 660, 200, 32};
 
 
 	public DefaultPageView() {
@@ -87,6 +92,9 @@ public class DefaultPageView {
 		this.selectedProductsLabel = new JLabel();
 		this.selectedProductsTable = new JTable();
 		this.selectedProductsScrollPane = new JScrollPane();
+
+		this.totalAmountLabel = new JLabel();
+		this.totalAmount = 0.0;
 	}
 
 	public void setController(Controller controller) {
@@ -238,6 +246,23 @@ public class DefaultPageView {
 		loadSelectedProductsTableData();
 		drawSelectedProductsTable();
 
+
+		/**
+		 * ====================
+		 * ### Total Amount ###
+		 * ====================
+		 * */
+
+		this.totalAmountLabel.setText("Total Amount: " + this.totalAmount);
+		this.totalAmountLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
+		this.totalAmountLabel.setBounds(
+				TOTAL_AMOUNT_BP[0],
+				TOTAL_AMOUNT_BP[1],
+				TOTAL_AMOUNT_BP[2],
+				TOTAL_AMOUNT_BP[3]
+			);
+		this.jpanel.add(this.totalAmountLabel);
+
      
         this.jframe.setVisible(true);
 	}
@@ -247,6 +272,7 @@ public class DefaultPageView {
 		updateRecentProductsTable();
 		updateGroupedProductsTableWithSameType();
 		updateSelectedProductsTable();
+		updateTotalAmount();
 	}
 
 
@@ -617,6 +643,15 @@ public class DefaultPageView {
 		buildSelectedProductsTable();
 		loadSelectedProductsTableData();
 		drawSelectedProductsTable();
+	}
+
+	private void updateTotalAmount() {
+		this.jpanel.remove(this.totalAmountLabel);
+		this.totalAmount = this.model.getTotalAmount();
+		this.totalAmountLabel.setText("Total Amount: " + this.totalAmount);
+		this.jpanel.add(this.totalAmountLabel);
+		this.jpanel.revalidate();
+		this.jpanel.repaint();
 	}
 
 	private void updateUserButton() {

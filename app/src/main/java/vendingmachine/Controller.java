@@ -28,12 +28,19 @@ public class Controller {
 	}
 
 	public void updateGroupedAmount(String productName, Integer value, Integer column) {
+		Double totalAmout = this.model.getTotalAmount();
+		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
-			if (newAmount > 0) newAmount--;
+			if (newAmount > 0) {
+				newAmount--;
+				totalAmout -= price;
+			}
 		} else {
 			newAmount++;
+			totalAmout += price;
 		}
+		this.model.setTotalAmount(totalAmout);
 		System.out.println("CONTROLLER: updateGroupedAmount: " + productName + " " + newAmount);
 		this.model.updateGroupedAmount(productName, newAmount);
 	}
@@ -44,23 +51,37 @@ public class Controller {
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
+		Double totalAmout = this.model.getTotalAmount();
+		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
-			if (newAmount > 0) newAmount--;
+			if (newAmount > 0) {
+				newAmount--;
+				totalAmout -= price;
+			}
 		} else {
 			newAmount++;
+			totalAmout += price;
 		}
+		this.model.setTotalAmount(totalAmout);
 		System.out.println("CONTROLLER: updateRecentAmount: " + productName + " " + newAmount);
 		this.model.updateRecentAmount(productName, newAmount);
 	}
 
 	public void updateSelectedAmount(String productName, Integer value, Integer column) {
+		Double totalAmout = this.model.getTotalAmount();
+		Double price = this.model.getPrice(productName);
 		Integer newAmount = value;
 		if (column == 4) {
-			if (newAmount > 0) newAmount--;
+			if (newAmount > 0) {
+				newAmount--;
+				totalAmout -= price;
+			}
 		} else {
 			newAmount++;
+			totalAmout += price;
 		}
+		this.model.setTotalAmount(totalAmout);
 		System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
 		this.model.updateSelectedAmount(productName, newAmount);
 	}

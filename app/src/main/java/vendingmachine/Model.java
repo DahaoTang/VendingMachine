@@ -8,7 +8,7 @@ public class Model {
 	private JDBC jdbc;
 
 	private User currentUser;
-	private Double totalAmout;
+	private Double totalAmount;
 
 	private HashMap<Product, Integer> recentProducts;
 
@@ -21,7 +21,7 @@ public class Model {
 		this.jdbc = jdbc;
 
 		this.currentUser = new User();
-		this.totalAmout = 0.0;
+		this.totalAmount = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
 		for (Product p: this.jdbc.getRecent()) {
@@ -45,6 +45,10 @@ public class Model {
 		return this.groupedProducts;
 	}
 
+	public Double getPrice(String productName) {
+		return this.jdbc.getProduct(productName).getPrice();
+	}
+
 	public ArrayList<Product> getProductsByType(ProductType type) {
 		return this.jdbc.getProductsByType(type);
 	}
@@ -54,11 +58,15 @@ public class Model {
 	}
 
 	public Double getTotalAmount() {
-		return this.totalAmout;
+		return this.totalAmount;
 	}
 
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
+	}
+
+	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
+		this.groupedProducts = groupedProducts;
 	}
 
 	public void setJDBC(JDBC jdbc) {
@@ -69,8 +77,8 @@ public class Model {
 		this.recentProducts = recentProducts;
 	}
 
-	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
-		this.groupedProducts = groupedProducts;
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
@@ -135,6 +143,9 @@ public class Model {
 			this.selectedProducts.put(newProduct, newAmount);
 			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
+
+
+		// Update total Amount
 	}
 
 	public void updateRecentAmount(String productName, Integer newAmount) {
