@@ -86,7 +86,13 @@ public class Controller {
 			System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
-			Product newProduct = new Product(productCounter.getId(), productCounter.getType(), productCounter.getName(), productCounter.getPrice(), productCounter.getAmount());
+			Product newProduct = new Product(
+					productCounter.getId(), 
+					productCounter.getType(),
+					productCounter.getName(), 
+					productCounter.getPrice(), 
+					productCounter.getAmount()
+				);
 			selectedProducts.put(newProduct, newAmount);
 			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
@@ -176,7 +182,13 @@ public class Controller {
 			System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
-			Product newProduct = new Product(productCounter.getId(), productCounter.getType(), productCounter.getName(), productCounter.getPrice(), productCounter.getAmount());
+			Product newProduct = new Product(
+					productCounter.getId(), 
+					productCounter.getType(), 
+					productCounter.getName(), 
+					productCounter.getPrice(), 
+					productCounter.getAmount()
+				);
 			selectedProducts.put(newProduct, newAmount);
 			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}

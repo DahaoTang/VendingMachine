@@ -115,7 +115,7 @@ public class DefaultPageView {
 
 		// Set up JFrame
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
-		this.jframe.setResizable(true);
+		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.jframe.setLocationRelativeTo(null);
 
@@ -137,7 +137,33 @@ public class DefaultPageView {
 				USER_BUTTON_BP[3]
 			);
 		this.jpanel.add(this.userButton);
-		updateUserButton();
+		// updateUserButton();
+		if (this.model.getCurrentUser().getName() == null) {
+			this.userButton.setText("Login");;
+		} else {
+			this.userButton.setText(this.model.getCurrentUser().getName());
+		}
+		if (this.model.getCurrentUser().getName() != null) {
+			// TO-DO: Show User info page; be able to change password
+			this.userButton.addActionListener(new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+
+				}
+			});
+
+		} else {
+			// TO-DO: login page
+			this.userButton.addActionListener(new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+					System.out.println("Login clicked");
+					LoginView loginView = new LoginView(model, controller, jframe);
+					loginView.launchWindow();
+				}
+			});
+		}
+		this.jpanel.add(this.userButton);
 		
 
 		/**
@@ -272,6 +298,8 @@ public class DefaultPageView {
 				// TO-DO: confirm porducts selected, lanuch choose payment method window
 				System.out.println("Confirm cliked");
 
+
+
 			}
 		});
 		this.jpanel.add(this.confirmButton);
@@ -281,7 +309,6 @@ public class DefaultPageView {
 	}
 
 	public void updateView() {
-		updateUserButton();
 		updateRecentProductsTable();
 		updateGroupedProductsTableWithSameType();
 		updateSelectedProductsTable();
@@ -664,37 +691,6 @@ public class DefaultPageView {
 		this.totalPrice = this.model.getTotalPrice();
 		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
 		this.jpanel.add(this.totalPriceLabel);
-		this.jpanel.revalidate();
-		this.jpanel.repaint();
-	}
-
-	private void updateUserButton() {
-		this.jpanel.remove(this.userButton);
-		if (this.model.getCurrentUser().getName() == null) {
-			this.userButton.setText("Login");;
-		} else {
-			this.userButton.setText(this.model.getCurrentUser().getName());
-		}
-		if (this.model.getCurrentUser().getName() != null) {
-			// TO-DO: Show User info page; be able to change password
-			this.userButton.addActionListener(new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-
-				}
-			});
-
-		} else {
-			// TO-DO: login page
-			this.userButton.addActionListener(new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent ae) {
-					System.out.println("Login clicked");
-
-				}
-			});
-		}
-		this.jpanel.add(this.userButton);
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
 	}
