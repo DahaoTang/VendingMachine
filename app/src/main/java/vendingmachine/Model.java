@@ -143,9 +143,6 @@ public class Model {
 			this.selectedProducts.put(newProduct, newAmount);
 			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
-
-
-		// Update total Amount
 	}
 
 	public void updateRecentAmount(String productName, Integer newAmount) {
