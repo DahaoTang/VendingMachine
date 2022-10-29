@@ -41,6 +41,8 @@ public class DefaultPageView {
 	private JLabel totalPriceLabel;
 	private Double totalPrice;
 
+	private JButton confirmButton;
+
 
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 800};
@@ -63,6 +65,8 @@ public class DefaultPageView {
 	private final int[] SELECTED_PRODUCTS_SCROLL_PANE_BP = {18, 440, 564, 200};
 
 	private final int[] TOTAL_AMOUNT_BP = {18, 660, 200, 32};
+
+	private final int[] CONFIRM_BUTTON_BP = {470, 660, 110, 36};
 
 
 	public DefaultPageView() {
@@ -95,6 +99,8 @@ public class DefaultPageView {
 
 		this.totalPriceLabel = new JLabel();
 		this.totalPrice = 0.0;
+
+		this.confirmButton = new JButton();
 	}
 
 	public void setController(Controller controller) {
@@ -246,6 +252,29 @@ public class DefaultPageView {
 				TOTAL_AMOUNT_BP[3]
 			);
 		this.jpanel.add(this.totalPriceLabel);
+
+		/**
+		 * ======================
+		 * ### Confirm Button ### 
+		 * ======================
+		 * */
+
+		this.confirmButton.setText("Confirm");
+		this.confirmButton.setBounds(
+				CONFIRM_BUTTON_BP[0],
+				CONFIRM_BUTTON_BP[1],
+				CONFIRM_BUTTON_BP[2],
+				CONFIRM_BUTTON_BP[3]
+			);
+		this.confirmButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TO-DO: confirm porducts selected, lanuch choose payment method window
+				System.out.println("Confirm cliked");
+
+			}
+		});
+		this.jpanel.add(this.confirmButton);
 
      
         this.jframe.setVisible(true);
