@@ -126,6 +126,7 @@ public class LoginView implements WindowListener {
 		 * ==========================
 		 * */
 
+		// Register
 		this.registerButton.setText("Register");
 		this.registerButton.setBounds(
 				REGISTER_BUTTON_BP[0],
@@ -142,6 +143,7 @@ public class LoginView implements WindowListener {
 		});
 		this.jpanel.add(this.registerButton);
 
+		// Login
 		this.loginButton.setText("Confirm");
 		this.loginButton.setBounds(
 				LOGIN_BUTTON_BP[0],
@@ -154,7 +156,7 @@ public class LoginView implements WindowListener {
 			public void actionPerformed(ActionEvent ae) {
 				String userName = userNameTextField.getText();
 				String password = passwordField.getText();
-				if (ifLoggedIn(userName, password)){
+				if (controller.ifLoggedIn(userName, password)){
 					jframe.dispose();
 					controller.setCurrentUser(userName);
 					controller.updateAfterLogin();
@@ -165,8 +167,8 @@ public class LoginView implements WindowListener {
 		});
 		this.jpanel.add(this.loginButton);
 
-		this.jframe.setVisible(true);
 
+		this.jframe.setVisible(true);
 	}
 
 	@Override
@@ -205,7 +207,4 @@ public class LoginView implements WindowListener {
 	 * ########################
 	 * */
 
-	private Boolean ifLoggedIn(String userName, String password) {
-		return this.controller.ifLoggedIn(userName, password);
-	}
 }
