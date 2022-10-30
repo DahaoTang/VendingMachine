@@ -1,5 +1,6 @@
 package vendingmachine;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,10 +10,13 @@ public class Model {
 
 	private User currentUser;
 	private Double totalPrice;
+	private Double currentPrice;
 
 	private HashMap<Product, Integer> recentProducts;
 	private HashMap<Product, Integer> groupedProducts;
 	private HashMap<Product, Integer> selectedProducts;
+
+	private HashMap<Cash, Integer> cashMap;
 
 	public Model(JDBC jdbc) {
 
@@ -20,6 +24,7 @@ public class Model {
 
 		this.currentUser = new User();
 		this.totalPrice = 0.0;
+		this.currentPrice = 0.0;
 
 		this.recentProducts = new HashMap<Product, Integer>();
 		this.groupedProducts = new HashMap<Product, Integer>();
@@ -44,6 +49,12 @@ public class Model {
 				}
 			}
 		}
+
+		this.cashMap = new HashMap<Cash, Integer>();
+		for (Cash c: this.jdbc.getCashAll()) {
+			if (c.getName() == null) continue;
+			this.cashMap.put(c.duplicate(), 0);
+		}
 	}
 
 	public Boolean ifHasUser(String userName) {
@@ -52,6 +63,14 @@ public class Model {
 
 	public Boolean ifMatchUser(String userName, String password) {
 		return this.jdbc.ifMatchUser(userName, password);
+	}
+
+	public HashMap<Cash, Integer> getCashMap() {
+		return this.cashMap;
+	}
+
+	public Double getCurrentPrice() {
+		return this.currentPrice;
 	}
 
 	public User getCurrentUser() {
@@ -95,6 +114,14 @@ public class Model {
 		recentProducts.add(new Product());
 		User newUser = new User(userName, password, recentProducts);
 		this.jdbc.insertUser(newUser);
+	}
+
+	public void setCashMap(HashMap<Cash, Integer> cashMap) {
+		this.cashMap = cashMap;
+	}
+
+	public void setCurrentPrice(Double currentPrice) {
+		this.currentPrice = currentPrice;
 	}
 
 	public void setCurrentUser(String userName) {

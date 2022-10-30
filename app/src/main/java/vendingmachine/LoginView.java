@@ -1,13 +1,7 @@
 package vendingmachine;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 
 public class LoginView implements WindowListener {
 
@@ -61,7 +55,6 @@ public class LoginView implements WindowListener {
 	}
 
 	public void launchWindow() {
-		
 		/**
 		 * ===================
 		 * ### Basic Setup ###
@@ -198,13 +191,5 @@ public class LoginView implements WindowListener {
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
-
-
-
-	/**
-	 * ########################
-	 * ### HELPER FUNCTIONS ###
-	 * ########################
-	 * */
-
 }
+

@@ -8,6 +8,7 @@ public class Controller {
 
 	private Model model;
 	private DefaultPageView defaultPageView;
+	private CashPayView cashPayView;
 
 	public Controller() {
 		this.model = null;
@@ -23,12 +24,48 @@ public class Controller {
 		this.defaultPageView.launchWindow();
 	}
 
+	public void setCashPayView(CashPayView cashPayView) {
+		this.cashPayView = cashPayView;
+	}
+
 	public void setDefaultPageView(DefaultPageView defaultPageView) {
 		this.defaultPageView = defaultPageView;
 	}
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+
+
+	/**
+	 * ###############
+	 * ### METHODS ###
+	 * ###############
+	 * */
+	public void changeGroup(ProductType type) {
+System.out.println("CONTROLLER: changeGroup");
+
+		// retrieve data from model
+		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
+		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
+		for (Product p: this.model.getProductsByType(type)) {
+			if (p == null) continue;
+			Product newProduct = p.duplicate();
+			groupedProducts.put(newProduct, 0);
+		}
+		for (Product gp: groupedProducts.keySet()) {
+			for (Product sp: selectedProducts.keySet()) {
+				if (sp == null || gp == null || sp.getName() == null || gp.getName() == null) continue;
+				if (gp.getName().equals(sp.getName())) {
+					groupedProducts.put(gp, selectedProducts.get(sp));
+System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
+				}
+			}
+		}
+
+		// Save data back to model
+		this.model.setGroupedProducts(groupedProducts);
 	}
 
 	public Boolean ifHasUser(String userName) {
@@ -164,29 +201,28 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		this.model.setSelectedProducts(selectedProducts);
 	}
 
-	public void changeGroup(ProductType type) {
-System.out.println("CONTROLLER: changeGroup");
 
-		// retrieve data from model
-		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
-		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
-		for (Product p: this.model.getProductsByType(type)) {
-			if (p == null) continue;
-			Product newProduct = p.duplicate();
-			groupedProducts.put(newProduct, 0);
+	public void updateCashAmount(String cashName, Integer value, Integer column) {
+		Double currentPrice = this.model.getTotalPrice();
+		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
+		Integer newAmount = value;
+		if (column == 1) {
+			if (newAmount > 0) {
+				newAmount--;
+			}
+		} else {
+			newAmount++;
 		}
-		for (Product gp: groupedProducts.keySet()) {
-			for (Product sp: selectedProducts.keySet()) {
-				if (sp == null || gp == null || sp.getName() == null || gp.getName() == null) continue;
-				if (gp.getName().equals(sp.getName())) {
-					groupedProducts.put(gp, selectedProducts.get(sp));
-System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
-				}
+		for (Cash c: cashMap.keySet()) {
+			if (c == null || c.getName() == null) continue;
+			if (c.getName().equals(cashName)) {
+				currentPrice -= cashMap.get(c) * c.getValue();
+				cashMap.put(c, newAmount);
+				currentPrice += cashMap.get(c) * c.getValue();
 			}
 		}
-
-		// Save data back to model
-		this.model.setGroupedProducts(groupedProducts);
+		this.model.setCurrentPrice(currentPrice);
+		this.model.setCashMap(cashMap);
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
@@ -328,8 +364,12 @@ System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(
 		this.model.setSelectedProducts(selectedProducts);
 	}
 
-	public void updateView() {
+	public void updateViewDefaultPage() {
 		this.defaultPageView.updateView();
+	}
+
+	public void updateViewCashPay() {
+		this.cashPayView.updateView();
 	}
 
 }

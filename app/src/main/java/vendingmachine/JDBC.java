@@ -53,19 +53,19 @@ public class JDBC {
 		System.out.println("Card inserted");
 
 		// Cash
-		insertCash(new Cash("100 Dollars", 100.0, 100));
-		insertCash(new Cash("50 Dollars", 50.0, 100));
-		insertCash(new Cash("20 Dollars", 20.0, 100));
-		insertCash(new Cash("10 Dollars", 10.0, 100));
-		insertCash(new Cash("5 Dollars", 5.0, 100));
-		insertCash(new Cash("2 Dollars", 2.0, 100));
-		insertCash(new Cash("1 Dollar", 1.0, 100));
-		insertCash(new Cash("50 Cents", 0.5, 100));
-		insertCash(new Cash("20 Cents", 0.2, 100));
-		insertCash(new Cash("10 Cents", 0.1, 100));
-		insertCash(new Cash("5 Cents", 0.05, 100));
-		insertCash(new Cash("2 Cents", 0.02, 100));
-		insertCash(new Cash("1 Cent", 0.01, 100));
+		insertCash(new Cash("$100", 100.0, 100));
+		insertCash(new Cash("$50", 50.0, 100));
+		insertCash(new Cash("$20", 20.0, 100));
+		insertCash(new Cash("$10", 10.0, 100));
+		insertCash(new Cash("$5", 5.0, 100));
+		insertCash(new Cash("$2", 2.0, 100));
+		insertCash(new Cash("$1", 1.0, 100));
+		insertCash(new Cash("¢50", 0.5, 100));
+		insertCash(new Cash("¢20", 0.2, 100));
+		insertCash(new Cash("¢10", 0.1, 100));
+		insertCash(new Cash("¢5", 0.05, 100));
+		insertCash(new Cash("¢2", 0.02, 100));
+		insertCash(new Cash("¢1", 0.01, 100));
 
 		System.out.println("Cash inserted");
 
@@ -484,6 +484,41 @@ System.out.println("JDBC: deleteUser closed");
 	 * ### GET ###
 	 * ===========
 	 * */
+
+	public ArrayList<Cash> getCashAll() {
+		ArrayList<Cash> cashMap = new ArrayList<Cash>();
+		try {
+			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
+System.out.println("JDBC: getCashAll connected");
+			this.dbConnection.setAutoCommit(true);
+			Statement statement = this.dbConnection.createStatement();
+			String sql = "SELECT * FROM CASH;";
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				String cashName = resultSet.getString("NAME");
+				Double cashValue = resultSet.getDouble("VALUE");
+				Integer cashAmount = resultSet.getInt("AMOUNT");
+				cashMap.add(new Cash(cashName, cashValue, cashAmount));
+			}
+			resultSet.close();
+			statement.close();
+		} catch (Exception e) {
+			System.out.println("From getCashAll");
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getCashAll connected");
+			} catch (SQLException e) {
+				System.out.println("From getCashAll");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
+		}
+		return cashMap;
+	}
+
 	/** 
 	 * Get product with name specified
 	 * */

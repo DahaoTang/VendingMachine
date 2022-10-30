@@ -159,10 +159,9 @@ public class DefaultPageView {
 							options[0]
 						);
 					if (answer.equals(1)) {
-						System.out.println("Log Out");
+System.out.println("Log Out");
 						controller.restart();
 						jframe.dispose();
-
 					} else {
 						System.out.println("OK");
 					}
@@ -313,9 +312,28 @@ System.out.println("Login clicked");
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 System.out.println("Confirm cliked");
-				jframe.dispose();
-				RegisterView registerView = new RegisterView(model, controller, jframe, null);
-				registerView.launchWindow();
+				Object[] options = {"Cash", "Card"};
+				Object answer = JOptionPane.showOptionDialog(
+						null, 
+						"Choose way of paying: ",
+						"Payment",
+						JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE, 
+						null, 
+						options, 
+						null
+					);
+				if (answer.equals(0)) {
+					// Pay in cash
+System.out.println("Pay in cash");
+					CashPayView cashPayView = new CashPayView(model, controller, jframe);
+					cashPayView.launchWindow();
+
+				} else {
+					// Pay with card
+System.out.println("Pay in card");
+
+				}
 			}
 		});
 		this.jpanel.add(this.confirmButton);
@@ -803,7 +821,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
 				this.controller.updateRecentAmount(productName, value, column);
-				this.controller.updateView();
+				this.controller.updateViewDefaultPage();
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -896,7 +914,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
 				this.controller.updateGroupedAmount(productName, value, column);
-				this.controller.updateView();
+				this.controller.updateViewDefaultPage();
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -989,7 +1007,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
 				this.controller.updateSelectedAmount(productName, value, column);
-				this.controller.updateView();
+				this.controller.updateViewDefaultPage();
 			}
 			this.isPushed = false;
 			return new String(label);

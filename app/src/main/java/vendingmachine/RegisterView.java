@@ -32,6 +32,7 @@ public class RegisterView implements WindowListener {
 	private JButton cancelButton;
 	private JButton registerButton;
 
+
 	// DATA
 	private final int[] WINDOW_SIZE = {300, 240};
 
@@ -46,6 +47,8 @@ public class RegisterView implements WindowListener {
 
 	private final int[] CANCEL_BUTTON_BP = {15, 160, 120, 32};
 	private final int[] REGISTER_BUTTON_BP = {160, 160, 120, 32};	
+
+
 
 	public RegisterView(Model model, Controller controller, JFrame defaultPageViewJFrame, JFrame loginViewJFrame) {
 		this.model = model;
@@ -67,6 +70,7 @@ public class RegisterView implements WindowListener {
 
 		this.registerButton = new JButton();
 		this.cancelButton = new JButton();
+
 	}
 
 	public void launchWindow() {

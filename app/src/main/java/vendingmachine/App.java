@@ -9,7 +9,7 @@ public class App {
 
 		String dbPath = "VM.db";
 		JDBC jdbc = new JDBC(dbPath);
-		// jdbc.initDB();
+		jdbc.initDB();
 
 		Model model = new Model(jdbc);
 		DefaultPageView defaultPageView = new DefaultPageView();

@@ -18,6 +18,10 @@ public class Cash {
 		this.amount = amount;
 	}
 
+	public Cash duplicate() {
+		return new Cash(this.name, this.value, this.amount);
+	}
+
 	public Integer getAmount() {
 		return this.amount;
 	}
