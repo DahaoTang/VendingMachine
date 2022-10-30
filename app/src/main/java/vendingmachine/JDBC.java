@@ -12,7 +12,6 @@ public class JDBC {
 		this.dbPath = "VM.db"; // auto-default database path
 		this.dbConnection = null;
 		tryConnectToDB();
-		initDB();
 	}
 
 	public JDBC(String dbPath) {
