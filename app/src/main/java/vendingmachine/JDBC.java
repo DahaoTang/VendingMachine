@@ -541,10 +541,10 @@ System.out.println("JDBC: getProduct connected");
 				// Set value to the product to return
 				product.setId(product_id);
 				product.setName(product_name);
-				if (product_type == "DRINK") product.setType(ProductType.DRINK);
-				else if (product_type == "CHOCOLATE") product.setType(ProductType.CHOCOLATE);
-				else if (product_type == "CHIP") product.setType(ProductType.CHIP);
-				else if (product_type == "CANDY") product.setType(ProductType.CANDY);
+				if (product_type.equals("DRINK")) product.setType(ProductType.DRINK);
+				else if (product_type.equals("CHOCOLATE")) product.setType(ProductType.CHOCOLATE);
+				else if (product_type.equals("CHIP")) product.setType(ProductType.CHIP);
+				else if (product_type.equals("CANDY")) product.setType(ProductType.CANDY);
 				product.setPrice(product_price);
 				product.setAmount(product_amount);
 			}
@@ -901,12 +901,7 @@ System.out.println("JDBC: insertCash closed");
 	 * */
 	public void insertProduct(Product product) {
 		Integer id = product.getId();
-		ProductType type = product.getType();
-		String typeString = "";
-		if (type.equals(ProductType.DRINK)) typeString = "DRINK";
-		else if (type.equals(ProductType.CHOCOLATE)) typeString = "CHOCOLATE";
-		else if (type.equals(ProductType.CHIP)) typeString = "CHIP";
-		else if (type.equals(ProductType.CANDY)) typeString = "CANDY";
+		String typeString = product.getTypeString();
 		String name = product.getName();
 		Double price = product.getPrice();
 		Integer amount = product.getAmount();

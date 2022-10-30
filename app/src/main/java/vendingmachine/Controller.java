@@ -122,8 +122,43 @@ System.out.println("CONTROLLER: confirmCashPay: " + c.getName() + ": left in DB:
 
 		// Update recentProducts
 		updateRecentAfterPay();
+
+		// Update database
+		for (Product p: this.model.getSelectedProducts().keySet()) {
+			this.model.updateProductInDB(p.getName(), p.getAmount() - this.model.getSelectedProducts().get(p));
+		}
 	
 		return 0;
+	}
+
+	public Boolean ifHasEnoughProductsGrouped(String productName, Integer value, Integer column) {
+		if (column.equals(4)) return true;
+		for (Product p: this.model.getGroupedProducts().keySet()) {
+			if (p.getName().equals(productName)) {
+				if (p.getAmount() <= value) return false;
+			}
+		}
+		return true;
+	}
+
+	public Boolean ifHasEnoughProductsRecent(String productName, Integer value, Integer column) {
+		if (column.equals(4)) return true;
+		for (Product p: this.model.getRecentProducts().keySet()) {
+			if (p.getName().equals(productName)) {
+				if (p.getAmount() <= value) return false;
+			}
+		}
+		return true;
+	}
+
+	public Boolean ifHasEnoughProductsSelected(String productName, Integer value, Integer column) {
+		if (column.equals(4)) return true;
+		for (Product p: this.model.getSelectedProducts().keySet()) {
+			if (p.getName().equals(productName)) {
+				if (p.getAmount() <= value) return false;
+			}
+		}
+		return true;
 	}
 
 	public Boolean ifHasUser(String userName) {
@@ -247,13 +282,7 @@ System.out.println(sp.getName() + ": " + newAmount);
 System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
-			Product newProduct = new Product(
-					productCounter.getId(), 
-					productCounter.getType(),
-					productCounter.getName(), 
-					productCounter.getPrice(), 
-					productCounter.getAmount()
-				);
+			Product newProduct = productCounter.duplicate();
 			selectedProducts.put(newProduct, newAmount);
 System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
@@ -312,9 +341,6 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 				if (sp == null || rp == null || sp.getName() == null || rp.getName() == null) continue;
 				if (rp.getName().equals(sp.getName())) {
 					rp.setAmount(rp.getAmount() - selectedProducts.get(sp));
-					if (rp.getAmount() < 0) {
-						rp.setAmount(0);
-					}
 				}
 			}
 		}
@@ -349,9 +375,6 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 				if (sp == null || rp == null || sp.getName() == null || rp.getName() == null) continue;
 				if (rp.getName().equals(sp.getName())) {
 					rp.setAmount(rp.getAmount() - selectedProducts.get(sp));
-					if (rp.getAmount() < 0) {
-						rp.setAmount(0);
-					}
 				}
 			}
 		}
@@ -420,13 +443,7 @@ System.out.println(sp.getName() + ": " + newAmount);
 System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
-			Product newProduct = new Product(
-					productCounter.getId(), 
-					productCounter.getType(), 
-					productCounter.getName(), 
-					productCounter.getPrice(), 
-					productCounter.getAmount()
-				);
+			Product newProduct = productCounter.duplicate();
 			selectedProducts.put(newProduct, newAmount);
 System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}

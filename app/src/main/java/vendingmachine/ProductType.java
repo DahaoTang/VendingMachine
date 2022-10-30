@@ -4,6 +4,5 @@ public enum ProductType {
 	DRINK,
 	CHOCOLATE,
 	CHIP,
-	CANDY,
-	ALL;
+	CANDY;
 }

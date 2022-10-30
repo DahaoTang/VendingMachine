@@ -176,4 +176,10 @@ public class Model {
 	public void updateUserInDB(User user) {
 		this.jdbc.updateUser(user);
 	}
+
+	public void updateProductInDB(String productName, Integer amount) {
+		Product newProduct = this.jdbc.getProduct(productName).duplicate();
+		newProduct.setAmount(amount);
+		this.jdbc.updateProduct(newProduct);
+	}
 }

@@ -821,8 +821,12 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				this.controller.updateRecentAmount(productName, value, column);
-				this.controller.updateViewDefaultPage();
+				if (this.controller.ifHasEnoughProductsRecent(productName, value, column)) {
+					this.controller.updateRecentAmount(productName, value, column);
+					this.controller.updateViewDefaultPage();
+				} else {
+					JOptionPane.showMessageDialog(null, "Not enough products!");
+				}
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -914,8 +918,12 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				this.controller.updateGroupedAmount(productName, value, column);
-				this.controller.updateViewDefaultPage();
+				if (this.controller.ifHasEnoughProductsGrouped(productName, value, column)) {
+					this.controller.updateGroupedAmount(productName, value, column);
+					this.controller.updateViewDefaultPage();
+				} else {
+					JOptionPane.showMessageDialog(null, "Not enough products!");
+				}
 			}
 			this.isPushed = false;
 			return new String(label);
@@ -1007,8 +1015,12 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				this.controller.updateSelectedAmount(productName, value, column);
-				this.controller.updateViewDefaultPage();
+				if (this.controller.ifHasEnoughProductsSelected(productName, value, column)) {
+					this.controller.updateSelectedAmount(productName, value, column);
+					this.controller.updateViewDefaultPage();
+				} else {
+					JOptionPane.showMessageDialog(null, "Not enough products!");
+				}
 			}
 			this.isPushed = false;
 			return new String(label);
