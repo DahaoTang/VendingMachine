@@ -26,12 +26,14 @@ public class Model {
 		this.selectedProducts = new HashMap<Product, Integer>();
 		
 		for (Product p: this.jdbc.getRecent()) {
-			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			if (p.getId() == null) continue;
+			Product newProduct = p.duplicate();
 			this.recentProducts.put(newProduct, 0);
 		}
 
 		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
-			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			if (p.getId() == null) continue;
+			Product newProduct = p.duplicate();
 			this.groupedProducts.put(newProduct, 0);
 		}
 		for (Product gp: this.groupedProducts.keySet()) {
@@ -84,9 +86,19 @@ public class Model {
 		return this.totalPrice;
 	}
 
+	public void register(String userName, String password) {
+		ArrayList<Product> recentProducts = new ArrayList<Product>();
+		recentProducts.add(new Product());
+		recentProducts.add(new Product());
+		recentProducts.add(new Product());
+		recentProducts.add(new Product());
+		recentProducts.add(new Product());
+		User newUser = new User(userName, password, recentProducts);
+		this.jdbc.insertUser(newUser);
+	}
+
 	public void setCurrentUser(String userName) {
-		User user = this.jdbc.getUser(userName);
-		this.currentUser = user;
+		this.currentUser = this.jdbc.getUser(userName);
 	}
 
 	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {

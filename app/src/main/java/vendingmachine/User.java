@@ -22,17 +22,7 @@ public class User {
 	public User(String name, String password, ArrayList<Product> recentProducts) {
 		this.name = name;
 		this.password = password;
-		this.recentProducts = new ArrayList<Product>();
-		for (Product p: recentProducts) {
-			Product newProduct = new Product(
-					p.getId(),
-					p.getType(),
-					p.getName(),
-					p.getPrice(),
-					p.getAmount()
-				);
-			this.recentProducts.add(newProduct);
-		}
+		this.recentProducts = recentProducts;
 	}
 
 	public String getName() {

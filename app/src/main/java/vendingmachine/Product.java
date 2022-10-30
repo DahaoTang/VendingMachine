@@ -52,6 +52,17 @@ public class Product {
 		else return null;
 	}
 
+	public Product duplicate() {
+		Product newProduct = new Product(
+				this.getId(),
+				this.getType(),
+				this.getName(),
+				this.getPrice(),
+				this.getAmount()
+			);
+		return newProduct;
+	}
+
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}

@@ -30,7 +30,7 @@ public class LoginView implements WindowListener {
 
 
 	// FINAL DATA
-	private final int[] WINDOW_SIZE = {300, 400};
+	private final int[] WINDOW_SIZE = {300, 200};
 
 	private final int[] USER_NAME_LABEL_BP = {20, 30, 80, 32};
 	private final int[] USER_NAME_TEXT_FEILD_BP = {90, 30, 190, 32};
@@ -137,8 +137,8 @@ public class LoginView implements WindowListener {
 		this.registerButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TO-DO: Register Page
-
+				RegisterView registerView = new RegisterView(model, controller, defaultPageViewJFrame, jframe);
+				registerView.launchWindow();
 			}
 		});
 		this.jpanel.add(this.registerButton);
@@ -157,9 +157,9 @@ public class LoginView implements WindowListener {
 				String userName = userNameTextField.getText();
 				String password = passwordField.getText();
 				if (controller.ifLoggedIn(userName, password)){
-					jframe.dispose();
 					controller.setCurrentUser(userName);
 					controller.updateAfterLogin();
+					jframe.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid user name or password.");
 				}

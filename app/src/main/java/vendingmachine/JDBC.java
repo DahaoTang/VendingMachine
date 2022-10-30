@@ -3,8 +3,6 @@ package vendingmachine;
 import java.sql.*;
 import java.util.ArrayList;
 
-import org.checkerframework.checker.units.qual.A;
-
 public class JDBC {
 
 	private String dbPath;
@@ -73,47 +71,80 @@ public class JDBC {
 
 		// Products
 		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7);
+		Product sprite = new Product(102, ProductType.DRINK, "Sprite", 2.0, 7);
 		Product cocaCola = new Product(103, ProductType.DRINK, "Coca Cola", 2.0, 7);
-		insertProduct(mineralWater);
-		insertProduct(new Product(102, ProductType.DRINK, "Sprite", 2.0, 7));
-		insertProduct(cocaCola);
-		insertProduct(new Product(104, ProductType.DRINK, "Pepsi", 2.0, 7));
-		insertProduct(new Product(105, ProductType.DRINK, "Juice", 3.5, 7));
+		Product pepsi = new Product(104, ProductType.DRINK, "Pepsi", 2.0, 7);
+		Product juice = new Product(105, ProductType.DRINK, "Juice", 3.5, 7);
 
 		Product mars = new Product(201, ProductType.CHOCOLATE, "Mars", 1.0, 7);
-		insertProduct(mars);
-		insertProduct(new Product(202, ProductType.CHOCOLATE, "M&M", 2.0, 7));
-		insertProduct(new Product(203, ProductType.CHOCOLATE, "Bounty", 2.0, 7));
-		insertProduct(new Product(204, ProductType.CHOCOLATE, "Snickers", 3.0, 7));
+		Product mm = new Product(202, ProductType.CHOCOLATE, "M&M", 2.0, 7);
+		Product bounty = new Product(203, ProductType.CHOCOLATE, "Bounty", 2.0, 7);
+		Product snickers = new Product(204, ProductType.CHOCOLATE, "Snickers", 3.0, 7);
 
 		Product smiths = new Product(301, ProductType.CHIP, "Smiths", 2.0, 7);
-		insertProduct(smiths);
-		insertProduct(new Product(302, ProductType.CHIP, "Pringles", 2.5, 7));
-		insertProduct(new Product(303, ProductType.CHIP, "Kettle", 2.0, 7));
-		insertProduct(new Product(304, ProductType.CHIP, "Thins", 3.0, 7));
+		Product pringles = new Product(302, ProductType.CHIP, "Pringles", 2.5, 7);
+		Product kettle = new Product(303, ProductType.CHIP, "Kettle", 2.0, 7);
+		Product thins = new Product(304, ProductType.CHIP, "Thins", 3.0, 7);
 
 		Product mentos = new Product(401, ProductType.CANDY, "Mentos", 1.0, 7);
+		Product sourpatch = new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7);
+		Product skittles = new Product(403, ProductType.CANDY, "Skittles", 1.0, 7);
+
+
+		insertProduct(mineralWater);
+		insertProduct(sprite);
+		insertProduct(cocaCola);
+		insertProduct(pepsi);
+		insertProduct(juice);
+
+		insertProduct(mars);
+		insertProduct(mm);
+		insertProduct(bounty);
+		insertProduct(snickers);
+
+		insertProduct(smiths);
+		insertProduct(pringles);
+		insertProduct(kettle);
+		insertProduct(thins);
+
 		insertProduct(mentos);
-		insertProduct(new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7));
-		insertProduct(new Product(403, ProductType.CANDY, "Skittles", 1.0, 7));
+		insertProduct(sourpatch);
+		insertProduct(skittles);
 
 		System.out.println("Products inserted");
 
-		ArrayList<Product> recent = new ArrayList<Product>();
-		recent.add(mineralWater);
-		recent.add(cocaCola);
-		recent.add(mars);
-		recent.add(smiths);
-		recent.add(mentos);
+		ArrayList<Product> globalRecent = new ArrayList<Product>();
+		globalRecent.add(mineralWater.duplicate());
+		globalRecent.add(cocaCola.duplicate());
+		globalRecent.add(mars.duplicate());
+		globalRecent.add(smiths.duplicate());
+		globalRecent.add(mentos.duplicate());
 
 		// Global Recent
-		insertRecentAll(recent);
+		insertRecentAll(globalRecent);
 
 		System.out.println("Recent Products inserted"); 
 
 		// User
-		User dahao = new User("Dahao", "123", recent);
+		ArrayList<Product> dahaoRecent = new ArrayList<Product>();
+		dahaoRecent.add(cocaCola.duplicate());
+		dahaoRecent.add(new Product());
+		dahaoRecent.add(new Product());
+		dahaoRecent.add(new Product());
+		dahaoRecent.add(new Product());
+		User dahao = new User("dahao", "123", dahaoRecent);
 		insertUser(dahao);
+
+		System.out.println("insert dahao");
+		ArrayList<Product> testRecent = new ArrayList<Product>();
+		testRecent.add(new Product());
+		testRecent.add(new Product());
+		testRecent.add(new Product());
+		testRecent.add(new Product());
+		testRecent.add(new Product());
+		User test = new User("test", "123", testRecent);
+		insertUser(test);
+		System.out.println("insert test");
 
 		System.out.println("User inserted");
 
@@ -135,7 +166,8 @@ public class JDBC {
 	public void createTableCard() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: createTableCard connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE CARD" +
 							"(" + 
@@ -144,12 +176,19 @@ public class JDBC {
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From createTableCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: createTableCard closed");
+			} catch (SQLException e) {
+				System.out.println("From createTableCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -162,7 +201,8 @@ public class JDBC {
 	public void createTableCash() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: createTableCash connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE CASH" +
 							"(" + 
@@ -172,12 +212,19 @@ public class JDBC {
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From createTableCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: createTableCash closed");
+			} catch (SQLException e) {
+				System.out.println("From createTableCash");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -188,7 +235,8 @@ public class JDBC {
 	public void createTableGlobalRecentProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: createTableGlobalRecentProducts connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE RECENT" +
 							"(" + 
@@ -200,12 +248,19 @@ public class JDBC {
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From createTableGlobalRecentProducts");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: createTableGlobalRecentProducts closed");
+			} catch (SQLException e) {
+			System.out.println("From createTableGlobalRecentProducts");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -220,7 +275,8 @@ public class JDBC {
 	public void createTableProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: createTableProducts connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE PRODUCT" +
 							"(" + 
@@ -232,12 +288,19 @@ public class JDBC {
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From createTableProducts");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: createTableProducts closed");
+			} catch (SQLException e) {
+			System.out.println("From createTableProducts");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -250,7 +313,8 @@ public class JDBC {
 	public void createTableUser() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: createTableUser connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE USER" +
 							"(" + 
@@ -264,12 +328,19 @@ public class JDBC {
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From createTableUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: createTableUser closed");
+			} catch (SQLException e) {
+				System.out.println("From createTableUser");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -284,18 +355,27 @@ public class JDBC {
 	public void deleteCard(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: deleteCard connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM CARD WHERE NAME='" + name + "';";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From deleteCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: deleteCard closed");
+			} catch (SQLException e) {
+				System.out.println("From deleteCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
+
 	}
 
 	public void deleteCard(Card card) {
@@ -308,17 +388,25 @@ public class JDBC {
 	public void deleteCash(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: deleteCash connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM CASH WHERE NAME='" + name + "';";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From deleteCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: deleteCash closed");
+			} catch (SQLException e) {
+				System.out.println("From deleteCash");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -332,17 +420,25 @@ public class JDBC {
 	public void deleteProduct(Integer id) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: deleteProduct connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM PRODUCT WHERE ID=" + id + ";";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From deleteProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: deleteProduct closed");
+			} catch (SQLException e) {
+				System.out.println("From deleteProduct");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -356,17 +452,25 @@ public class JDBC {
 	public void deleteUser(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: deleteUser connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM USER WHERE NAME='" + name + "';";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From deleteUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: deleteUser closed");
+			} catch (SQLException e) {
+				System.out.println("From deleteUser");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -387,7 +491,8 @@ public class JDBC {
 		Product product = new Product();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: getProduct connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE NAME='" + name + "';";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -410,11 +515,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From getProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getProduct closed");
+			} catch (SQLException e) {
+				System.out.println("From getProduct");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return product;
 	}
@@ -426,7 +539,8 @@ public class JDBC {
 		Product product = new Product();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: getProduct connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE ID=" + id + ";";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -449,11 +563,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From getProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getProduct closed");
+			} catch (SQLException e) {
+				System.out.println("From getProduct");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return product;
 	}
@@ -492,7 +614,8 @@ public class JDBC {
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: getProductsByType connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE TYPE='" + type + "';";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -503,11 +626,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From getProductsByType");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getProductsByType closed");
+			} catch (SQLException e) {
+				System.out.println("From getProductsByType");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return products;
 	}
@@ -519,7 +650,8 @@ public class JDBC {
 		ArrayList<Product> recent = new ArrayList<Product>();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: getRecent connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM RECENT;";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -532,11 +664,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From getRecent");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getRecent closed");
+			} catch (SQLException e) {
+				System.out.println("From getRecent");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return recent;
 	}
@@ -548,7 +688,8 @@ public class JDBC {
 		User user = new User();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: getUser connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM USER WHERE NAME='" + name + "';";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -577,11 +718,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From getUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getUser closed");
+			} catch (SQLException e) {
+				System.out.println("From getUser");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return user;
 	}
@@ -598,7 +747,8 @@ public class JDBC {
 		boolean return_value = true;
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: ifHasUser connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM USER WHERE NAME='" + name + "';";
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -609,12 +759,19 @@ public class JDBC {
 			}
 			resultSet.close();
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From ifHasUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: ifHasUser closed");
+			} catch (SQLException e) {
+				System.out.println("From ifHasUser");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 		return return_value;
 	}
@@ -647,19 +804,27 @@ public class JDBC {
 		String number = card.getName();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: insertCard connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO CARD " +
 							"(NAME, NUMBER) " +
 							"VALUES ('" + name + "', '" + number + "');";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From insertCard");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: insertCard closed");
+			} catch (SQLException e) {
+				System.out.println("From insertCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -672,19 +837,27 @@ public class JDBC {
 		Integer amount = cash.getAmount();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: insertCash connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO CASH " +
 							"(NAME, VALUE, AMOUNT) " +
 							"VALUES ('" + name + "', " + value + ", " + amount + ");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From insertCash");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: insertCash closed");
+			} catch (SQLException e) {
+				System.out.println("From insertCash");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -704,19 +877,27 @@ public class JDBC {
 		Integer amount = product.getAmount();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: insertProduct connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO PRODUCT " +
 							"(ID, TYPE, NAME, PRICE, AMOUNT) " +
 							"VALUES (" + id + ", '" + typeString + "', '" + name + "', " + price + ", " + amount + ");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From insertProduct");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: insertProduct closed");
+			} catch (SQLException e) {
+				System.out.println("From insertProduct");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -731,19 +912,27 @@ public class JDBC {
 		Integer id_5 = recentProducts.get(4).getId();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: insertRecentAll connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO RECENT " +
 							"(PRODUCT_1_ID, PRODUCT_2_ID, PRODUCT_3_ID, PRODUCT_4_ID, PRODUCT_5_ID) " +
 							"VALUES (" + id_1 + ", " + id_2 + ", " + id_3 + ", " + id_4 + ", " + id_5 + ");";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
 		} catch (Exception e) {
 			System.out.println("From insertRecentAll");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: insertRecentAll closed");
+			} catch (SQLException e) {
+				System.out.println("From insertRecentAll");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -756,7 +945,8 @@ public class JDBC {
 		ArrayList<Product> products = user.getRecentProducts();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: insertUser connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO USER " +
 							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID) " +
@@ -770,13 +960,22 @@ public class JDBC {
 										products.get(4).getId() + 
 									");";
 			statement.executeUpdate(sql);
+System.out.println("executed");
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();
-		} catch (Exception e) {
+System.out.println("statement closed");
+		} catch (SQLException e) {
 			System.out.println("From insertUser");
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.err.println( e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: insertUser closed");
+			} catch (SQLException e) {
+				System.out.println("From insertUser");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -815,7 +1014,8 @@ public class JDBC {
 
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.setAutoCommit(false);
+System.out.println("JDBC: updateGlobalRecent connected");
+			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "UPDATE RECENT SET " + 
 				"RECENT_PRODUCT_1_ID=" + id_1 + 
@@ -826,12 +1026,19 @@ public class JDBC {
 				";";
 			statement.executeUpdate(sql);
 			statement.close();
-			this.dbConnection.commit();
-			this.dbConnection.close();	
 		} catch (Exception e) {
 			System.out.println("From updateGlobalRecent");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: updateGlobalRecent closed");
+			} catch (SQLException e) {
+				System.out.println("From updateGlobalRecent");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 
@@ -848,10 +1055,20 @@ public class JDBC {
 	private void tryConnectToDB() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-			this.dbConnection.close();
+System.out.println("JDBC: tryConnectToDB connected");
 		} catch (Exception e) {
+			System.out.println("From tryConnectToDB");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			System.exit(0);
+		}finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: tryConnectToDB closed");
+			} catch (SQLException e) {
+				System.out.println("From tryConnectToDB");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
 		}
 	}
 }

@@ -3,6 +3,7 @@ package vendingmachine;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class Controller {
 
 	private Model model;
@@ -30,6 +31,14 @@ public class Controller {
 		this.model = model;
 	}
 
+	public Boolean ifHasUser(String userName) {
+		if (this.model.ifHasUser(userName)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public Boolean ifLoggedIn(String userName, String password) {
 		if (this.model.ifHasUser(userName)) {
 			if (this.model.ifMatchUser(userName, password)) {
@@ -39,21 +48,28 @@ public class Controller {
 		return false;
 	}
 
+	public void register(String userName, String password) {
+		this.model.register(userName, password);
+	}
+
 	public void setCurrentUser(String userName) {
+System.out.println("CONTROLLER: setCurrentUser");
 		this.model.setCurrentUser(userName);
 	}
 
 	public void updateAfterLogin() {
-		System.out.println("CONTROLLER: updateAfterLogin");
-		System.out.println(this.model.getCurrentUser());
+System.out.println("CONTROLLER: updateAfterLogin");
+System.out.println(this.model.getCurrentUser());
 		// Rencet products
 		HashMap<Product, Integer> recentProducts = new HashMap<Product, Integer>();
 		for (Product p: this.model.getCurrentUser().getRecentProducts()) {
-			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			if (p == null) continue;
+			Product newProduct = p.duplicate();
 			recentProducts.put(newProduct, 0);
 		}
 		for (Product rp: recentProducts.keySet()) {
 			for (Product sp: this.model.getSelectedProducts().keySet()) {
+				if (rp == null || sp == null || rp.getName() == null || sp.getName() == null) continue;
 				if (rp.getName().equals(sp.getName())) {
 					recentProducts.put(rp, this.model.getSelectedProducts().get(sp));
 				}
@@ -76,7 +92,7 @@ public class Controller {
 			totalPrice += price;
 		}
 		this.model.setTotalPrice(totalPrice);
-		System.out.println("CONTROLLER: updateGroupedAmount: " + productName + " " + newAmount);
+System.out.println("CONTROLLER: updateGroupedAmount: " + productName + " " + newAmount);
 
 		// Retrieve data from model
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
@@ -86,6 +102,7 @@ public class Controller {
 		// Update grouped products
 		Product productCounter = null;
 		for (Product gp: groupedProducts.keySet()) {
+			if (gp == null || gp.getName() == null) continue;
 			if (gp.getName().equals(productName)) {
 				groupedProducts.put(gp, newAmount);
 				productCounter = gp;
@@ -94,21 +111,23 @@ public class Controller {
 		
 		// Update recent products
 		for (Product rp: recentProducts.keySet()) {
+			if (rp == null || rp.getName() == null) continue;
 			if (rp.getName().equals(productName)) {
 				recentProducts.put(rp, newAmount);
-				System.out.println("from recent: " + rp.getName() + ": " + recentProducts.get(rp));
+System.out.println("from recent: " + rp.getName() + ": " + recentProducts.get(rp));
 			}
 		}
 
 		// Update selected products
-		System.out.print("from selected: ");
+System.out.print("from selected: ");
 		Boolean inSelected = false;
 		Product toRemove = null;
 		for (Product sp: selectedProducts.keySet()) {
+			if (sp == null || sp.getName() == null) continue;
 			if (sp.getName().equals(productName)) {
 				inSelected = true;
 				selectedProducts.put(sp, newAmount);
-				System.out.println(sp.getName() + ": " + newAmount);
+System.out.println(sp.getName() + ": " + newAmount);
 				if (newAmount == 0) {
 					toRemove = sp;
 				}
@@ -116,7 +135,7 @@ public class Controller {
 		}
 		if (toRemove != null) {
 			selectedProducts.remove(toRemove);
-			System.out.println("removed: " + toRemove.getName());
+System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
 			Product newProduct = new Product(
@@ -127,7 +146,7 @@ public class Controller {
 					productCounter.getAmount()
 				);
 			selectedProducts.put(newProduct, newAmount);
-			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
+System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
 
 		// Save data back to model
@@ -137,20 +156,22 @@ public class Controller {
 	}
 
 	public void changeGroup(ProductType type) {
-		System.out.println("CONTROLLER: changeGroup");
+System.out.println("CONTROLLER: changeGroup");
 
 		// retrieve data from model
 		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
 		for (Product p: this.model.getProductsByType(type)) {
-			Product newProduct = new Product(p.getId(), p.getType(), p.getName(), p.getPrice(), p.getAmount());
+			if (p == null) continue;
+			Product newProduct = p.duplicate();
 			groupedProducts.put(newProduct, 0);
 		}
 		for (Product gp: groupedProducts.keySet()) {
 			for (Product sp: selectedProducts.keySet()) {
+				if (sp == null || gp == null || sp.getName() == null || gp.getName() == null) continue;
 				if (gp.getName().equals(sp.getName())) {
 					groupedProducts.put(gp, selectedProducts.get(sp));
-					System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
+System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
 				}
 			}
 		}
@@ -173,7 +194,7 @@ public class Controller {
 			totalPrice += price;
 		}
 		this.model.setTotalPrice(totalPrice);
-		System.out.println("CONTROLLER: updateRecentAmount: " + productName + " " + newAmount);
+System.out.println("CONTROLLER: updateRecentAmount: " + productName + " " + newAmount);
 		
 		// Retrieve data from model
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
@@ -183,6 +204,7 @@ public class Controller {
 		// Update recent products
 		Product productCounter = null;
 		for (Product rp: recentProducts.keySet()) {
+			if (rp == null || rp.getName() == null) continue;
 			if (rp.getName().equals(productName)) {
 				recentProducts.put(rp, newAmount);
 				productCounter = rp;
@@ -191,21 +213,23 @@ public class Controller {
 
 		// Update grouped prouducts
 		for (Product gp: groupedProducts.keySet()) {
+			if (gp == null || gp.getName() == null) continue;
 			if (gp.getName().equals(productName)) {
 				groupedProducts.put(gp, newAmount);
-				System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(gp));
+System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(gp));
 			}
 		}
 
 		// Update selected products
-		System.out.print("from selected: ");
+System.out.print("from selected: ");
 		Boolean inSelected = false;
 		Product toRemove = null;
 		for (Product sp: selectedProducts.keySet()) {
+			if (sp == null || sp.getName() == null) continue;
 			if (sp.getName().equals(productName)) {
 				inSelected = true;
 				selectedProducts.put(sp, newAmount);
-				System.out.println(sp.getName() + ": " + newAmount);
+System.out.println(sp.getName() + ": " + newAmount);
 				if (newAmount == 0) {
 					toRemove = sp;
 				}
@@ -213,7 +237,7 @@ public class Controller {
 		}
 		if (toRemove != null) {
 			selectedProducts.remove(toRemove);
-			System.out.println("removed: " + toRemove.getName());
+System.out.println("removed: " + toRemove.getName());
 		}
 		if (inSelected == false && newAmount > 0) {
 			Product newProduct = new Product(
@@ -224,7 +248,7 @@ public class Controller {
 					productCounter.getAmount()
 				);
 			selectedProducts.put(newProduct, newAmount);
-			System.out.println("created: " + newProduct.getName() + ": " + newAmount);
+System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		}
 
 		// Save data back to model
@@ -247,7 +271,7 @@ public class Controller {
 			totalPrice += price;
 		}
 		this.model.setTotalPrice(totalPrice);
-		System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
+System.out.println("CONTROLLER: updateSelectedAmount: " + productName + " " + newAmount);
 
 		// Retrieve data from model
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
@@ -257,6 +281,7 @@ public class Controller {
 		// Update selected products
 		Product toRemove = null;	
 		for (Product sp: selectedProducts.keySet()) {
+			if (sp == null || sp.getName() == null) continue;
 			if (sp.getName().equals(productName)) {
 				selectedProducts.put(sp, newAmount);
 				if (newAmount == 0) {
@@ -266,23 +291,25 @@ public class Controller {
 		}
 		if (toRemove != null) {
 			selectedProducts.remove(toRemove);
-			System.out.println("removed: " + toRemove.getName());
+System.out.println("removed: " + toRemove.getName());
 		}
 
 
 		// Update recent products
 		for (Product rp: recentProducts.keySet()) {
+			if (rp == null || rp.getName() == null) continue;
 			if (rp.getName().equals(productName)) {
 				recentProducts.put(rp, newAmount);
-				System.out.println("from recent: " + rp.getName() + ": " + recentProducts.get(rp));
+System.out.println("from recent: " + rp.getName() + ": " + recentProducts.get(rp));
 			}
 		}
 
 		// Update grouped products
 		for (Product gp: groupedProducts.keySet())	{
+			if (gp == null || gp.getName() == null) continue;
 			if (gp.getName().equals(productName)) {
 				groupedProducts.put(gp, newAmount);
-				System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(gp));
+System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(gp));
 			}
 		}
 

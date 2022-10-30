@@ -155,7 +155,7 @@ public class DefaultPageView {
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					System.out.println("Login clicked");
+System.out.println("Login clicked");
 					LoginView loginView = new LoginView(model, controller, jframe);
 					loginView.launchWindow();
 				}
@@ -294,7 +294,10 @@ public class DefaultPageView {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				// TO-DO: confirm porducts selected, lanuch choose payment method window
-				System.out.println("Confirm cliked");
+System.out.println("Confirm cliked");
+				jframe.dispose();
+				RegisterView registerView = new RegisterView(model, controller, jframe, null);
+				registerView.launchWindow();
 
 
 
@@ -445,8 +448,12 @@ public class DefaultPageView {
 
 	private void buildRecentProductsTable() {
 		// Loead data from model
-		Object[][] productsData = new Object[this.model.getRecentProducts().keySet().size()][7];
-		System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " + productsData.length);
+		int productDataLength = 0;
+		for (Product p: this.model.getRecentProducts().keySet()) {
+			if (p != null && p.getName() != null) productDataLength++;
+		}
+		Object[][] productsData = new Object[productDataLength][7];
+System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " + productsData.length);
 		// Create table
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {
@@ -573,6 +580,7 @@ public class DefaultPageView {
 			// Maintain order
 			Product p = new Product();
 			for (Product p0: groupedProducts.keySet()) {
+				if (p0 == null || p0.getName() == null) continue;
 				if (p0.getName().equals(productNameList.get(i))) {
 					p = p0;
 					break;
@@ -594,6 +602,7 @@ public class DefaultPageView {
 		HashMap<Product, Integer> recenrProducts = this.model.getRecentProducts();
 		ArrayList<String> productNameList = new ArrayList<String>();
 		for (Product p: recenrProducts.keySet()) {
+			if (p == null || p.getName() == null) continue;
 			productNameList.add(p.getName());
 		}
 		// Sort to fix the order
@@ -602,6 +611,7 @@ public class DefaultPageView {
 			// Maintain order
 			Product p = new Product();
 			for (Product p0: recenrProducts.keySet()) {
+				if (p0 == null || p0.getName() == null) continue;
 				if (p0.getName().equals(productNameList.get(i))) {
 					p = p0;
 					break;
@@ -631,6 +641,7 @@ public class DefaultPageView {
 			// Maintain order
 			Product p = new Product();
 			for (Product p0: selectedProducts.keySet()) {
+				if (p0 == null || p0.getName() == null) continue;
 				if (p0.getName().equals(productNameList.get(i))) {
 					p = p0;
 					break;
