@@ -293,14 +293,10 @@ System.out.println("Login clicked");
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TO-DO: confirm porducts selected, lanuch choose payment method window
 System.out.println("Confirm cliked");
 				jframe.dispose();
 				RegisterView registerView = new RegisterView(model, controller, jframe, null);
 				registerView.launchWindow();
-
-
-
 			}
 		});
 		this.jpanel.add(this.confirmButton);

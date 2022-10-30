@@ -179,11 +179,9 @@ public class RegisterView implements WindowListener {
 		this.registerButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TO-DO: Check info provided. Login if valid
 				String userName = userNameTextField.getText();
 				String password_1 = passwordField.getText();
 				String password_2 = reenterPasswordField.getText();
-
 				if (password_1.equals(password_2)) {
 					if (controller.ifHasUser(userName)) {
 						JOptionPane.showMessageDialog(null, 
@@ -193,6 +191,9 @@ public class RegisterView implements WindowListener {
 						controller.register(userName, password_1);
 						controller.setCurrentUser(userName);
 						controller.updateAfterLogin();
+
+						defaultPageViewJFrame.dispose();
+						loginViewJFrame.dispose();
 						jframe.dispose();
 					}
 				} else {
@@ -212,14 +213,7 @@ public class RegisterView implements WindowListener {
 	public void windowActivated(WindowEvent e) {}
 
 	@Override
-	public void windowClosed(WindowEvent e) {
-		this.defaultPageViewJFrame.dispose();
-		DefaultPageView defaultPageView = new DefaultPageView();
-		this.controller.setDefaultPageView(defaultPageView);
-		defaultPageView.setModel(this.model);
-		defaultPageView.setController(this.controller);
-		defaultPageView.launchWindow();
-	}
+	public void windowClosed(WindowEvent e) {}
 
 	@Override
 	public void windowClosing(WindowEvent e) {}
