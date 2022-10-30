@@ -52,6 +52,15 @@ public class Controller {
 		this.model.register(userName, password);
 	}
 
+	public void restart() {
+		Model model = new Model(this.model.getJDBC());
+		DefaultPageView defaultPageView = new DefaultPageView();
+		Controller controller = new Controller(model, defaultPageView);
+		defaultPageView.setController(controller);
+		defaultPageView.setModel(model);
+		controller.launchWindow();
+	}
+
 	public void setCurrentUser(String userName) {
 System.out.println("CONTROLLER: setCurrentUser");
 		this.model.setCurrentUser(userName);

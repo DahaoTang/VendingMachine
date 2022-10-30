@@ -147,7 +147,25 @@ public class DefaultPageView {
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					JOptionPane.showMessageDialog(null, "Username: " + model.getCurrentUser().getName() + "\n");
+					Object[] options = {"OK", "Log Out"};
+					Object answer = JOptionPane.showOptionDialog(
+							null, 
+							"Current User: " + model.getCurrentUser().getName(), 
+							"User Info", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.INFORMATION_MESSAGE, 
+							null, 
+							options, 
+							options[0]
+						);
+					if (answer.equals(1)) {
+						System.out.println("Log Out");
+						controller.restart();
+						jframe.dispose();
+
+					} else {
+						System.out.println("OK");
+					}
 				}
 			});
 
@@ -267,6 +285,7 @@ System.out.println("Login clicked");
 		 * ====================
 		 * */
 		// JLabel for total amount
+		this.totalPrice = this.model.getTotalPrice();
 		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
 		this.totalPriceLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
 		this.totalPriceLabel.setBounds(
