@@ -326,6 +326,7 @@ System.out.println("Confirm cliked");
 				if (answer.equals(0)) {
 					// Pay in cash
 System.out.println("Pay in cash");
+					controller.resetCashPay();
 					CashPayView cashPayView = new CashPayView(model, controller, jframe);
 					cashPayView.launchWindow();
 

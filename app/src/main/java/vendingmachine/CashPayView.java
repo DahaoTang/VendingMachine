@@ -27,28 +27,26 @@ public class CashPayView {
 	private JLabel currentPriceLabel;
 	private JLabel leftPriceLabel;
 
-	private JButton cancelButton;
+	private JButton backButton;
 	private JButton confirmButton;
+	private JButton cancelButton;
 
 	// DATA
 	
-	private final int[] WINDOW_SIZE = {300, 500};
+	private final int[] WINDOW_SIZE = {300, 450};
 
-	private final int LABEL_FONT_SIZE = 16;
-	private final String LABEL_FONT = "Arial";
-	private final int LABEL_FONT_MODE = Font.PLAIN;
-
-	private final int[] INSTRUCTION_LABEL_BP = {20, 10, 200, 32};
+	private final int[] INSTRUCTION_LABEL_BP = {20, 7, 200, 32};
 
 	private final int[] CASH_TABLE_COLUMN_WIDTH = {100, 30, 80, 30};
 	private final int[] CASH_SCROLL_PANE_BP = {20, 40, 260, 230};
 
-	private final int[] TOTAL_PRICE_BP = {20, 270, 200, 20};
-	private final int[] CURRENT_PRICE_BP = {20, 290, 200, 20};
-	private final int[] LEFT_PRICE_BP = {20, 310, 200, 20};
+	private final int[] TOTAL_PRICE_BP = {20, 275, 200, 20};
+	private final int[] CURRENT_PRICE_BP = {20, 295, 200, 20};
+	private final int[] LEFT_PRICE_BP = {20, 315, 200, 20};
 
-	private final int[] CANCEL_BUTTON_BP = {20, 340, 100, 32};
-	private final int[] CONFIRM_BUTTON_BP = {20, 370, 100, 32};
+	private final int[] BACK_BUTTON_BP = {20, 340, 100, 32};
+	private final int[] CONFIRM_BUTTON_BP = {180, 340, 100, 32};
+	private final int[] CANCEL_BUTTON_BP = {20, 370, 260, 32};
 
 
 	public CashPayView(Model model, Controller controller, JFrame defaultPageViewJFrame) {
@@ -69,8 +67,9 @@ public class CashPayView {
 		this.currentPriceLabel = new JLabel();
 		this.leftPriceLabel = new JLabel();
 
-		this.cancelButton = new JButton();
+		this.backButton = new JButton();
 		this.confirmButton = new JButton();
+		this.cancelButton = new JButton();
 	}
 
 	public void launchWindow() {
@@ -94,7 +93,6 @@ public class CashPayView {
 		 * ===================
 		 * */
 		this.instructionLabel.setText("Please insert cash: ");
-		this.instructionLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
 		this.instructionLabel.setBounds(
 				INSTRUCTION_LABEL_BP[0],
 				INSTRUCTION_LABEL_BP[1],
@@ -126,14 +124,101 @@ public class CashPayView {
 		 * =========================
 		 * */
 
-		this.cancelButton.setText("Cancel");
+		this.cancelButton.setText("Cancel Order");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],		
 				CANCEL_BUTTON_BP[1],		
 				CANCEL_BUTTON_BP[2],		
 				CANCEL_BUTTON_BP[3]
 			);
+		this.cancelButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+System.out.println("Cancel clicked");
+				Object[] options = {"No", "Yes"};
+				Object answer = JOptionPane.showOptionDialog(
+							null, 
+							"Are you sure to cancel the order?", 
+							"Warning", 
+							JOptionPane.DEFAULT_OPTION, 
+							JOptionPane.WARNING_MESSAGE, 
+							null, 
+							options, 
+							options[0]
+						);
+					if (answer.equals(0)) {
+System.out.println("No");
+					} else {
+System.out.println("Yes");
+						restart();	
+					}
+			}
+		});
+		this.jpanel.add(this.cancelButton);
 
+		this.backButton.setText("Back");
+		this.backButton.setBounds(
+				BACK_BUTTON_BP[0],
+				BACK_BUTTON_BP[1],
+				BACK_BUTTON_BP[2],
+				BACK_BUTTON_BP[3]
+			);
+		this.backButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+System.out.println("back clicked");
+				controller.resetCashPay();
+				jframe.dispose();
+				Object[] options = {"Cash", "Card"};
+				Object answer = JOptionPane.showOptionDialog(
+						null, 
+						"Choose way of paying: ",
+						"Payment",
+						JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.INFORMATION_MESSAGE, 
+						null, 
+						options, 
+						null
+					);
+				if (answer.equals(0)) {
+					// Pay in cash
+System.out.println("Pay in cash");
+					CashPayView cashPayView = new CashPayView(model, controller, jframe);
+					cashPayView.launchWindow();
+
+				} else {
+					// Pay with card
+System.out.println("Pay in card");
+
+
+				}
+			}
+		});
+		this.jpanel.add(this.backButton);
+
+		this.confirmButton.setText("Confirm");
+		this.confirmButton.setBounds(
+				CONFIRM_BUTTON_BP[0],
+				CONFIRM_BUTTON_BP[1],
+				CONFIRM_BUTTON_BP[2],
+				CONFIRM_BUTTON_BP[3]
+			);
+		this.confirmButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+System.out.println("Confirm clicked");
+				int result = controller.confirmCashPay();
+				if (result == 1) {
+					JOptionPane.showMessageDialog(null, "Not enough money!");
+				} else if (result == 2) {
+					JOptionPane.showMessageDialog(null, "Not enough change!");
+				} else {
+					restart();	
+					JOptionPane.showMessageDialog(null, "Payment Successful!");
+				}
+			}
+		});
+		this.jpanel.add(this.confirmButton);
 
 		this.jframe.setVisible(true);
 	}
@@ -211,25 +296,16 @@ System.out.println("CashPayView: drawCashTable");
 	private void loadCashTableData() {
 System.out.println("CashPayView: loadCashTableData");
 		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
-		ArrayList<String> cashNameList = new ArrayList<String>();
-		cashNameList.add("$100");
-		cashNameList.add("$50");
-		cashNameList.add("$20");
-		cashNameList.add("$10");
-		cashNameList.add("$5");
-		cashNameList.add("$2");
-		cashNameList.add("$1");
-		cashNameList.add("¢50");
-		cashNameList.add("¢20");
-		cashNameList.add("¢10");
-		cashNameList.add("¢5");
-		cashNameList.add("¢2");
-		cashNameList.add("¢1");
-		for (int i = 0; i < cashNameList.size(); i++) {
+		String[] cashNameList = {
+			"$100", "$50", "$20", "$10", 
+			"$5", "$2", "$1", "¢50", "¢20",
+			"¢10", "¢5", "¢2", "¢1"
+		};
+		for (int i = 0; i < cashNameList.length; i++) {
 			Cash c = new Cash();
 			for (Cash c0: cashMap.keySet()) {
 				if (c0 == null || c0.getName() == null) continue;
-				if (c0.getName().equals(cashNameList.get(i))) {
+				if (c0.getName().equals(cashNameList[i])) {
 					c = c0;
 					break;
 				}
@@ -241,7 +317,13 @@ System.out.println("CashPayView: loadCashTableData");
 		}
 	}
 
-	public void updatePrice() {
+	private void restart() {
+		defaultPageViewJFrame.dispose();
+		jframe.dispose();
+		this.controller.restart();
+	}
+
+	private void updatePrice() {
 		// Calcualte data
 		Double totalPrice = this.model.getTotalPrice();
 		Double currentPrice = this.model.getCurrentPrice();

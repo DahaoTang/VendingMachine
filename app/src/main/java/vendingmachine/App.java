@@ -9,6 +9,7 @@ public class App {
 
 		String dbPath = "VM.db";
 		JDBC jdbc = new JDBC(dbPath);
+
 		jdbc.initDB();
 
 		Model model = new Model(jdbc);

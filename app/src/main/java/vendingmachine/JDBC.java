@@ -53,11 +53,11 @@ public class JDBC {
 		System.out.println("Card inserted");
 
 		// Cash
-		insertCash(new Cash("$100", 100.0, 100));
-		insertCash(new Cash("$50", 50.0, 100));
-		insertCash(new Cash("$20", 20.0, 100));
-		insertCash(new Cash("$10", 10.0, 100));
-		insertCash(new Cash("$5", 5.0, 100));
+		insertCash(new Cash("$100", 100.0, 0));
+		insertCash(new Cash("$50", 50.0, 0));
+		insertCash(new Cash("$20", 20.0, 0));
+		insertCash(new Cash("$10", 10.0, 10));
+		insertCash(new Cash("$5", 5.0, 10));
 		insertCash(new Cash("$2", 2.0, 100));
 		insertCash(new Cash("$1", 1.0, 100));
 		insertCash(new Cash("¢50", 0.5, 100));
@@ -1053,11 +1053,11 @@ System.out.println("JDBC: updateGlobalRecent connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "UPDATE RECENT SET " + 
-				"RECENT_PRODUCT_1_ID=" + id_1 + 
-				"RECENT_PRODUCT_2_ID=" + id_2 + 
-				"RECENT_PRODUCT_3_ID=" + id_3 + 
-				"RECENT_PRODUCT_4_ID=" + id_4 + 
-				"RECENT_PRODUCT_5_ID=" + id_5 + 
+				"PRODUCT_1_ID=" + id_1 + ", " + 
+				"PRODUCT_2_ID=" + id_2 + ", " + 
+				"PRODUCT_3_ID=" + id_3 + ", " + 
+				"PRODUCT_4_ID=" + id_4 + ", " + 
+				"PRODUCT_5_ID=" + id_5 + 
 				";";
 			statement.executeUpdate(sql);
 			statement.close();

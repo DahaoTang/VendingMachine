@@ -1,6 +1,5 @@
 package vendingmachine;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,12 +68,20 @@ public class Model {
 		return this.cashMap;
 	}
 
+	public ArrayList<Cash> getCashMapInDB() {
+		return this.jdbc.getCashAll();
+	}
+
 	public Double getCurrentPrice() {
 		return this.currentPrice;
 	}
 
 	public User getCurrentUser() {
 		return this.currentUser;
+	}
+
+	public ArrayList<Product> getGlobalRecent() {
+		return this.jdbc.getRecent();
 	}
 
 	public HashMap<Product, Integer> getGroupedProducts() {
@@ -116,8 +123,22 @@ public class Model {
 		this.jdbc.insertUser(newUser);
 	}
 
+	public void resetCashMap() {
+		this.cashMap = new HashMap<Cash, Integer>();
+		for (Cash c: this.jdbc.getCashAll()) {
+			if (c.getName() == null) continue;
+			this.cashMap.put(c.duplicate(), 0);
+		}
+	}
+
 	public void setCashMap(HashMap<Cash, Integer> cashMap) {
 		this.cashMap = cashMap;
+	}
+
+	public void setCashMapInDB(ArrayList<Cash> cashMap) {
+		for (Cash c: cashMap) {
+			this.jdbc.updateCash(c);
+		}
 	}
 
 	public void setCurrentPrice(Double currentPrice) {
@@ -140,11 +161,19 @@ public class Model {
 		this.recentProducts = recentProducts;
 	}
 
+	public void setRecentProductsInDB(ArrayList<Product> newRecent) {
+			this.jdbc.updateGlobalRecent(newRecent);
+	}
+
 	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
 
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public void updateUserInDB(User user) {
+		this.jdbc.updateUser(user);
 	}
 }
