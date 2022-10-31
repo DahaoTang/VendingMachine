@@ -90,9 +90,11 @@ public class User {
 		output += "Password: " + this.password + "\n";
 		output += "Rencet Products: " + this.recentProducts.get(0).getName() + ", ";
 		output += this.recentProducts.get(1).getName() + ", ";
-		output += this.recentProducts.get(2).getName() + ",";
+		output += this.recentProducts.get(2).getName() + ", ";
 		output += this.recentProducts.get(3).getName() + ", ";
-		output += this.recentProducts.get(4).getName();
+		output += this.recentProducts.get(4).getName() + ", ";
+		output += "Type: " + getTypeString() + ", ";
+		output += "CardName: " + (this.cardName == null ? "NULL" : this.cardName);
 		return output;
 	}
 }
