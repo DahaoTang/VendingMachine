@@ -71,6 +71,7 @@ public class LoginView implements WindowListener {
 		this.jpanel.setLayout(null);
 		this.jframe.add(this.jpanel);
 
+
 		/**
 		 * ===========================
 		 * ### Label and TextFeild ###
@@ -112,6 +113,7 @@ public class LoginView implements WindowListener {
 				PASSWORD_FEILD_BP[3]
 			);
 		this.jpanel.add(this.passwordField);
+
 
 		/**
 		 * ==========================

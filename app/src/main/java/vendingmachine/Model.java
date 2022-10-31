@@ -64,7 +64,11 @@ public class Model {
 		}
 
 		this.cardInfoMap = new HashMap<String, String>();
-		setCardInfoMay(JSONpath);
+		setCardInfoMap(JSONpath);
+	}
+
+	public Boolean ifHasCard(String name) {
+		return this.jdbc.ifHashCard(name);
 	}
 
 	public Boolean ifHasUser(String userName) {
@@ -131,10 +135,6 @@ public class Model {
 		return this.totalPrice;
 	}
 
-	public Boolean ifHasCard(String name) {
-		return this.jdbc.ifHashCard(name);
-	}
-
 	public void register(String userName, String password) {
 		ArrayList<Product> recentProducts = new ArrayList<Product>();
 		recentProducts.add(new Product());
@@ -146,7 +146,7 @@ public class Model {
 		this.jdbc.insertUser(newUser);
 	}
 
-	public void setCardInfoMay(String JSONpath) {
+	public void setCardInfoMap(String JSONpath) {
  		JSONParser parser = new JSONParser();
         try {
             Object object = parser.parse(new FileReader(JSONpath));
@@ -175,12 +175,6 @@ public class Model {
 		this.cashMap = cashMap;
 	}
 
-	public void setCashMapInDB(ArrayList<Cash> cashMap) {
-		for (Cash c: cashMap) {
-			this.jdbc.updateCash(c);
-		}
-	}
-
 	public void setCurrentPrice(Double currentPrice) {
 		this.currentPrice = currentPrice;
 	}
@@ -205,10 +199,6 @@ public class Model {
 		this.recentProducts = recentProducts;
 	}
 
-	public void setRecentProductsInDB(ArrayList<Product> newRecent) {
-			this.jdbc.updateGlobalRecent(newRecent);
-	}
-
 	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
@@ -219,6 +209,16 @@ public class Model {
 
 	public void updateCardInDB(Card card) {
 		this.jdbc.updateCard(card);
+	}
+
+	public void updateCashMapInDB(ArrayList<Cash> cashMap) {
+		for (Cash c: cashMap) {
+			this.jdbc.updateCash(c);
+		}
+	}
+
+	public void updateRecentProductsInDB(ArrayList<Product> newRecent) {
+			this.jdbc.updateGlobalRecent(newRecent);
 	}
 
 	public void updateUserInDB(User user) {

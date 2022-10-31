@@ -29,8 +29,8 @@ public class CashPayView {
 	private JButton confirmButton;
 	private JButton cancelButton;
 
-	// DATA
 	
+	// DATA
 	private final int[] WINDOW_SIZE = {300, 450};
 
 	private final int[] INSTRUCTION_LABEL_BP = {20, 7, 200, 32};
@@ -116,12 +116,12 @@ public class CashPayView {
 		 * */
 		updatePrice();
 
+
 		/**
 		 * =========================
 		 * ### Confirm or Cancel ###
 		 * =========================
 		 * */
-
 		this.cancelButton.setText("Cancel Order");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],		
@@ -145,9 +145,9 @@ System.out.println("Cancel clicked");
 							options[0]
 						);
 					if (answer.equals(0)) {
-System.out.println("No");
+System.out.println("CashPayView: Not cancel order");
 					} else {
-System.out.println("Yes");
+System.out.println("CashPayView: Cancel order");
 						restart();	
 					}
 			}
@@ -179,17 +179,13 @@ System.out.println("back clicked");
 						null
 					);
 				if (answer.equals(0)) {
-					// Pay in cash
 System.out.println("Pay in cash");
 					CashPayView cashPayView = new CashPayView(model, controller, jframe);
 					cashPayView.launchWindow();
-
 				} else {
-					// Pay with card
 System.out.println("Pay in card");
 		CardPayView cardPayView = new CardPayView(model, controller, jframe);
 					cardPayView.launchWindow();
-
 				}
 			}
 		});
@@ -219,6 +215,7 @@ System.out.println("Confirm clicked");
 		});
 		this.jpanel.add(this.confirmButton);
 
+
 		this.jframe.setVisible(true);
 	}
 
@@ -228,12 +225,13 @@ System.out.println("Confirm clicked");
 		updatePrice();
 	}
 
+
+
 	/**
 	 * ########################
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
 	 * */
-
 	private void buildCashTable() {
 		// Loead init data from model
 		int cashDataLength = 0;
@@ -472,4 +470,3 @@ System.out.println("CashPayView: loadCashTableData");
 		}
 	}
 }
-

@@ -4,22 +4,30 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-ALL	ProductType.java	/^	ALL;$/;"	e	enum:ProductType	file:
 App	App.java	/^public class App {$/;"	c
+BACK_BUTTON_BP	CardPayView.java	/^	private final int[] BACK_BUTTON_BP = {20, 95, 120, 32};$/;"	f	class:CardPayView	file:
 BACK_BUTTON_BP	CashPayView.java	/^	private final int[] BACK_BUTTON_BP = {20, 340, 100, 32};$/;"	f	class:CashPayView	file:
+CANCEL_BUTTON_BP	CardPayView.java	/^	private final int[] CANCEL_BUTTON_BP = {20, 125, 260, 32};	$/;"	f	class:CardPayView	file:
 CANCEL_BUTTON_BP	CashPayView.java	/^	private final int[] CANCEL_BUTTON_BP = {20, 370, 260, 32};$/;"	f	class:CashPayView	file:
 CANCEL_BUTTON_BP	RegisterView.java	/^	private final int[] CANCEL_BUTTON_BP = {15, 160, 120, 32};$/;"	f	class:RegisterView	file:
-CANDY	ProductType.java	/^	CANDY,$/;"	e	enum:ProductType	file:
+CANDY	ProductType.java	/^	CANDY;$/;"	e	enum:ProductType	file:
+CARD_NAME_LABEL_BP	CardPayView.java	/^	private final int[] CARD_NAME_LABEL_BP = {20, 10, 80, 32};$/;"	f	class:CardPayView	file:
+CARD_NAME_TEXT_FEILD_BP	CardPayView.java	/^	private final int[] CARD_NAME_TEXT_FEILD_BP = {90, 10, 190, 32};$/;"	f	class:CardPayView	file:
+CARD_NUMBER_FEILD_BP	CardPayView.java	/^	private final int[] CARD_NUMBER_FEILD_BP = {90, 50, 190, 32};$/;"	f	class:CardPayView	file:
+CARD_NUMBER_LABEL_BP	CardPayView.java	/^	private final int[] CARD_NUMBER_LABEL_BP = {20, 50, 80, 32};$/;"	f	class:CardPayView	file:
 CASH_SCROLL_PANE_BP	CashPayView.java	/^	private final int[] CASH_SCROLL_PANE_BP = {20, 40, 260, 230};$/;"	f	class:CashPayView	file:
 CASH_TABLE_COLUMN_WIDTH	CashPayView.java	/^	private final int[] CASH_TABLE_COLUMN_WIDTH = {100, 30, 80, 30};$/;"	f	class:CashPayView	file:
 CHIP	ProductType.java	/^	CHIP,$/;"	e	enum:ProductType	file:
 CHOCOLATE	ProductType.java	/^	CHOCOLATE,$/;"	e	enum:ProductType	file:
+CONFIRM_BUTTON_BP	CardPayView.java	/^	private final int[] CONFIRM_BUTTON_BP = {160, 95, 120, 32};	$/;"	f	class:CardPayView	file:
 CONFIRM_BUTTON_BP	CashPayView.java	/^	private final int[] CONFIRM_BUTTON_BP = {180, 340, 100, 32};$/;"	f	class:CashPayView	file:
 CONFIRM_BUTTON_BP	DefaultPageView.java	/^	private final int[] CONFIRM_BUTTON_BP = {470, 660, 110, 36};$/;"	f	class:DefaultPageView	file:
 CURRENT_PRICE_BP	CashPayView.java	/^	private final int[] CURRENT_PRICE_BP = {20, 295, 200, 20};$/;"	f	class:CashPayView	file:
 Card	Card.java	/^	public Card() {$/;"	m	class:Card
 Card	Card.java	/^	public Card(String name, String number) {$/;"	m	class:Card
 Card	Card.java	/^public class Card {$/;"	c
+CardPayView	CardPayView.java	/^	public CardPayView(Model model, Controller controller, JFrame defaultPageViewJFrame) {$/;"	m	class:CardPayView
+CardPayView	CardPayView.java	/^public class CardPayView {$/;"	c
 Cash	Cash.java	/^	public Cash() {$/;"	m	class:Cash
 Cash	Cash.java	/^	public Cash(String name, Double value, Integer amount) {$/;"	m	class:Cash
 Cash	Cash.java	/^public class Cash {$/;"	c
@@ -50,6 +58,7 @@ IODButtonRenderer	DefaultPageView.java	/^	class IODButtonRenderer extends JButto
 JDBC	JDBC.java	/^	public JDBC() {$/;"	m	class:JDBC
 JDBC	JDBC.java	/^	public JDBC(String dbPath) {$/;"	m	class:JDBC
 JDBC	JDBC.java	/^public class JDBC {$/;"	c
+JSONpath	Model.java	/^	private String JSONpath;$/;"	f	class:Model	file:
 LABEL_FONT	DefaultPageView.java	/^	private final String LABEL_FONT = "Arial";$/;"	f	class:DefaultPageView	file:
 LABEL_FONT_MODE	DefaultPageView.java	/^	private final int LABEL_FONT_MODE = Font.PLAIN;$/;"	f	class:DefaultPageView	file:
 LABEL_FONT_SIZE	DefaultPageView.java	/^	private final int LABEL_FONT_SIZE = 20;$/;"	f	class:DefaultPageView	file:
@@ -57,7 +66,7 @@ LEFT_PRICE_BP	CashPayView.java	/^	private final int[] LEFT_PRICE_BP = {20, 315, 
 LOGIN_BUTTON_BP	LoginView.java	/^	private final int[] LOGIN_BUTTON_BP = {160, 120, 120, 32};$/;"	f	class:LoginView	file:
 LoginView	LoginView.java	/^	public LoginView(Model model, Controller controller, JFrame defaultPageViewJFrame) {$/;"	m	class:LoginView
 LoginView	LoginView.java	/^public class LoginView implements WindowListener {$/;"	c
-Model	Model.java	/^	public Model(JDBC jdbc) {$/;"	m	class:Model
+Model	Model.java	/^	public Model(JDBC jdbc, String JSONpath) {$/;"	m	class:Model
 Model	Model.java	/^public class Model {$/;"	c
 PASSWORD_CONFIRM_FEILD_BP	RegisterView.java	/^	private final int[] PASSWORD_CONFIRM_FEILD_BP = {90, 110, 190, 32};$/;"	f	class:RegisterView	file:
 PASSWORD_CONFIRM_LABEL_BP	RegisterView.java	/^	private final int[] PASSWORD_CONFIRM_LABEL_BP = {20, 110, 80, 32};$/;"	f	class:RegisterView	file:
@@ -92,12 +101,14 @@ USER_NAME_TEXT_FEILD_BP	RegisterView.java	/^	private final int[] USER_NAME_TEXT_
 User	User.java	/^	public User() {$/;"	m	class:User
 User	User.java	/^	public User(String name, String password, ArrayList<Product> recentProducts) {$/;"	m	class:User
 User	User.java	/^public class User {$/;"	c
+WINDOW_SIZE	CardPayView.java	/^	private final int[] WINDOW_SIZE = {300, 200};$/;"	f	class:CardPayView	file:
 WINDOW_SIZE	CashPayView.java	/^	private final int[] WINDOW_SIZE = {300, 450};$/;"	f	class:CashPayView	file:
 WINDOW_SIZE	DefaultPageView.java	/^	private final int[] WINDOW_SIZE = {600, 800};$/;"	f	class:DefaultPageView	file:
 WINDOW_SIZE	LoginView.java	/^	private final int[] WINDOW_SIZE = {300, 200};$/;"	f	class:LoginView	file:
 WINDOW_SIZE	RegisterView.java	/^	private final int[] WINDOW_SIZE = {300, 240};$/;"	f	class:RegisterView	file:
 amount	Cash.java	/^	private Integer amount;$/;"	f	class:Cash	file:
 amount	Product.java	/^	private Integer amount;$/;"	f	class:Product	file:
+backButton	CardPayView.java	/^	private JButton backButton;$/;"	f	class:CardPayView	file:
 backButton	CashPayView.java	/^	private JButton backButton;$/;"	f	class:CashPayView	file:
 buildCashTable	CashPayView.java	/^	private void buildCashTable() {$/;"	m	class:CashPayView	file:
 buildGroupedProductsTable	DefaultPageView.java	/^	private void buildGroupedProductsTable() {$/;"	m	class:DefaultPageView	file:
@@ -107,16 +118,26 @@ button	CashPayView.java	/^		protected JButton button;$/;"	f	class:CashPayView.Ca
 button	DefaultPageView.java	/^		protected JButton button;$/;"	f	class:DefaultPageView.GroupedButtonEditor
 button	DefaultPageView.java	/^		protected JButton button;$/;"	f	class:DefaultPageView.IODButtonEditor
 button	DefaultPageView.java	/^		protected JButton button;$/;"	f	class:DefaultPageView.SelectedButtonEditor
+cancelButton	CardPayView.java	/^	private JButton cancelButton;$/;"	f	class:CardPayView	file:
 cancelButton	CashPayView.java	/^	private JButton cancelButton;$/;"	f	class:CashPayView	file:
 cancelButton	RegisterView.java	/^	private JButton cancelButton;$/;"	f	class:RegisterView	file:
+cardInfoMap	Model.java	/^	private HashMap<String, String> cardInfoMap;$/;"	f	class:Model	file:
+cardNameLabel	CardPayView.java	/^	private JLabel cardNameLabel;$/;"	f	class:CardPayView	file:
+cardNameTextField	CardPayView.java	/^	private JTextField cardNameTextField;$/;"	f	class:CardPayView	file:
+cardNumberField	CardPayView.java	/^	private JPasswordField cardNumberField;$/;"	f	class:CardPayView	file:
+cardNumberLabel	CardPayView.java	/^	private JLabel cardNumberLabel;$/;"	f	class:CardPayView	file:
+cardPayView	Controller.java	/^	private CardPayView cardPayView;$/;"	f	class:Controller	file:
 cashMap	Model.java	/^	private HashMap<Cash, Integer> cashMap;$/;"	f	class:Model	file:
 cashPayView	Controller.java	/^	private CashPayView cashPayView;$/;"	f	class:Controller	file:
 cashScrollPane	CashPayView.java	/^	private JScrollPane cashScrollPane;$/;"	f	class:CashPayView	file:
 cashTable	CashPayView.java	/^	private JTable cashTable;$/;"	f	class:CashPayView	file:
 changeGroup	Controller.java	/^	public void changeGroup(ProductType type) {$/;"	m	class:Controller
+confirmButton	CardPayView.java	/^	private JButton confirmButton;$/;"	f	class:CardPayView	file:
 confirmButton	CashPayView.java	/^	private JButton confirmButton;$/;"	f	class:CashPayView	file:
 confirmButton	DefaultPageView.java	/^	private JButton confirmButton;$/;"	f	class:DefaultPageView	file:
+confirmCardPay	Controller.java	/^	public void confirmCardPay() {$/;"	m	class:Controller
 confirmCashPay	Controller.java	/^	public int confirmCashPay() {$/;"	m	class:Controller
+controller	CardPayView.java	/^	private Controller controller;$/;"	f	class:CardPayView	file:
 controller	CashPayView.java	/^		private Controller controller;$/;"	f	class:CashPayView.CashButtonEditor	file:
 controller	CashPayView.java	/^	private Controller controller;$/;"	f	class:CashPayView	file:
 controller	DefaultPageView.java	/^		private Controller controller;$/;"	f	class:DefaultPageView.GroupedButtonEditor	file:
@@ -137,6 +158,7 @@ currentUser	Model.java	/^	private User currentUser;$/;"	f	class:Model	file:
 dbConnection	JDBC.java	/^	private Connection dbConnection;$/;"	f	class:JDBC	file:
 dbPath	JDBC.java	/^	private String dbPath;$/;"	f	class:JDBC	file:
 defaultPageView	Controller.java	/^	private DefaultPageView defaultPageView;$/;"	f	class:Controller	file:
+defaultPageViewJFrame	CardPayView.java	/^	private JFrame defaultPageViewJFrame;$/;"	f	class:CardPayView	file:
 defaultPageViewJFrame	CashPayView.java	/^	private JFrame defaultPageViewJFrame;$/;"	f	class:CashPayView	file:
 defaultPageViewJFrame	LoginView.java	/^	private JFrame defaultPageViewJFrame;$/;"	f	class:LoginView	file:
 defaultPageViewJFrame	RegisterView.java	/^	private JFrame defaultPageViewJFrame;$/;"	f	class:RegisterView	file:
@@ -161,6 +183,8 @@ fireEditingStopped	DefaultPageView.java	/^		protected void fireEditingStopped() 
 fireEditingStopped	DefaultPageView.java	/^		protected void fireEditingStopped() {$/;"	m	class:DefaultPageView.SelectedButtonEditor
 getAmount	Cash.java	/^	public Integer getAmount() {$/;"	m	class:Cash
 getAmount	Product.java	/^	public Integer getAmount() {$/;"	m	class:Product
+getCard	JDBC.java	/^	public Card getCard(String name) {$/;"	m	class:JDBC
+getCardInfoMap	Model.java	/^	public HashMap<String, String> getCardInfoMap() {$/;"	m	class:Model
 getCashAll	JDBC.java	/^	public ArrayList<Cash> getCashAll() {$/;"	m	class:JDBC
 getCashMap	Model.java	/^	public HashMap<Cash, Integer> getCashMap() {$/;"	m	class:Model
 getCashMapInDB	Model.java	/^	public ArrayList<Cash> getCashMapInDB() {$/;"	m	class:Model
@@ -174,6 +198,7 @@ getGlobalRecent	Model.java	/^	public ArrayList<Product> getGlobalRecent() {$/;"	
 getGroupedProducts	Model.java	/^	public HashMap<Product, Integer> getGroupedProducts() {$/;"	m	class:Model
 getId	Product.java	/^	public Integer getId() {$/;"	m	class:Product
 getJDBC	Model.java	/^	public JDBC getJDBC() {$/;"	m	class:Model
+getJSONpath	Model.java	/^	public String getJSONpath() {$/;"	m	class:Model
 getName	Card.java	/^	public String getName() {$/;"	m	class:Card
 getName	Cash.java	/^	public String getName() {$/;"	m	class:Cash
 getName	Product.java	/^	public String getName() {$/;"	m	class:Product
@@ -214,12 +239,15 @@ groupedProductsTable_CHOCOLATE	DefaultPageView.java	/^	private JTable groupedPro
 groupedProductsTable_DRINK	DefaultPageView.java	/^	private JTable groupedProductsTable_DRINK;$/;"	f	class:DefaultPageView	file:
 groupedProductsTypeBox	DefaultPageView.java	/^	private JComboBox<String> groupedProductsTypeBox;$/;"	f	class:DefaultPageView	file:
 id	Product.java	/^	private Integer id;$/;"	f	class:Product	file:
+ifHasCard	Controller.java	/^	public Boolean ifHasCard(String name) {$/;"	m	class:Controller
+ifHasCard	Model.java	/^	public Boolean ifHasCard(String name) {$/;"	m	class:Model
 ifHasEnoughProductsGrouped	Controller.java	/^	public Boolean ifHasEnoughProductsGrouped(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 ifHasEnoughProductsRecent	Controller.java	/^	public Boolean ifHasEnoughProductsRecent(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 ifHasEnoughProductsSelected	Controller.java	/^	public Boolean ifHasEnoughProductsSelected(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 ifHasUser	Controller.java	/^	public Boolean ifHasUser(String userName) {$/;"	m	class:Controller
 ifHasUser	JDBC.java	/^	public boolean ifHasUser(String name) {$/;"	m	class:JDBC
 ifHasUser	Model.java	/^	public Boolean ifHasUser(String userName) {$/;"	m	class:Model
+ifHashCard	JDBC.java	/^	public boolean ifHashCard(String name) {$/;"	m	class:JDBC
 ifLoggedIn	Controller.java	/^	public Boolean ifLoggedIn(String userName, String password) {$/;"	m	class:Controller
 ifMatchUser	JDBC.java	/^	public boolean ifMatchUser(String name, String password) {$/;"	m	class:JDBC
 ifMatchUser	Model.java	/^	public Boolean ifMatchUser(String userName, String password) {$/;"	m	class:Model
@@ -235,10 +263,12 @@ isPushed	DefaultPageView.java	/^		private boolean isPushed;$/;"	f	class:DefaultP
 isPushed	DefaultPageView.java	/^		private boolean isPushed;$/;"	f	class:DefaultPageView.IODButtonEditor	file:
 isPushed	DefaultPageView.java	/^		private boolean isPushed;$/;"	f	class:DefaultPageView.SelectedButtonEditor	file:
 jdbc	Model.java	/^	private JDBC jdbc;$/;"	f	class:Model	file:
+jframe	CardPayView.java	/^	private JFrame jframe;$/;"	f	class:CardPayView	file:
 jframe	CashPayView.java	/^	private JFrame jframe;$/;"	f	class:CashPayView	file:
 jframe	DefaultPageView.java	/^	private JFrame jframe;$/;"	f	class:DefaultPageView	file:
 jframe	LoginView.java	/^	private JFrame jframe;$/;"	f	class:LoginView	file:
 jframe	RegisterView.java	/^	private JFrame jframe;$/;"	f	class:RegisterView	file:
+jpanel	CardPayView.java	/^	private JPanel jpanel;$/;"	f	class:CardPayView	file:
 jpanel	CashPayView.java	/^	private JPanel jpanel;$/;"	f	class:CashPayView	file:
 jpanel	DefaultPageView.java	/^	private JPanel jpanel;$/;"	f	class:DefaultPageView	file:
 jpanel	LoginView.java	/^	private JPanel jpanel;$/;"	f	class:LoginView	file:
@@ -251,6 +281,7 @@ label	CashPayView.java	/^		private String label;$/;"	f	class:CashPayView.CashBut
 label	DefaultPageView.java	/^		private String label;$/;"	f	class:DefaultPageView.GroupedButtonEditor	file:
 label	DefaultPageView.java	/^		private String label;$/;"	f	class:DefaultPageView.IODButtonEditor	file:
 label	DefaultPageView.java	/^		private String label;$/;"	f	class:DefaultPageView.SelectedButtonEditor	file:
+launchWindow	CardPayView.java	/^	public void launchWindow() {$/;"	m	class:CardPayView
 launchWindow	CashPayView.java	/^	public void launchWindow() {$/;"	m	class:CashPayView
 launchWindow	Controller.java	/^	public void launchWindow() {$/;"	m	class:Controller
 launchWindow	DefaultPageView.java	/^	public void launchWindow() {$/;"	m	class:DefaultPageView
@@ -264,6 +295,7 @@ loadSelectedProductsTableData	DefaultPageView.java	/^	private void loadSelectedP
 loginButton	LoginView.java	/^	private JButton loginButton;$/;"	f	class:LoginView	file:
 loginViewJFrame	RegisterView.java	/^	private JFrame loginViewJFrame;$/;"	f	class:RegisterView	file:
 main	App.java	/^    public static void main(String[] args) {$/;"	m	class:App
+model	CardPayView.java	/^	private Model model;$/;"	f	class:CardPayView	file:
 model	CashPayView.java	/^	private Model model;$/;"	f	class:CashPayView	file:
 model	Controller.java	/^	private Model model;$/;"	f	class:Controller	file:
 model	DefaultPageView.java	/^	private Model model;$/;"	f	class:DefaultPageView	file:
@@ -293,6 +325,7 @@ registerButton	LoginView.java	/^	private JButton registerButton;$/;"	f	class:Log
 registerButton	RegisterView.java	/^	private JButton registerButton;$/;"	f	class:RegisterView	file:
 resetCashMap	Model.java	/^	public void resetCashMap() {$/;"	m	class:Model
 resetCashPay	Controller.java	/^	public void resetCashPay() {$/;"	m	class:Controller
+restart	CardPayView.java	/^	private void restart() {$/;"	m	class:CardPayView	file:
 restart	CashPayView.java	/^	private void restart() {$/;"	m	class:CashPayView	file:
 restart	Controller.java	/^	public void restart() {$/;"	m	class:Controller
 selectedProducts	Model.java	/^	private HashMap<Product, Integer> selectedProducts;$/;"	f	class:Model	file:
@@ -301,8 +334,9 @@ selectedProductsScrollPane	DefaultPageView.java	/^	private JScrollPane selectedP
 selectedProductsTable	DefaultPageView.java	/^	private JTable selectedProductsTable;$/;"	f	class:DefaultPageView	file:
 setAmount	Cash.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Cash
 setAmount	Product.java	/^	public void setAmount(Integer amount) {$/;"	m	class:Product
+setCardInfoMap	Model.java	/^	public void setCardInfoMap(String JSONpath) {$/;"	m	class:Model
+setCardPayView	Controller.java	/^	public void setCardPayView(CardPayView cardPayView) {$/;"	m	class:Controller
 setCashMap	Model.java	/^	public void setCashMap(HashMap<Cash, Integer> cashMap) {$/;"	m	class:Model
-setCashMapInDB	Model.java	/^	public void setCashMapInDB(ArrayList<Cash> cashMap) {$/;"	m	class:Model
 setCashPayView	Controller.java	/^	public void setCashPayView(CashPayView cashPayView) {$/;"	m	class:Controller
 setColumnWidth	DefaultPageView.java	/^	private void setColumnWidth(JTable table, int[] sizeArray) {$/;"	m	class:DefaultPageView	file:
 setController	DefaultPageView.java	/^	public void setController(Controller controller) {$/;"	m	class:DefaultPageView
@@ -313,6 +347,7 @@ setDefaultPageView	Controller.java	/^	public void setDefaultPageView(DefaultPage
 setGroupedProducts	Model.java	/^	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {$/;"	m	class:Model
 setId	Product.java	/^	public void setId(Integer id) {$/;"	m	class:Product
 setJDBC	Model.java	/^	public void setJDBC(JDBC jdbc) {$/;"	m	class:Model
+setJSONpath	Model.java	/^	public void setJSONpath(String JSONpath) {$/;"	m	class:Model
 setModel	Controller.java	/^	public void setModel(Model model) {$/;"	m	class:Controller
 setModel	DefaultPageView.java	/^	public void setModel(Model model) {$/;"	m	class:DefaultPageView
 setName	Card.java	/^	public void setName(String name) {$/;"	m	class:Card
@@ -325,7 +360,6 @@ setPrice	Product.java	/^	public void setPrice(Double price) {$/;"	m	class:Produc
 setRecentProduct	User.java	/^	public void setRecentProduct(ArrayList<Product> recentProducts) {$/;"	m	class:User
 setRecentProduct	User.java	/^	public void setRecentProduct(Integer index, Product product) {$/;"	m	class:User
 setRecentProducts	Model.java	/^	public void setRecentProducts(HashMap<Product, Integer> recentProducts) {$/;"	m	class:Model
-setRecentProductsInDB	Model.java	/^	public void setRecentProductsInDB(ArrayList<Product> newRecent) {$/;"	m	class:Model
 setSelectedProducts	Model.java	/^	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {$/;"	m	class:Model
 setTotalPrice	Model.java	/^	public void setTotalPrice(Double totalPrice) {$/;"	m	class:Model
 setType	Product.java	/^	public void setType(ProductType type) {$/;"	m	class:Product
@@ -343,8 +377,11 @@ tryConnectToDB	JDBC.java	/^	private void tryConnectToDB() {$/;"	m	class:JDBC	fil
 type	Product.java	/^	private ProductType type;$/;"	f	class:Product	file:
 updateAfterLogin	Controller.java	/^	public void updateAfterLogin() {$/;"	m	class:Controller
 updateCard	JDBC.java	/^	public void updateCard(Card card) {$/;"	m	class:JDBC
+updateCardInDB	Controller.java	/^	public void updateCardInDB(String name, String number) {$/;"	m	class:Controller
+updateCardInDB	Model.java	/^	public void updateCardInDB(Card card) {$/;"	m	class:Model
 updateCash	JDBC.java	/^	public void updateCash(Cash cash) {$/;"	m	class:JDBC
 updateCashAmount	Controller.java	/^	public void updateCashAmount(String cashName, Integer value, Integer column) {$/;"	m	class:Controller
+updateCashMapInDB	Model.java	/^	public void updateCashMapInDB(ArrayList<Cash> cashMap) {$/;"	m	class:Model
 updateGlobalRecent	JDBC.java	/^	public void updateGlobalRecent(ArrayList<Product> recentProducts) {$/;"	m	class:JDBC
 updateGroupedAmount	Controller.java	/^	public void updateGroupedAmount(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 updateGroupedProductsTableWithSameType	DefaultPageView.java	/^	private void updateGroupedProductsTableWithSameType() {$/;"	m	class:DefaultPageView	file:
@@ -354,6 +391,7 @@ updateProduct	JDBC.java	/^	public void updateProduct(Product product) {$/;"	m	cl
 updateProductInDB	Model.java	/^	public void updateProductInDB(String productName, Integer amount) {$/;"	m	class:Model
 updateRecentAfterPay	Controller.java	/^	public void updateRecentAfterPay() {$/;"	m	class:Controller
 updateRecentAmount	Controller.java	/^	public void updateRecentAmount(String productName, Integer value, Integer column) {$/;"	m	class:Controller
+updateRecentProductsInDB	Model.java	/^	public void updateRecentProductsInDB(ArrayList<Product> newRecent) {$/;"	m	class:Model
 updateRecentProductsTable	DefaultPageView.java	/^	private void updateRecentProductsTable() {$/;"	m	class:DefaultPageView	file:
 updateSelectedAmount	Controller.java	/^	public void updateSelectedAmount(String productName, Integer value, Integer column) {$/;"	m	class:Controller
 updateSelectedProductsTable	DefaultPageView.java	/^	private void updateSelectedProductsTable() {$/;"	m	class:DefaultPageView	file:
@@ -372,6 +410,7 @@ userNameTextField	RegisterView.java	/^	private JTextField userNameTextField;$/;"
 value	Cash.java	/^	private Double value;$/;"	f	class:Cash	file:
 vendingmachine	App.java	/^package vendingmachine;$/;"	p
 vendingmachine	Card.java	/^package vendingmachine;$/;"	p
+vendingmachine	CardPayView.java	/^package vendingmachine;$/;"	p
 vendingmachine	Cash.java	/^package vendingmachine;$/;"	p
 vendingmachine	CashPayView.java	/^package vendingmachine;$/;"	p
 vendingmachine	Controller.java	/^package vendingmachine;$/;"	p

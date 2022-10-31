@@ -5,6 +5,8 @@ public class App {
     public static void main(String[] args) {
 
 		String dbPath = "VM.db";
+		String JSONpath = "credit_cards.json";
+
 		JDBC jdbc = new JDBC(dbPath);
 
 		/**
@@ -12,7 +14,6 @@ public class App {
 		 * */
 		// jdbc.initDB();
 
-		String JSONpath = "credit_cards.json";
 		Model model = new Model(jdbc, JSONpath);
 		DefaultPageView defaultPageView = new DefaultPageView();
 		Controller controller = new Controller(model, defaultPageView);

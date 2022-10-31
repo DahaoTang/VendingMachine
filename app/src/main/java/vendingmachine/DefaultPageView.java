@@ -111,7 +111,11 @@ public class DefaultPageView {
 	}
 
 	public void launchWindow() {
-
+		/**
+		 * ===================
+		 * ### Basic Setup ###
+		 * ===================
+		 * */
 		// Set up JFrame
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
 		this.jframe.setResizable(false);
@@ -293,6 +297,7 @@ System.out.println("Login clicked");
 				TOTAL_AMOUNT_BP[3]
 			);
 		this.jpanel.add(this.totalPriceLabel);
+
 
 		/**
 		 * ======================

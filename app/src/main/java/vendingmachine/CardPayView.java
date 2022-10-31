@@ -73,6 +73,7 @@ public class CardPayView {
 		this.jpanel.setLayout(null);
 		this.jframe.add(this.jpanel);
 
+
 		/**
 		 * =================
 		 * ### Card Name ###
@@ -97,9 +98,9 @@ public class CardPayView {
 
 
 		/**
-		 * =================
-		 * ### Card Name ###
-		 * =================
+		 * ===================
+		 * ### Card Number ###
+		 * ===================
 		 * */
 		this.cardNumberLabel.setText("Number: ");
 		this.cardNumberLabel.setBounds(
@@ -149,19 +150,14 @@ System.out.println("Back clicked");
 						null
 					);
 				if (answer.equals(0)) {
-					// Pay in cash
 System.out.println("Pay in cash");
 					CashPayView cashPayView = new CashPayView(model, controller, jframe);
 					cashPayView.launchWindow();
-
 				} else {
-					// Pay with card
 System.out.println("Pay in card");
 					CardPayView cardPayView = new CardPayView(model, controller, jframe);
 					cardPayView.launchWindow();
-
 				}
-
 			}
 		});
 		this.jpanel.add(this.backButton);
@@ -203,9 +199,9 @@ System.out.println("Pay in card");
 									options[0]
 								);
 							if (answer.equals(0)) {
-		System.out.println("No");
+System.out.println("CardPayView: Not save card info");
 							} else {
-		System.out.println("Yes");
+System.out.println("CardPayView: Save card info");
 								controller.updateCardInDB(name, number);	
 								JOptionPane.showMessageDialog(null, "Card info added successfully!");
 							}
@@ -213,7 +209,6 @@ System.out.println("Pay in card");
 						JOptionPane.showMessageDialog(null, "Payment Successful!");
 						controller.confirmCardPay();
 						restart();	
-
 					} else {
 						JOptionPane.showMessageDialog(null, "Invalid card name or number!");
 					}
@@ -274,4 +269,3 @@ System.out.println("Yes");
 		this.controller.restart();
 	}
 }
-

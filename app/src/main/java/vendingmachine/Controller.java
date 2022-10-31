@@ -47,9 +47,9 @@ public class Controller {
 	 * ### METHODS ###
 	 * ###############
 	 * */
+
 	public void changeGroup(ProductType type) {
 System.out.println("CONTROLLER: changeGroup");
-
 		// retrieve data from model
 		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
@@ -67,7 +67,6 @@ System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
 				}
 			}
 		}
-
 		// Save data back to model
 		this.model.setGroupedProducts(groupedProducts);
 	}
@@ -75,12 +74,10 @@ System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
 	public void confirmCardPay() {
 		// Update recentProducts
 		updateRecentAfterPay();
-
 		// Update database
 		for (Product p: this.model.getSelectedProducts().keySet()) {
 			this.model.updateProductInDB(p.getName(), p.getAmount() - this.model.getSelectedProducts().get(p));
 		}
-
 	}
 
 	public int confirmCashPay() {
@@ -125,6 +122,7 @@ System.out.println("CONTROLLER: confirmCashPay: " + c.getName() + ": left in DB:
 			return 2;
 		}
 		
+		// There is enough change; update products amounts
 		for (int i = 0; i < cashNameList.length; i++) {
 			for (Cash c: cashMapInDB) {
 				if (c.getName().equals(cashNameList[i])) {
@@ -132,7 +130,7 @@ System.out.println("CONTROLLER: confirmCashPay: " + c.getName() + ": left in DB:
 				}
 			}
 		}
-		this.model.setCashMapInDB(cashMapInDB);
+		this.model.updateCashMapInDB(cashMapInDB);
 
 		// Update recentProducts
 		updateRecentAfterPay();
@@ -245,6 +243,29 @@ System.out.println(this.model.getCurrentUser());
 		this.model.updateCardInDB(newCard);
 	}
 
+	public void updateCashAmount(String cashName, Integer value, Integer column) {
+		Double currentPrice = this.model.getCurrentPrice();
+		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
+		Integer newAmount = value;
+		if (column == 1) {
+			if (newAmount > 0) {
+				newAmount--;
+			}
+		} else {
+			newAmount++;
+		}
+		for (Cash c: cashMap.keySet()) {
+			if (c == null || c.getName() == null) continue;
+			if (c.getName().equals(cashName)) {
+				currentPrice -= value * c.getValue();
+				cashMap.put(c, newAmount);
+				currentPrice += newAmount * c.getValue();
+			}
+		}
+		this.model.setCurrentPrice(currentPrice);
+		this.model.setCashMap(cashMap);
+	}
+
 	public void updateGroupedAmount(String productName, Integer value, Integer column) {
 		Double totalPrice = this.model.getTotalPrice();
 		Double price = this.model.getPrice(productName);
@@ -316,29 +337,6 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 		this.model.setSelectedProducts(selectedProducts);
 	}
 
-	public void updateCashAmount(String cashName, Integer value, Integer column) {
-		Double currentPrice = this.model.getCurrentPrice();
-		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
-		Integer newAmount = value;
-		if (column == 1) {
-			if (newAmount > 0) {
-				newAmount--;
-			}
-		} else {
-			newAmount++;
-		}
-		for (Cash c: cashMap.keySet()) {
-			if (c == null || c.getName() == null) continue;
-			if (c.getName().equals(cashName)) {
-				currentPrice -= value * c.getValue();
-				cashMap.put(c, newAmount);
-				currentPrice += newAmount * c.getValue();
-			}
-		}
-		this.model.setCurrentPrice(currentPrice);
-		this.model.setCashMap(cashMap);
-	}
-
 	public void updateRecentAfterPay() {
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
 		int selectedProductsLength = selectedProducts.size();
@@ -367,13 +365,11 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 				}
 			}
 		}
-
-		this.model.setRecentProductsInDB(globalRecent);
+		this.model.updateRecentProductsInDB(globalRecent);
 
 		if (this.model.getCurrentUser().getName() == null) return;
 
 		// Update User
-
 		HashMap<Product, Integer> recentProducts = this.model.getRecentProducts();
 		ArrayList<Product> userRecent = new ArrayList<Product>();
 		for (Product p: recentProducts.keySet()) userRecent.add(p.duplicate());
@@ -392,7 +388,6 @@ System.out.println("created: " + newProduct.getName() + ": " + newAmount);
 			}
 			userRecent.set(0, newProduct);
 		}
-
 		for (Product sp: selectedProducts.keySet()) {
 			for (Product rp: userRecent) {
 				if (sp == null || rp == null || sp.getName() == null || rp.getName() == null) continue;
@@ -546,5 +541,4 @@ System.out.println("from grouped: " + gp.getName() + ": " + groupedProducts.get(
 	public void updateViewCashPay() {
 		this.cashPayView.updateView();
 	}
-
 }
