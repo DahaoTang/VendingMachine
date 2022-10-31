@@ -12,7 +12,7 @@ public class App {
 		/**
 		 * Uncomment to init the database
 		 * */
-		jdbc.initDB();
+		// jdbc.initDB();
 
 		Model model = new Model(jdbc, JSONpath);
 		DefaultPageView defaultPageView = new DefaultPageView();

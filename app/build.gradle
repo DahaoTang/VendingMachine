@@ -11,6 +11,7 @@ plugins {
 	id 'jacoco'
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+	id 'edu.sc.seis.launch4j' version '2.5.3'
 }
 
 repositories {
@@ -49,3 +50,9 @@ tasks.named('test') {
     useJUnitPlatform()
     test.finalizedBy jacocoTestReport
 }
+
+launch4j {
+    outfile = 'VendingMachine.exe'
+    mainClassName = project.mainClassName
+}
+
