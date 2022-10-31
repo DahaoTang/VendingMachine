@@ -484,6 +484,43 @@ System.out.println("JDBC: deleteUser closed");
 	 * ===========
 	 * */
 
+	public Card getCard(String name) {
+		Card card = new Card();
+		try {
+			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
+System.out.println("JDBC: getCard connected");
+			this.dbConnection.setAutoCommit(true);
+			Statement statement = this.dbConnection.createStatement();
+			String sql = "SELECT * FROM CARD WHERE NAME='" + name + "';";
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				// Retrieve values back 
+				String card_name = resultSet.getString("NAME");
+				String card_number = resultSet.getString("NUMBER");
+				// Set value to the product to return
+				card.setName(card_name);
+				card.setNumber(card_number);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (Exception e) {
+			System.out.println("From getCard");
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: getCard closed");
+			} catch (SQLException e) {
+				System.out.println("From getCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
+		}
+		return card;
+
+	}
+
 	public ArrayList<Cash> getCashAll() {
 		ArrayList<Cash> cashMap = new ArrayList<Cash>();
 		try {
@@ -774,6 +811,40 @@ System.out.println("JDBC: getUser closed");
 	 * ### CHECK ###
 	 * =============
 	 * */
+
+	public boolean ifHashCard(String name) {
+		boolean return_value = true;
+		try {
+			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
+System.out.println("JDBC: ifHashCard connected");
+			this.dbConnection.setAutoCommit(true);
+			Statement statement = this.dbConnection.createStatement();
+			String sql = "SELECT * FROM CARD WHERE NAME='" + name + "';";
+			ResultSet resultSet = statement.executeQuery(sql);
+			if (!resultSet.isBeforeFirst()) {
+				return_value = false;
+			} else {
+				return_value = true;
+			}
+			resultSet.close();
+			statement.close();
+		} catch (Exception e) {
+			System.out.println("From ifHasCard");
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+System.out.println("JDBC: ifHashCard closed");
+			} catch (SQLException e) {
+				System.out.println("From ifHasCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
+		}
+		return return_value;
+	}
+
 	/**
 	 * Check if the user with the name specified exists
 	 * */

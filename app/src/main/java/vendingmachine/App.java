@@ -15,7 +15,8 @@ public class App {
 		 * */
 		// jdbc.initDB();
 
-		Model model = new Model(jdbc);
+		String JSONpath = "credit_cards.json";
+		Model model = new Model(jdbc, JSONpath);
 		DefaultPageView defaultPageView = new DefaultPageView();
 		Controller controller = new Controller(model, defaultPageView);
 		defaultPageView.setController(controller);

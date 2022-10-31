@@ -9,6 +9,7 @@ public class Controller {
 
 	private Model model;
 	private DefaultPageView defaultPageView;
+	private CardPayView cardPayView;
 	private CashPayView cashPayView;
 
 	public Controller() {
@@ -23,6 +24,10 @@ public class Controller {
 
 	public void launchWindow() {
 		this.defaultPageView.launchWindow();
+	}
+
+	public void setCardPayView(CardPayView cardPayView) {
+		this.cardPayView = cardPayView;
 	}
 
 	public void setCashPayView(CashPayView cashPayView) {
@@ -67,6 +72,17 @@ System.out.println(gp.getName() + ": " + groupedProducts.get(gp));
 
 		// Save data back to model
 		this.model.setGroupedProducts(groupedProducts);
+	}
+
+	public void confirmCardPay() {
+		// Update recentProducts
+		updateRecentAfterPay();
+
+		// Update database
+		for (Product p: this.model.getSelectedProducts().keySet()) {
+			this.model.updateProductInDB(p.getName(), p.getAmount() - this.model.getSelectedProducts().get(p));
+		}
+
 	}
 
 	public int confirmCashPay() {
@@ -178,6 +194,10 @@ System.out.println("CONTROLLER: confirmCashPay: " + c.getName() + ": left in DB:
 		return false;
 	}
 
+	public Boolean ifHasCard(String name) {
+		return this.model.ifHasCard(name);
+	}
+
 	public void register(String userName, String password) {
 		this.model.register(userName, password);
 	}
@@ -188,7 +208,7 @@ System.out.println("CONTROLLER: confirmCashPay: " + c.getName() + ": left in DB:
 	}
 
 	public void restart() {
-		Model model = new Model(this.model.getJDBC());
+		Model model = new Model(this.model.getJDBC(), this.model.getJSONpath());
 		DefaultPageView defaultPageView = new DefaultPageView();
 		Controller controller = new Controller(model, defaultPageView);
 		defaultPageView.setController(controller);
@@ -220,6 +240,11 @@ System.out.println(this.model.getCurrentUser());
 			}
 		}
 		this.model.setRecentProducts(recentProducts);
+	}
+
+	public void updateCardInDB(String name, String number) {
+		Card newCard = new Card(name, number);
+		this.model.updateCardInDB(newCard);
 	}
 
 	public void updateGroupedAmount(String productName, Integer value, Integer column) {

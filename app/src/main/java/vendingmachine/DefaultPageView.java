@@ -333,6 +333,8 @@ System.out.println("Pay in cash");
 				} else {
 					// Pay with card
 System.out.println("Pay in card");
+					CardPayView cardPayView = new CardPayView(model, controller, jframe);
+					cardPayView.launchWindow();
 
 				}
 			}

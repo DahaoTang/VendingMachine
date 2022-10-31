@@ -3,9 +3,15 @@ package vendingmachine;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import java.io.FileReader;
+
 public class Model {
 
 	private JDBC jdbc;
+	private String JSONpath;
 
 	private User currentUser;
 	private Double totalPrice;
@@ -17,9 +23,12 @@ public class Model {
 
 	private HashMap<Cash, Integer> cashMap;
 
-	public Model(JDBC jdbc) {
+	private HashMap<String, String> cardInfoMap;
+
+	public Model(JDBC jdbc, String JSONpath) {
 
 		this.jdbc = jdbc;
+		this.JSONpath = JSONpath;
 
 		this.currentUser = new User();
 		this.totalPrice = 0.0;
@@ -54,6 +63,9 @@ public class Model {
 			if (c.getName() == null) continue;
 			this.cashMap.put(c.duplicate(), 0);
 		}
+
+		this.cardInfoMap = new HashMap<String, String>();
+		setCardInfoMay(JSONpath);
 	}
 
 	public Boolean ifHasUser(String userName) {
@@ -62,6 +74,10 @@ public class Model {
 
 	public Boolean ifMatchUser(String userName, String password) {
 		return this.jdbc.ifMatchUser(userName, password);
+	}
+
+	public HashMap<String, String> getCardInfoMap() {
+		return this.cardInfoMap;
 	}
 
 	public HashMap<Cash, Integer> getCashMap() {
@@ -92,6 +108,10 @@ public class Model {
 		return this.jdbc;
 	}
 
+	public String getJSONpath() {
+		return this.JSONpath;
+	}
+
 	public Double getPrice(String productName) {
 		return this.jdbc.getProduct(productName).getPrice();
 	}
@@ -112,6 +132,10 @@ public class Model {
 		return this.totalPrice;
 	}
 
+	public Boolean ifHasCard(String name) {
+		return this.jdbc.ifHashCard(name);
+	}
+
 	public void register(String userName, String password) {
 		ArrayList<Product> recentProducts = new ArrayList<Product>();
 		recentProducts.add(new Product());
@@ -121,6 +145,23 @@ public class Model {
 		recentProducts.add(new Product());
 		User newUser = new User(userName, password, recentProducts);
 		this.jdbc.insertUser(newUser);
+	}
+
+	public void setCardInfoMay(String JSONpath) {
+ 		JSONParser parser = new JSONParser();
+        try {
+            Object object = parser.parse(new FileReader(JSONpath));
+            JSONArray jsonArray = (JSONArray) object;
+            for (Object cardObj: jsonArray) {
+                JSONObject cardDetails = (JSONObject) cardObj;
+                String name = (String) cardDetails.get("name");
+                String number = (String) cardDetails.get("number");
+				this.cardInfoMap.put(name, number);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Card reader error");
+        }
 	}
 
 	public void resetCashMap() {
@@ -157,6 +198,10 @@ public class Model {
 		this.jdbc = jdbc;
 	}
 
+	public void setJSONpath(String JSONpath) {
+		this.JSONpath = JSONpath;
+	}
+
 	public void setRecentProducts(HashMap<Product, Integer> recentProducts) {
 		this.recentProducts = recentProducts;
 	}
@@ -171,6 +216,10 @@ public class Model {
 
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public void updateCardInDB(Card card) {
+		this.jdbc.updateCard(card);
 	}
 
 	public void updateUserInDB(User user) {
