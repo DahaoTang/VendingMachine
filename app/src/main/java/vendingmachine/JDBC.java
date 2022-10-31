@@ -165,7 +165,7 @@ public class JDBC {
 	public void createTableCard() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: createTableCard connected");
+// System.out.println("JDBC: createTableCard connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE CARD" +
@@ -182,7 +182,7 @@ System.out.println("JDBC: createTableCard connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: createTableCard closed");
+// System.out.println("JDBC: createTableCard closed");
 			} catch (SQLException e) {
 				System.out.println("From createTableCard");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -200,7 +200,7 @@ System.out.println("JDBC: createTableCard closed");
 	public void createTableCash() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: createTableCash connected");
+// System.out.println("JDBC: createTableCash connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE CASH" +
@@ -218,7 +218,7 @@ System.out.println("JDBC: createTableCash connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: createTableCash closed");
+// System.out.println("JDBC: createTableCash closed");
 			} catch (SQLException e) {
 				System.out.println("From createTableCash");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -234,7 +234,7 @@ System.out.println("JDBC: createTableCash closed");
 	public void createTableGlobalRecentProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: createTableGlobalRecentProducts connected");
+// System.out.println("JDBC: createTableGlobalRecentProducts connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE RECENT" +
@@ -254,7 +254,7 @@ System.out.println("JDBC: createTableGlobalRecentProducts connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: createTableGlobalRecentProducts closed");
+// System.out.println("JDBC: createTableGlobalRecentProducts closed");
 			} catch (SQLException e) {
 			System.out.println("From createTableGlobalRecentProducts");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -274,7 +274,7 @@ System.out.println("JDBC: createTableGlobalRecentProducts closed");
 	public void createTableProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: createTableProducts connected");
+// System.out.println("JDBC: createTableProducts connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE PRODUCT" +
@@ -295,7 +295,7 @@ System.out.println("JDBC: createTableProducts connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: createTableProducts closed");
+// System.out.println("JDBC: createTableProducts closed");
 			} catch (SQLException e) {
 			System.out.println("From createTableProducts");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -313,7 +313,7 @@ System.out.println("JDBC: createTableProducts closed");
 	public void createTableUser() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: createTableUser connected");
+// System.out.println("JDBC: createTableUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "CREATE TABLE USER" +
@@ -337,7 +337,7 @@ System.out.println("JDBC: createTableUser connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: createTableUser closed");
+// System.out.println("JDBC: createTableUser closed");
 			} catch (SQLException e) {
 				System.out.println("From createTableUser");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -357,7 +357,7 @@ System.out.println("JDBC: createTableUser closed");
 	public void deleteCard(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: deleteCard connected");
+// System.out.println("JDBC: deleteCard connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM CARD WHERE NAME='" + name + "';";
@@ -370,7 +370,7 @@ System.out.println("JDBC: deleteCard connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: deleteCard closed");
+// System.out.println("JDBC: deleteCard closed");
 			} catch (SQLException e) {
 				System.out.println("From deleteCard");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -390,7 +390,7 @@ System.out.println("JDBC: deleteCard closed");
 	public void deleteCash(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: deleteCash connected");
+// System.out.println("JDBC: deleteCash connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM CASH WHERE NAME='" + name + "';";
@@ -403,7 +403,7 @@ System.out.println("JDBC: deleteCash connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: deleteCash closed");
+// System.out.println("JDBC: deleteCash closed");
 			} catch (SQLException e) {
 				System.out.println("From deleteCash");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -422,7 +422,7 @@ System.out.println("JDBC: deleteCash closed");
 	public void deleteProduct(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: deleteProduct connected");
+// System.out.println("JDBC: deleteProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM PRODUCT WHERE NAME='" + name + "';";
@@ -435,7 +435,7 @@ System.out.println("JDBC: deleteProduct connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: deleteProduct closed");
+// System.out.println("JDBC: deleteProduct closed");
 			} catch (SQLException e) {
 				System.out.println("From deleteProduct");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -455,7 +455,7 @@ System.out.println("JDBC: deleteProduct closed");
 	public void deleteUser(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: deleteUser connected");
+// System.out.println("JDBC: deleteUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "DELETE FROM USER WHERE NAME='" + name + "';";
@@ -468,7 +468,7 @@ System.out.println("JDBC: deleteUser connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: deleteUser closed");
+// System.out.println("JDBC: deleteUser closed");
 			} catch (SQLException e) {
 				System.out.println("From deleteUser");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -492,7 +492,7 @@ System.out.println("JDBC: deleteUser closed");
 		Card card = new Card();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getCard connected");
+// System.out.println("JDBC: getCard connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM CARD WHERE NAME='" + name + "';";
@@ -514,7 +514,7 @@ System.out.println("JDBC: getCard connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getCard closed");
+// System.out.println("JDBC: getCard closed");
 			} catch (SQLException e) {
 				System.out.println("From getCard");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -529,7 +529,7 @@ System.out.println("JDBC: getCard closed");
 		ArrayList<Cash> cashMap = new ArrayList<Cash>();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getCashAll connected");
+// System.out.println("JDBC: getCashAll connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM CASH;";
@@ -549,7 +549,7 @@ System.out.println("JDBC: getCashAll connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getCashAll connected");
+// System.out.println("JDBC: getCashAll connected");
 			} catch (SQLException e) {
 				System.out.println("From getCashAll");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -566,7 +566,7 @@ System.out.println("JDBC: getCashAll connected");
 		Product product = new Product();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getProduct connected");
+// System.out.println("JDBC: getProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE NAME='" + name + "';";
@@ -599,7 +599,7 @@ System.out.println("JDBC: getProduct connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getProduct closed");
+// System.out.println("JDBC: getProduct closed");
 			} catch (SQLException e) {
 				System.out.println("From getProduct");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -616,7 +616,7 @@ System.out.println("JDBC: getProduct closed");
 		Product product = new Product();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getProduct connected");
+// System.out.println("JDBC: getProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE ID=" + id + ";";
@@ -649,7 +649,7 @@ System.out.println("JDBC: getProduct connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getProduct closed");
+// System.out.println("JDBC: getProduct closed");
 			} catch (SQLException e) {
 				System.out.println("From getProduct");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -693,7 +693,7 @@ System.out.println("JDBC: getProduct closed");
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getProductsByType connected");
+// System.out.println("JDBC: getProductsByType connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM PRODUCT WHERE TYPE='" + type + "';";
@@ -712,7 +712,7 @@ System.out.println("JDBC: getProductsByType connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getProductsByType closed");
+// System.out.println("JDBC: getProductsByType closed");
 			} catch (SQLException e) {
 				System.out.println("From getProductsByType");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -729,7 +729,7 @@ System.out.println("JDBC: getProductsByType closed");
 		ArrayList<Product> recent = new ArrayList<Product>();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getRecent connected");
+// System.out.println("JDBC: getRecent connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM RECENT;";
@@ -750,7 +750,7 @@ System.out.println("JDBC: getRecent connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getRecent closed");
+// System.out.println("JDBC: getRecent closed");
 			} catch (SQLException e) {
 				System.out.println("From getRecent");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -767,7 +767,7 @@ System.out.println("JDBC: getRecent closed");
 		User user = new User();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: getUser connected");
+// System.out.println("JDBC: getUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM USER WHERE NAME='" + name + "';";
@@ -812,7 +812,7 @@ System.out.println("JDBC: getUser connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: getUser closed");
+// System.out.println("JDBC: getUser closed");
 			} catch (SQLException e) {
 				System.out.println("From getUser");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -832,7 +832,7 @@ System.out.println("JDBC: getUser closed");
 		boolean return_value = true;
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: ifHashCard connected");
+// System.out.println("JDBC: ifHashCard connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM CARD WHERE NAME='" + name + "';";
@@ -851,7 +851,7 @@ System.out.println("JDBC: ifHashCard connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: ifHashCard closed");
+// System.out.println("JDBC: ifHashCard closed");
 			} catch (SQLException e) {
 				System.out.println("From ifHasCard");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -868,7 +868,7 @@ System.out.println("JDBC: ifHashCard closed");
 		boolean return_value = true;
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: ifHasUser connected");
+// System.out.println("JDBC: ifHasUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "SELECT * FROM USER WHERE NAME='" + name + "';";
@@ -887,7 +887,7 @@ System.out.println("JDBC: ifHasUser connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: ifHasUser closed");
+// System.out.println("JDBC: ifHasUser closed");
 			} catch (SQLException e) {
 				System.out.println("From ifHasUser");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -925,7 +925,7 @@ System.out.println("JDBC: ifHasUser closed");
 		String number = card.getName();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: insertCard connected");
+// System.out.println("JDBC: insertCard connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO CARD " +
@@ -940,7 +940,7 @@ System.out.println("JDBC: insertCard connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: insertCard closed");
+// System.out.println("JDBC: insertCard closed");
 			} catch (SQLException e) {
 				System.out.println("From insertCard");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -958,7 +958,7 @@ System.out.println("JDBC: insertCard closed");
 		Integer amount = cash.getAmount();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: insertCash connected");
+// System.out.println("JDBC: insertCash connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO CASH " +
@@ -973,7 +973,7 @@ System.out.println("JDBC: insertCash connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: insertCash closed");
+// System.out.println("JDBC: insertCash closed");
 			} catch (SQLException e) {
 				System.out.println("From insertCash");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -994,7 +994,7 @@ System.out.println("JDBC: insertCash closed");
 		Integer totalSold = product.getTotalSold();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: insertProduct connected");
+// System.out.println("JDBC: insertProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO PRODUCT " +
@@ -1009,7 +1009,7 @@ System.out.println("JDBC: insertProduct connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: insertProduct closed");
+// System.out.println("JDBC: insertProduct closed");
 			} catch (SQLException e) {
 				System.out.println("From insertProduct");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1029,7 +1029,7 @@ System.out.println("JDBC: insertProduct closed");
 		Integer id_5 = recentProducts.get(4).getId();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: insertRecentAll connected");
+// System.out.println("JDBC: insertRecentAll connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO RECENT " +
@@ -1044,7 +1044,7 @@ System.out.println("JDBC: insertRecentAll connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: insertRecentAll closed");
+// System.out.println("JDBC: insertRecentAll closed");
 			} catch (SQLException e) {
 				System.out.println("From insertRecentAll");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1064,7 +1064,7 @@ System.out.println("JDBC: insertRecentAll closed");
 		if (cardName == null) cardName = "NULL";
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: insertUser connected");
+// System.out.println("JDBC: insertUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO USER " +
@@ -1091,7 +1091,7 @@ System.out.println("statement closed");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: insertUser closed");
+// System.out.println("JDBC: insertUser closed");
 			} catch (SQLException e) {
 				System.out.println("From insertUser");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1135,7 +1135,7 @@ System.out.println("JDBC: insertUser closed");
 
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: updateGlobalRecent connected");
+// System.out.println("JDBC: updateGlobalRecent connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "UPDATE RECENT SET " + 
@@ -1154,7 +1154,7 @@ System.out.println("JDBC: updateGlobalRecent connected");
 		} finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: updateGlobalRecent closed");
+// System.out.println("JDBC: updateGlobalRecent closed");
 			} catch (SQLException e) {
 				System.out.println("From updateGlobalRecent");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1176,7 +1176,7 @@ System.out.println("JDBC: updateGlobalRecent closed");
 	private void tryConnectToDB() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
-System.out.println("JDBC: tryConnectToDB connected");
+// System.out.println("JDBC: tryConnectToDB connected");
 		} catch (Exception e) {
 			System.out.println("From tryConnectToDB");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -1184,7 +1184,7 @@ System.out.println("JDBC: tryConnectToDB connected");
 		}finally {
 			try {
 				this.dbConnection.close();
-System.out.println("JDBC: tryConnectToDB closed");
+// System.out.println("JDBC: tryConnectToDB closed");
 			} catch (SQLException e) {
 				System.out.println("From tryConnectToDB");
 				System.err.println( e.getClass().getName() + ": " + e.getMessage() );

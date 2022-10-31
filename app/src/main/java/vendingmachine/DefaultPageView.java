@@ -44,8 +44,8 @@ public class DefaultPageView {
 
 
 	// WINDOW LAYNOUT DATA
-	private final int[] WINDOW_SIZE = {600, 800};
-	private final int[] USER_BUTTON_BP = {10, 20, 100, 32};
+	private final int[] WINDOW_SIZE = {600, 750};
+	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 
 	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 180, 70, 20, 70, 20};
 
@@ -301,7 +301,8 @@ System.out.println("Login clicked");
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 System.out.println("Confirm cliked");
-				launchChoosePaymentMethodWindow();	
+				if (model.getTotalPrice() > 0) launchChoosePaymentMethodWindow();	
+				else JOptionPane.showMessageDialog(null, "Please select products to purchase.");
 			}
 		});
 		this.jpanel.add(this.confirmButton);
@@ -454,7 +455,7 @@ System.out.println("Confirm cliked");
 			if (p != null && p.getName() != null) productDataLength++;
 		}
 		Object[][] productsData = new Object[productDataLength][7];
-System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " + productsData.length);
+System.out.println("DefaultPageView: buildRecentProductsTable: table row length: " + productsData.length);
 		// Create table
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {
@@ -581,12 +582,12 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				null
 			);
 		if (answer.equals(0)) {
-System.out.println("CardPayView: Pay in cash");
+System.out.println("DefaultPageView: Pay in cash");
 			controller.resetCashPayData();
 			CashPayView cashPayView = new CashPayView(model, controller, jframe);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-System.out.println("CardPayView: Pay in card");
+System.out.println("DefaultPageView: Pay in card");
 			CardPayView cardPayView = new CardPayView(model, controller, jframe);
 			cardPayView.launchWindow();
 		}
