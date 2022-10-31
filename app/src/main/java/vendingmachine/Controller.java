@@ -73,13 +73,11 @@ public class Controller {
 		// retrieve data from model
 		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
-
 		// Get groupedProducts data from database
 		for (Product p: this.model.getProductsByTypeFromDB(type)) {
 			if (p == null) continue;
 			groupedProducts.put(p.duplicate(), 0);
 		}
-
 		// Update selectedProducts to new groupedProducts
 		for (Product gp: groupedProducts.keySet()) {
 			for (Product sp: selectedProducts.keySet()) {
@@ -89,7 +87,6 @@ public class Controller {
 				}
 			}
 		}
-
 		// Save data back to model
 		this.model.setGroupedProducts(groupedProducts);
 	}
@@ -131,7 +128,6 @@ public class Controller {
 	}
 
 	public void setCurrentUser(String userName) {
-System.out.println("CONTROLLER: setCurrentUser");
 		User user = this.model.getUserFromDB(userName);
 		this.model.setCurrentUser(user);
 	}
@@ -144,8 +140,6 @@ System.out.println("CONTROLLER: setCurrentUser");
 	 * */
 
 	public void updateAfterLogin() {
-System.out.println("CONTROLLER: updateAfterLogin ");
-System.out.println(this.model.getCurrentUser().getName());
 		// Recent products
 		HashMap<Product, Integer> recentProducts = new HashMap<Product, Integer>();
 		for (Product p: this.model.getCurrentUser().getRecentProducts()) {
@@ -195,9 +189,7 @@ System.out.println(this.model.getCurrentUser().getName());
 	 * Assume there is enough cash provided and change to provide
 	 * */
 	public void updateCashInDBAfterPay() {
-System.out.println("CONTROLLER: updateCashInDBAfterPay");
 		Double change = this.model.getCurrentPrice() - this.model.getTotalPrice();
-System.out.println("change: " + change);
 		ArrayList<Cash> cashMapInDB = new ArrayList<Cash>();
 		for (Cash c: this.model.getCashAllFromDB()) cashMapInDB.add(c);
 		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
