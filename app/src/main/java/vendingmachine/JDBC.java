@@ -69,25 +69,25 @@ public class JDBC {
 		System.out.println("Cash inserted");
 
 		// Products
-		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7);
-		Product sprite = new Product(102, ProductType.DRINK, "Sprite", 2.0, 7);
-		Product cocaCola = new Product(103, ProductType.DRINK, "Coca Cola", 2.0, 7);
-		Product pepsi = new Product(104, ProductType.DRINK, "Pepsi", 2.0, 7);
-		Product juice = new Product(105, ProductType.DRINK, "Juice", 3.5, 7);
+		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7, 0);
+		Product sprite = new Product(102, ProductType.DRINK, "Sprite", 2.0, 7, 0);
+		Product cocaCola = new Product(103, ProductType.DRINK, "Coca Cola", 2.0, 7, 0);
+		Product pepsi = new Product(104, ProductType.DRINK, "Pepsi", 2.0, 7, 0);
+		Product juice = new Product(105, ProductType.DRINK, "Juice", 3.5, 7, 0);
 
-		Product mars = new Product(201, ProductType.CHOCOLATE, "Mars", 1.0, 7);
-		Product mm = new Product(202, ProductType.CHOCOLATE, "M&M", 2.0, 7);
-		Product bounty = new Product(203, ProductType.CHOCOLATE, "Bounty", 2.0, 7);
-		Product snickers = new Product(204, ProductType.CHOCOLATE, "Snickers", 3.0, 7);
+		Product mars = new Product(201, ProductType.CHOCOLATE, "Mars", 1.0, 7, 0);
+		Product mm = new Product(202, ProductType.CHOCOLATE, "M&M", 2.0, 7, 0);
+		Product bounty = new Product(203, ProductType.CHOCOLATE, "Bounty", 2.0, 7, 0);
+		Product snickers = new Product(204, ProductType.CHOCOLATE, "Snickers", 3.0, 7, 0);
 
-		Product smiths = new Product(301, ProductType.CHIP, "Smiths", 2.0, 7);
-		Product pringles = new Product(302, ProductType.CHIP, "Pringles", 2.5, 7);
-		Product kettle = new Product(303, ProductType.CHIP, "Kettle", 2.0, 7);
-		Product thins = new Product(304, ProductType.CHIP, "Thins", 3.0, 7);
+		Product smiths = new Product(301, ProductType.CHIP, "Smiths", 2.0, 7, 0);
+		Product pringles = new Product(302, ProductType.CHIP, "Pringles", 2.5, 7, 0);
+		Product kettle = new Product(303, ProductType.CHIP, "Kettle", 2.0, 7, 0);
+		Product thins = new Product(304, ProductType.CHIP, "Thins", 3.0, 7, 0);
 
-		Product mentos = new Product(401, ProductType.CANDY, "Mentos", 1.0, 7);
-		Product sourpatch = new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7);
-		Product skittles = new Product(403, ProductType.CANDY, "Skittles", 1.0, 7);
+		Product mentos = new Product(401, ProductType.CANDY, "Mentos", 1.0, 7, 0);
+		Product sourpatch = new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7, 0);
+		Product skittles = new Product(403, ProductType.CANDY, "Skittles", 1.0, 7, 0);
 
 
 		insertProduct(mineralWater);
@@ -131,7 +131,7 @@ public class JDBC {
 		dahaoRecent.add(new Product());
 		dahaoRecent.add(new Product());
 		dahaoRecent.add(new Product());
-		User dahao = new User("dahao", "123", dahaoRecent);
+		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, null);
 		insertUser(dahao);
 
 		System.out.println("insert dahao");
@@ -141,7 +141,7 @@ public class JDBC {
 		testRecent.add(new Product());
 		testRecent.add(new Product());
 		testRecent.add(new Product());
-		User test = new User("test", "123", testRecent);
+		User test = new User("Owner", "123", testRecent, UserType.OWNER, null);
 		insertUser(test);
 		System.out.println("insert test");
 
@@ -283,7 +283,8 @@ System.out.println("JDBC: createTableProducts connected");
 								"NAME varchar(255)," +
 								"TYPE varchar(255)," + 
 								"PRICE DOUBLE," + 
-								"AMOUNT INT" + 
+								"AMOUNT INT," + 
+								"TOTALSOLD INT" + 
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
@@ -323,7 +324,9 @@ System.out.println("JDBC: createTableUser connected");
 								"RECENT_PRODUCT_2_ID INT," + 
 								"RECENT_PRODUCT_3_ID INT," + 
 								"RECENT_PRODUCT_4_ID INT," + 
-								"RECENT_PRODUCT_5_ID INT" + 
+								"RECENT_PRODUCT_5_ID INT," + 
+								"TYPE varchar(255)," + 
+								"CARD varchar(255)" + 
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
@@ -416,13 +419,13 @@ System.out.println("JDBC: deleteCash closed");
 	/**
 	 * Delete the product with the same id from the Product Table 
 	 * */
-	public void deleteProduct(Integer id) {
+	public void deleteProduct(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
 System.out.println("JDBC: deleteProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
-			String sql = "DELETE FROM PRODUCT WHERE ID=" + id + ";";
+			String sql = "DELETE FROM PRODUCT WHERE NAME='" + name + "';";
 			statement.executeUpdate(sql);
 			statement.close();
 		} catch (Exception e) {
@@ -442,8 +445,9 @@ System.out.println("JDBC: deleteProduct closed");
 	}
 
 	public void deleteProduct(Product product) {
-		deleteProduct(product.getId());
+		deleteProduct(product.getName());
 	}
+	
 
 	/**
 	 * Delete the user with the same name from the User Table
@@ -574,6 +578,7 @@ System.out.println("JDBC: getProduct connected");
 				String product_type = resultSet.getString("TYPE");
 				Double product_price = resultSet.getDouble("PRICE");
 				Integer product_amount = resultSet.getInt("AMOUNT");
+				Integer product_totalSold = resultSet.getInt("TOTALSOLD");
 				// Set value to the product to return
 				product.setId(product_id);
 				product.setName(product_name);
@@ -583,6 +588,7 @@ System.out.println("JDBC: getProduct connected");
 				else if (product_type.equals("CANDY")) product.setType(ProductType.CANDY);
 				product.setPrice(product_price);
 				product.setAmount(product_amount);
+				product.setTotalSold(product_totalSold);
 			}
 			resultSet.close();
 			statement.close();
@@ -622,6 +628,7 @@ System.out.println("JDBC: getProduct connected");
 				String product_type = resultSet.getString("TYPE");
 				Double product_price = resultSet.getDouble("PRICE");
 				Integer product_amount = resultSet.getInt("AMOUNT");
+				Integer product_totalSold = resultSet.getInt("TOTALSOLD");
 				// Set value to the product to return
 				product.setId(product_id);
 				product.setName(product_name);
@@ -631,6 +638,7 @@ System.out.println("JDBC: getProduct connected");
 				else if (product_type.equals("CANDY")) product.setType(ProductType.CANDY);
 				product.setPrice(product_price);
 				product.setAmount(product_amount);
+				product.setTotalSold(product_totalSold);
 			}
 			resultSet.close();
 			statement.close();
@@ -778,6 +786,12 @@ System.out.println("JDBC: getUser connected");
 				Product user_product_4 = getProduct(user_product_4_id);
 				Integer user_product_5_id = resultSet.getInt("RECENT_PRODUCT_5_ID");
 				Product user_product_5 = getProduct(user_product_5_id);
+				String user_type = resultSet.getString("TYPE");
+				if (user_type.equals("NORMAL")) user.setType(UserType.NORMAL);
+				else if (user_type.equals("CASHIER")) user.setType(UserType.CASHIER);
+				else if (user_type.equals("CELLER")) user.setType(UserType.CELLER);
+				else if (user_type.equals("OWNER")) user.setType(UserType.OWNER);
+				String user_card = resultSet.getString("CARD");
 				// Set value to the product to return
 				user.setName(user_name);
 				user.setPassword(user_password);
@@ -786,6 +800,8 @@ System.out.println("JDBC: getUser connected");
 				user.setRecentProduct(2, user_product_3);
 				user.setRecentProduct(3, user_product_4);
 				user.setRecentProduct(4, user_product_5);
+				if (user_card.equals("NULL")) user.setCard(null);
+				else user.setCard(getCard(user_card));
 			}
 			resultSet.close();
 			statement.close();
@@ -975,14 +991,15 @@ System.out.println("JDBC: insertCash closed");
 		String name = product.getName();
 		Double price = product.getPrice();
 		Integer amount = product.getAmount();
+		Integer totalSold = product.getTotalSold();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
 System.out.println("JDBC: insertProduct connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO PRODUCT " +
-							"(ID, TYPE, NAME, PRICE, AMOUNT) " +
-							"VALUES (" + id + ", '" + typeString + "', '" + name + "', " + price + ", " + amount + ");";
+							"(ID, TYPE, NAME, PRICE, AMOUNT, TOTALSOLD) " +
+							"VALUES (" + id + ", '" + typeString + "', '" + name + "', " + price + ", " + amount + ", " + totalSold  + ");";
 			statement.executeUpdate(sql);
 			statement.close();
 		} catch (Exception e) {
@@ -1043,13 +1060,15 @@ System.out.println("JDBC: insertRecentAll closed");
 		String name = user.getName();
 		String password = user.getPassword();
 		ArrayList<Product> products = user.getRecentProducts();
+		String cardName = null;
+		if (user.getCard() != null) cardName = user.getCard().getName();
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
 System.out.println("JDBC: insertUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO USER " +
-							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID) " +
+							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID, TYPE, CARD) " +
 							"VALUES ('" + 
 										name + "', '" + 
 										password + "', " + 
@@ -1057,8 +1076,10 @@ System.out.println("JDBC: insertUser connected");
 										products.get(1).getId() + ", " + 
 										products.get(2).getId() + ", " + 
 										products.get(3).getId() + ", " + 
-										products.get(4).getId() + 
-									");";
+										products.get(4).getId() + ", '" +
+										user.getTypeString() + "', '" + 
+										cardName + 
+									"');";
 			statement.executeUpdate(sql);
 System.out.println("executed");
 			statement.close();
@@ -1096,7 +1117,7 @@ System.out.println("JDBC: insertUser closed");
 	}
 
 	public void updateProduct(Product product) {
-		deleteProduct(product.getId());
+		deleteProduct(product.getName());
 		insertProduct(product);
 	}
 

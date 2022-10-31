@@ -151,7 +151,7 @@ public class LoginView implements WindowListener {
 			public void actionPerformed(ActionEvent ae) {
 				String userName = userNameTextField.getText();
 				String password = passwordField.getText();
-				if (controller.ifLoggedIn(userName, password)){
+				if (controller.ifMatchUserInDB(userName, password)){
 					controller.setCurrentUser(userName);
 					controller.updateAfterLogin();
 					jframe.dispose();

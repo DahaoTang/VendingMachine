@@ -114,14 +114,33 @@ public class CashPayView {
 		 * ### PRICE ###
 		 * =============
 		 * */
+		this.totalPriceLabel.setBounds(
+				TOTAL_PRICE_BP[0],
+				TOTAL_PRICE_BP[1],
+				TOTAL_PRICE_BP[2],
+				TOTAL_PRICE_BP[3]
+			);
+		this.currentPriceLabel.setBounds(
+				CURRENT_PRICE_BP[0],
+				CURRENT_PRICE_BP[1],
+				CURRENT_PRICE_BP[2],
+				CURRENT_PRICE_BP[3]
+			);
+		this.leftPriceLabel.setBounds(
+				LEFT_PRICE_BP[0],
+				LEFT_PRICE_BP[1],
+				LEFT_PRICE_BP[2],
+				LEFT_PRICE_BP[3]
+			);
 		updatePrice();
 
-
 		/**
-		 * =========================
-		 * ### Confirm or Cancel ###
-		 * =========================
+		 * ===============
+		 * ### Buttons ###
+		 * ===============
 		 * */
+
+		// Cancel
 		this.cancelButton.setText("Cancel Order");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],		
@@ -132,28 +151,13 @@ public class CashPayView {
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("Cancel clicked");
-				Object[] options = {"No", "Yes"};
-				Object answer = JOptionPane.showOptionDialog(
-							null, 
-							"Are you sure to cancel the order?", 
-							"Warning", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.WARNING_MESSAGE, 
-							null, 
-							options, 
-							options[0]
-						);
-					if (answer.equals(0)) {
-System.out.println("CashPayView: Not cancel order");
-					} else {
-System.out.println("CashPayView: Cancel order");
-						restart();	
-					}
+System.out.println("CardPayView: Confirm button clicked");
+				lanuchTryToCancelWindow();	
 			}
 		});
 		this.jpanel.add(this.cancelButton);
 
+		// Back
 		this.backButton.setText("Back");
 		this.backButton.setBounds(
 				BACK_BUTTON_BP[0],
@@ -164,33 +168,14 @@ System.out.println("CashPayView: Cancel order");
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("back clicked");
-				controller.resetCashPay();
+System.out.println("CardPayView: Back button clicked");
 				jframe.dispose();
-				Object[] options = {"Cash", "Card"};
-				Object answer = JOptionPane.showOptionDialog(
-						null, 
-						"Choose way of paying: ",
-						"Payment",
-						JOptionPane.DEFAULT_OPTION, 
-						JOptionPane.INFORMATION_MESSAGE, 
-						null, 
-						options, 
-						null
-					);
-				if (answer.equals(0)) {
-System.out.println("Pay in cash");
-					CashPayView cashPayView = new CashPayView(model, controller, jframe);
-					cashPayView.launchWindow();
-				} else {
-System.out.println("Pay in card");
-		CardPayView cardPayView = new CardPayView(model, controller, jframe);
-					cardPayView.launchWindow();
-				}
+				launchChoosePaymentMethodWindow();	
 			}
 		});
 		this.jpanel.add(this.backButton);
 
+		// Confirm
 		this.confirmButton.setText("Confirm");
 		this.confirmButton.setBounds(
 				CONFIRM_BUTTON_BP[0],
@@ -202,14 +187,14 @@ System.out.println("Pay in card");
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 System.out.println("Confirm clicked");
-				int result = controller.confirmCashPay();
-				if (result == 1) {
+				if (!controller.ifGaveEnoughMoney()) {
 					JOptionPane.showMessageDialog(null, "Not enough money!");
-				} else if (result == 2) {
+				} else if (!controller.ifHasEnoughChange()) {
 					JOptionPane.showMessageDialog(null, "Not enough change!");
 				} else {
-					restart();	
+					controller.confirmPay();
 					JOptionPane.showMessageDialog(null, "Payment Successful!");
+					restart();	
 				}
 			}
 		});
@@ -220,8 +205,7 @@ System.out.println("Confirm clicked");
 	}
 
 	public void updateView() {
-		loadCashTableData();
-		drawCashTable();
+		updateCashTable();
 		updatePrice();
 	}
 
@@ -233,12 +217,7 @@ System.out.println("Confirm clicked");
 	 * ########################
 	 * */
 	private void buildCashTable() {
-		// Loead init data from model
-		int cashDataLength = 0;
-		for (Cash c: this.model.getCashMap().keySet()) {
-			if (c != null && c.getName() != null) cashDataLength++;
-		}
-		Object[][] cashData = new Object[cashDataLength][7];
+		Object[][] cashData = new Object[this.model.getCashMap().size()][7];
 System.out.println("CashPayView: buildCashTable: table row length: " + cashData.length);
 		// Create table
 		String[] cashTableColumnNames = {"Name", "-", "Amount", "+"};
@@ -290,6 +269,50 @@ System.out.println("CashPayView: drawCashTable");
 		this.jpanel.repaint();
 	}
 
+	private void lanuchTryToCancelWindow() {
+		Object[] options = {"No", "Yes"};
+		Object answer = JOptionPane.showOptionDialog(
+					null, 
+					"Are you sure to cancel the order?", 
+					"Warning", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.WARNING_MESSAGE, 
+					null, 
+					options, 
+					options[0]
+				);
+		if (answer.equals(0)) {
+System.out.println("CashPayView: Not canel the order");
+		} else {
+System.out.println("CashPayView: Cancel the order");
+			restart();
+		}
+	}
+
+	private void launchChoosePaymentMethodWindow() {
+		Object[] options = {"Cash", "Card"};
+		Object answer = JOptionPane.showOptionDialog(
+				null, 
+				"Choose way of paying: ",
+				"Payment",
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				options, 
+				null
+			);
+		if (answer.equals(0)) {
+System.out.println("CashPayView: Pay in cash");
+			controller.resetCashPayData();
+			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			cashPayView.launchWindow();
+		} else if (answer.equals(1)){
+System.out.println("CashPayView: Pay in card");
+			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			cardPayView.launchWindow();
+		}
+	}
+
 	private void loadCashTableData() {
 System.out.println("CashPayView: loadCashTableData");
 		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
@@ -320,6 +343,11 @@ System.out.println("CashPayView: loadCashTableData");
 		this.controller.restart();
 	}
 
+	private void updateCashTable() {
+		loadCashTableData();
+		drawCashTable();
+	}
+
 	private void updatePrice() {
 		// Calcualte data
 		Double totalPrice = this.model.getTotalPrice();
@@ -328,33 +356,15 @@ System.out.println("CashPayView: loadCashTableData");
 
 		// Draw
 		this.jpanel.remove(this.totalPriceLabel);
-		this.totalPriceLabel.setText("Total Price: $ " + totalPrice);
-		this.totalPriceLabel.setBounds(
-				TOTAL_PRICE_BP[0],
-				TOTAL_PRICE_BP[1],
-				TOTAL_PRICE_BP[2],
-				TOTAL_PRICE_BP[3]
-			);
-		this.jpanel.add(this.totalPriceLabel);
-
 		this.jpanel.remove(this.currentPriceLabel);
-		this.currentPriceLabel.setText("Current Value: $ " + String.format("%.2f", currentPrice));
-		this.currentPriceLabel.setBounds(
-				CURRENT_PRICE_BP[0],
-				CURRENT_PRICE_BP[1],
-				CURRENT_PRICE_BP[2],
-				CURRENT_PRICE_BP[3]
-			);
-		this.jpanel.add(this.currentPriceLabel);
-
 		this.jpanel.remove(this.leftPriceLabel);
+
+		this.totalPriceLabel.setText("Total Price: $ " + totalPrice);
+		this.currentPriceLabel.setText("Current Value: $ " + String.format("%.2f", currentPrice));
 		this.leftPriceLabel.setText("Value left: $ " + String.format("%.2f", leftPrice));
-		this.leftPriceLabel.setBounds(
-				LEFT_PRICE_BP[0],
-				LEFT_PRICE_BP[1],
-				LEFT_PRICE_BP[2],
-				LEFT_PRICE_BP[3]
-			);
+
+		this.jpanel.add(this.totalPriceLabel);
+		this.jpanel.add(this.currentPriceLabel);
 		this.jpanel.add(this.leftPriceLabel);
 
 		this.jpanel.revalidate();

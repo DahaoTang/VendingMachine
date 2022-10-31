@@ -7,6 +7,7 @@ public class Product {
 	private String name;
 	private Double price;
 	private Integer amount;
+	private Integer totalSold;
 
 	public Product() {
 		this.id = null;
@@ -14,14 +15,16 @@ public class Product {
 		this.name = null;
 		this.price = null;
 		this.amount = null;
+		this.totalSold = null;
 	}
 
-	public Product(Integer id, ProductType type, String name, Double price, Integer amount) {
+	public Product(Integer id, ProductType type, String name, Double price, Integer amount, Integer totalSold) {
 		this.id = id;
 		this.type = type;
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
+		this.totalSold = totalSold;
 	}
 
 	public Integer getAmount() {
@@ -38,6 +41,10 @@ public class Product {
 
 	public Double getPrice() {
 		return this.price;
+	}
+
+	public Integer getTotalSold() {
+		return this.totalSold;
 	}
 
 	public ProductType getType() {
@@ -58,7 +65,8 @@ public class Product {
 				this.getType(),
 				this.getName(),
 				this.getPrice(),
-				this.getAmount()
+				this.getAmount(),
+				this.getTotalSold()
 			);
 		return newProduct;
 	}
@@ -81,5 +89,9 @@ public class Product {
 
 	public void setType(ProductType type) {
 		this.type = type;
+	}
+
+	public void setTotalSold(Integer totalSold) {
+		this.totalSold = totalSold;
 	}
 }

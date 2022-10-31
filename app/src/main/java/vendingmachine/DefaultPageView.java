@@ -147,31 +147,15 @@ public class DefaultPageView {
 			this.userButton.setText(this.model.getCurrentUser().getName());
 		}
 		if (this.model.getCurrentUser().getName() != null) {
+			// If logged in
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					Object[] options = {"OK", "Log Out"};
-					Object answer = JOptionPane.showOptionDialog(
-							null, 
-							"Current User: " + model.getCurrentUser().getName(), 
-							"User Info", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.INFORMATION_MESSAGE, 
-							null, 
-							options, 
-							options[0]
-						);
-					if (answer.equals(1)) {
-System.out.println("Log Out");
-						controller.restart();
-						jframe.dispose();
-					} else {
-						System.out.println("OK");
-					}
+					launchTryToLogOutWindow();	
 				}
 			});
-
 		} else {
+			// If not logged in
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
@@ -286,6 +270,7 @@ System.out.println("Login clicked");
 		 * ### Total Amount ###
 		 * ====================
 		 * */
+
 		// JLabel for total amount
 		this.totalPrice = this.model.getTotalPrice();
 		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
@@ -316,31 +301,7 @@ System.out.println("Login clicked");
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 System.out.println("Confirm cliked");
-				Object[] options = {"Cash", "Card"};
-				Object answer = JOptionPane.showOptionDialog(
-						null, 
-						"Choose way of paying: ",
-						"Payment",
-						JOptionPane.DEFAULT_OPTION, 
-						JOptionPane.INFORMATION_MESSAGE, 
-						null, 
-						options, 
-						null
-					);
-				if (answer.equals(0)) {
-					// Pay in cash
-System.out.println("Pay in cash");
-					controller.resetCashPay();
-					CashPayView cashPayView = new CashPayView(model, controller, jframe);
-					cashPayView.launchWindow();
-
-				} else {
-					// Pay with card
-System.out.println("Pay in card");
-					CardPayView cardPayView = new CardPayView(model, controller, jframe);
-					cardPayView.launchWindow();
-
-				}
+				launchChoosePaymentMethodWindow();	
 			}
 		});
 		this.jpanel.add(this.confirmButton);
@@ -369,7 +330,7 @@ System.out.println("Pay in card");
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 
 		// Build DRINK table
-		Object[][] productsData_DRINK = new Object[this.model.getProductsByType(ProductType.DRINK).size()][7];
+		Object[][] productsData_DRINK = new Object[this.model.getProductsByTypeFromDB(ProductType.DRINK).size()][7];
 		this.groupedProductsTable_DRINK = new JTable(productsData_DRINK, productsTableColumnNames) {
 
 			@Override
@@ -398,7 +359,7 @@ System.out.println("Pay in card");
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CHOCOLATE table
-		Object[][] productsData_CHOCOLATE = new Object[this.model.getProductsByType(ProductType.CHOCOLATE).size()][7];
+		Object[][] productsData_CHOCOLATE = new Object[this.model.getProductsByTypeFromDB(ProductType.CHOCOLATE).size()][7];
 		this.groupedProductsTable_CHOCOLATE = new JTable(productsData_CHOCOLATE, productsTableColumnNames) {
 
 			@Override
@@ -427,7 +388,7 @@ System.out.println("Pay in card");
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CHIP table
-		Object[][] productsData_CHIP = new Object[this.model.getProductsByType(ProductType.CHIP).size()][7];
+		Object[][] productsData_CHIP = new Object[this.model.getProductsByTypeFromDB(ProductType.CHIP).size()][7];
 		this.groupedProductsTable_CHIP = new JTable(productsData_CHIP, productsTableColumnNames) {
 
 			@Override
@@ -456,7 +417,7 @@ System.out.println("Pay in card");
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
 
 		// Build CANDY table
-		Object[][] productsData_CANDY = new Object[this.model.getProductsByType(ProductType.CANDY).size()][7];
+		Object[][] productsData_CANDY = new Object[this.model.getProductsByTypeFromDB(ProductType.CANDY).size()][7];
 		this.groupedProductsTable_CANDY = new JTable(productsData_CANDY, productsTableColumnNames) {
 
 			@Override
@@ -605,6 +566,51 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 		this.jpanel.add(this.selectedProductsScrollPane);
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
+	}
+
+	private void launchChoosePaymentMethodWindow() {
+		Object[] options = {"Cash", "Card"};
+		Object answer = JOptionPane.showOptionDialog(
+				null, 
+				"Choose way of paying: ",
+				"Payment",
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				options, 
+				null
+			);
+		if (answer.equals(0)) {
+System.out.println("CardPayView: Pay in cash");
+			controller.resetCashPayData();
+			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			cashPayView.launchWindow();
+		} else if (answer.equals(1)){
+System.out.println("CardPayView: Pay in card");
+			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			cardPayView.launchWindow();
+		}
+	}
+
+	private void launchTryToLogOutWindow() {
+		Object[] options = {"OK", "Log Out"};
+		Object answer = JOptionPane.showOptionDialog(
+				null, 
+				"Current User: " + model.getCurrentUser().getName(), 
+				"User Info", 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				options, 
+				options[0]
+			);
+		if (answer.equals(1)) {
+System.out.println("Log Out");
+			jframe.dispose();
+			controller.restart();
+		} else {
+			System.out.println("OK");
+		}
 	}
 
 	private void loadGroupedProductsTableData() {
@@ -827,7 +833,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				if (this.controller.ifHasEnoughProductsRecent(productName, value, column)) {
+				if (this.controller.ifHasEnoughProducts(productName, value, column)) {
 					this.controller.updateRecentAmount(productName, value, column);
 					this.controller.updateViewDefaultPage();
 				} else {
@@ -924,7 +930,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				if (this.controller.ifHasEnoughProductsGrouped(productName, value, column)) {
+				if (this.controller.ifHasEnoughProducts(productName, value, column)) {
 					this.controller.updateGroupedAmount(productName, value, column);
 					this.controller.updateViewDefaultPage();
 				} else {
@@ -1021,7 +1027,7 @@ System.out.println("DEFAULTVIEW: buildRecentProductsTable: table row length: " +
 				int value = Integer.parseInt(jtable.getValueAt(row, 5).toString());
 				String productName = jtable.getValueAt(row, 2).toString();	
 				// Parse to Controller to update
-				if (this.controller.ifHasEnoughProductsSelected(productName, value, column)) {
+				if (this.controller.ifHasEnoughProducts(productName, value, column)) {
 					this.controller.updateSelectedAmount(productName, value, column);
 					this.controller.updateViewDefaultPage();
 				} else {

@@ -4,6 +4,7 @@ import java.io.FileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,120 +34,118 @@ public class Model {
 		this.totalPrice = 0.0;
 		this.currentPrice = 0.0;
 
+		// Recent Products
 		this.recentProducts = new HashMap<Product, Integer>();
-		this.groupedProducts = new HashMap<Product, Integer>();
-		this.selectedProducts = new HashMap<Product, Integer>();
-		
-		for (Product p: this.jdbc.getRecent()) {
-			if (p.getId() == null) continue;
-			Product newProduct = p.duplicate();
-			this.recentProducts.put(newProduct, 0);
+		for (Product p: getRecentProductsFromDB()) {
+			this.recentProducts.put(p, 0);
 		}
-
-		for (Product p: this.jdbc.getProductsByType(ProductType.DRINK)) {
-			if (p.getId() == null) continue;
+		// Grouped Products
+		this.groupedProducts = new HashMap<Product, Integer>();
+		for (Product p: getProductsByTypeFromDB(ProductType.DRINK)) {
 			Product newProduct = p.duplicate();
 			this.groupedProducts.put(newProduct, 0);
 		}
-		for (Product gp: this.groupedProducts.keySet()) {
-			for (Product sp: this.selectedProducts.keySet()) {
-				if (gp.getName().equals(sp.getName())) {
-					this.groupedProducts.put(gp, this.selectedProducts.get(sp));
-					System.out.println(gp.getName() + ": " + this.groupedProducts.get(gp));
-				}
-			}
-		}
-
+		// Selected Products
+		this.selectedProducts = new HashMap<Product, Integer>();
+		
+		// CashMap
 		this.cashMap = new HashMap<Cash, Integer>();
-		for (Cash c: this.jdbc.getCashAll()) {
-			if (c.getName() == null) continue;
-			this.cashMap.put(c.duplicate(), 0);
+		for (Cash c: getCashAllFromDB()) {
+			this.cashMap.put(c, 0);
 		}
-
-		this.cardInfoMap = new HashMap<String, String>();
-		setCardInfoMap(JSONpath);
+		
+		// Card Info
+		setCardInfoMapFromPath(JSONpath);
 	}
 
-	public Boolean ifHasCard(String name) {
-		return this.jdbc.ifHashCard(name);
-	}
-
-	public Boolean ifHasUser(String userName) {
-		return this.jdbc.ifHasUser(userName);
-	}
-
-	public Boolean ifMatchUser(String userName, String password) {
-		return this.jdbc.ifMatchUser(userName, password);
-	}
-
-	public HashMap<String, String> getCardInfoMap() {
-		return this.cardInfoMap;
-	}
-
-	public HashMap<Cash, Integer> getCashMap() {
-		return this.cashMap;
-	}
-
-	public ArrayList<Cash> getCashMapInDB() {
-		return this.jdbc.getCashAll();
-	}
-
-	public Double getCurrentPrice() {
-		return this.currentPrice;
-	}
-
-	public User getCurrentUser() {
-		return this.currentUser;
-	}
-
-	public ArrayList<Product> getGlobalRecent() {
-		return this.jdbc.getRecent();
-	}
-
-	public HashMap<Product, Integer> getGroupedProducts() {
-		return this.groupedProducts;
-	}
+	/**
+	 * ###########################
+	 * ### Maintain Attributes ###
+	 * ###########################
+	 * */
 
 	public JDBC getJDBC() {
 		return this.jdbc;
+	}
+
+	public void setJDBC(JDBC jdbc) {
+		this.jdbc = jdbc;
 	}
 
 	public String getJSONpath() {
 		return this.JSONpath;
 	}
 
-	public Double getPrice(String productName) {
-		return this.jdbc.getProduct(productName).getPrice();
+	public void setJSONpath(String JSONpath) {
+		this.JSONpath = JSONpath;
 	}
 
-	public ArrayList<Product> getProductsByType(ProductType type) {
-		return this.jdbc.getProductsByType(type);
+	public User getCurrentUser() {
+		return this.currentUser;
 	}
 
-	public HashMap<Product, Integer> getRecentProducts() {
-		return this.recentProducts;
-	}
-
-	public HashMap<Product, Integer> getSelectedProducts() {
-		return this.selectedProducts;
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 
 	public Double getTotalPrice() {
 		return this.totalPrice;
 	}
 
-	public void register(String userName, String password) {
-		ArrayList<Product> recentProducts = new ArrayList<Product>();
-		recentProducts.add(new Product());
-		recentProducts.add(new Product());
-		recentProducts.add(new Product());
-		recentProducts.add(new Product());
-		recentProducts.add(new Product());
-		User newUser = new User(userName, password, recentProducts);
-		this.jdbc.insertUser(newUser);
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public void setCardInfoMap(String JSONpath) {
+	public Double getCurrentPrice() {
+		return this.currentPrice;
+	}
+
+	public void setCurrentPrice(Double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
+
+	public HashMap<Product, Integer> getRecentProducts() {
+		return this.recentProducts;
+	}
+
+	public void setRecentProducts(HashMap<Product, Integer> recentProducts) {
+		this.recentProducts = recentProducts;
+	}
+
+	public HashMap<Product, Integer> getGroupedProducts() {
+		return this.groupedProducts;
+	}
+
+	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
+		this.groupedProducts = groupedProducts;
+	}
+
+	public HashMap<Product, Integer> getSelectedProducts() {
+		return this.selectedProducts;
+	}
+
+	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
+		this.selectedProducts = selectedProducts;
+	}
+
+	public HashMap<Cash, Integer> getCashMap() {
+		return this.cashMap;
+	}
+
+	public void setCashMap(HashMap<Cash, Integer> cashMap) {
+		this.cashMap = cashMap;
+	}
+
+	public HashMap<String, String> getCardInfoMap() {
+		return this.cardInfoMap;
+	}
+
+	public void setCardInfoMap(HashMap<String, String> cardInfoMap) {
+		this.cardInfoMap = cardInfoMap;
+	}
+
+	public void setCardInfoMapFromPath(String JSONpath) {
+		this.cardInfoMap = new HashMap<String, String>();
  		JSONParser parser = new JSONParser();
         try {
             Object object = parser.parse(new FileReader(JSONpath));
@@ -163,71 +162,113 @@ public class Model {
         }
 	}
 
-	public void resetCashMap() {
-		this.cashMap = new HashMap<Cash, Integer>();
-		for (Cash c: this.jdbc.getCashAll()) {
-			if (c.getName() == null) continue;
-			this.cashMap.put(c.duplicate(), 0);
-		}
+
+
+
+	/**
+	 * #########################
+	 * ### Maintain Database ###
+	 * #########################
+	 * */
+
+	public void deleteCardInDB(String name) {
+		this.jdbc.deleteCard(name);
 	}
 
-	public void setCashMap(HashMap<Cash, Integer> cashMap) {
-		this.cashMap = cashMap;
+	public void deleteCashInDB(String name) {
+		this.jdbc.deleteCash(name);
 	}
 
-	public void setCurrentPrice(Double currentPrice) {
-		this.currentPrice = currentPrice;
+	public void deleteProductInDB(String name) {
+		this.jdbc.deleteProduct(name);;
 	}
 
-	public void setCurrentUser(String userName) {
-		this.currentUser = this.jdbc.getUser(userName);
+	public void deleteUserInDB(String name) {
+		this.jdbc.deleteUser(name);;
 	}
 
-	public void setGroupedProducts(HashMap<Product, Integer> groupedProducts) {
-		this.groupedProducts = groupedProducts;
+	public Card getCardFromDB(String name) {
+		return this.jdbc.getCard(name);
 	}
 
-	public void setJDBC(JDBC jdbc) {
-		this.jdbc = jdbc;
+	public ArrayList<Cash> getCashAllFromDB() {
+		return this.jdbc.getCashAll();
 	}
 
-	public void setJSONpath(String JSONpath) {
-		this.JSONpath = JSONpath;
+	public Product getProductFromDB(String name) {
+		return this.jdbc.getProduct(name);
 	}
 
-	public void setRecentProducts(HashMap<Product, Integer> recentProducts) {
-		this.recentProducts = recentProducts;
+	public ArrayList<Product> getProductsAllFromDB() {
+		return this.jdbc.getProductsAll();
 	}
 
-	public void setSelectedProducts(HashMap<Product, Integer> selectedProducts) {
-		this.selectedProducts = selectedProducts;
+	public ArrayList<Product> getProductsByTypeFromDB(ProductType ptype) {
+		return this.jdbc.getProductsByType(ptype);
 	}
 
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
+	public ArrayList<Product> getRecentProductsFromDB() {
+		return this.jdbc.getRecent();
 	}
 
-	public void updateCardInDB(Card card) {
+	public User getUserFromDB(String name) {
+		return this.jdbc.getUser(name);
+	}
+
+	public void insertCardToDB(Card card) {
+		this.jdbc.insertCard(card);
+	}
+
+	public void insertCashToDB(Cash cash) {
+		this.jdbc.insertCash(cash);
+	}
+
+	public void insertProductToDB(Product product) {
+		this.jdbc.insertProduct(product);
+	}
+
+	public void insertUserToDB(User user) {
+		this.jdbc.insertUser(user);
+	}
+
+	public void updateCardToDB(Card card) {
 		this.jdbc.updateCard(card);
 	}
 
-	public void updateCashMapInDB(ArrayList<Cash> cashMap) {
-		for (Cash c: cashMap) {
-			this.jdbc.updateCash(c);
-		}
+	public void updateCashToDB(Cash cash) {
+		this.jdbc.updateCash(cash);
 	}
 
-	public void updateRecentProductsInDB(ArrayList<Product> newRecent) {
-			this.jdbc.updateGlobalRecent(newRecent);
+	public void updateProductToDB(Product product) {
+		this.jdbc.updateProduct(product);
 	}
 
-	public void updateUserInDB(User user) {
+	public void updateUserToDB(User user) {
 		this.jdbc.updateUser(user);
 	}
 
-	public void updateProductInDB(String productName, Integer amount) {
-		Product newProduct = this.jdbc.getProduct(productName).duplicate();
-		newProduct.setAmount(amount);
-		this.jdbc.updateProduct(newProduct);
+	public void updateGlobalRecentToDB(ArrayList<Product> recentProducts) {
+		this.jdbc.updateGlobalRecent(recentProducts);
 	}
+
+
+
+	/**
+	 * #####################
+	 * ### Other Methods ###
+	 * #####################
+	 * */
+
+	public Boolean ifHasCardInDB(String name) {
+		return this.jdbc.ifHashCard(name);
+	}
+
+	public Boolean ifHasUserInDB(String userName) {
+		return this.jdbc.ifHasUser(userName);
+	}
+
+	public Boolean ifMatchUserInDB(String userName, String password) {
+		return this.jdbc.ifMatchUser(userName, password);
+	}
+
 }

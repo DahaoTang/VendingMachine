@@ -3,7 +3,7 @@ package vendingmachine;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class RegisterView implements WindowListener {
+public class RegisterView {
 
 	private Model model;
 	private Controller controller;
@@ -79,8 +79,6 @@ public class RegisterView implements WindowListener {
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.jframe.setLocationRelativeTo(null);
-
-		this.jframe.addWindowListener(this);
 
 		this.jpanel.setLayout(null);
 		this.jframe.add(this.jpanel);
@@ -181,15 +179,14 @@ public class RegisterView implements WindowListener {
 				String password_1 = passwordField.getText();
 				String password_2 = reenterPasswordField.getText();
 				if (password_1.equals(password_2)) {
-					if (controller.ifHasUser(userName)) {
+					if (controller.ifHasUserInDB(userName)) {
 						JOptionPane.showMessageDialog(null, 
 								"User with the same already exists.\nPlease try another."
 							);
 					} else {
-						controller.register(userName, password_1);
+						controller.register(userName, password_1); // add a new user into database
 						controller.setCurrentUser(userName);
 						controller.updateAfterLogin();
-
 						defaultPageViewJFrame.dispose();
 						loginViewJFrame.dispose();
 						jframe.dispose();
@@ -206,27 +203,5 @@ public class RegisterView implements WindowListener {
 
 		this.jframe.setVisible(true);
 	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-	@Override
-	public void windowClosing(WindowEvent e) {}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
 }
 

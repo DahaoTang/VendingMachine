@@ -25,7 +25,6 @@ public class CardPayView {
 
 
 	// DATA
-	
 	private final int[] WINDOW_SIZE = {300, 200};
 
 	private final int[] CARD_NAME_LABEL_BP = {20, 10, 80, 32};
@@ -37,6 +36,7 @@ public class CardPayView {
 	private final int[] BACK_BUTTON_BP = {20, 95, 120, 32};
 	private final int[] CONFIRM_BUTTON_BP = {160, 95, 120, 32};	
 	private final int[] CANCEL_BUTTON_BP = {20, 125, 260, 32};	
+
 
 	public CardPayView(Model model, Controller controller, JFrame defaultPageViewJFrame) {
 		this.model = model;
@@ -136,28 +136,11 @@ public class CardPayView {
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("Back clicked");
+System.out.println("CashPayView: Back button clicked");
+				// Close current window
 				jframe.dispose();
-				Object[] options = {"Cash", "Card"};
-				Object answer = JOptionPane.showOptionDialog(
-						null, 
-						"Choose way of paying: ",
-						"Payment",
-						JOptionPane.DEFAULT_OPTION, 
-						JOptionPane.INFORMATION_MESSAGE, 
-						null, 
-						options, 
-						null
-					);
-				if (answer.equals(0)) {
-System.out.println("Pay in cash");
-					CashPayView cashPayView = new CashPayView(model, controller, jframe);
-					cashPayView.launchWindow();
-				} else {
-System.out.println("Pay in card");
-					CardPayView cardPayView = new CardPayView(model, controller, jframe);
-					cardPayView.launchWindow();
-				}
+				// Launch choose pay mathod
+				launchChoosePaymentMethodWindow();			
 			}
 		});
 		this.jpanel.add(this.backButton);
@@ -173,41 +156,20 @@ System.out.println("Pay in card");
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+System.out.println("CashPayView: Confirm button clicked");
+				// Retrieve data from current window
 				String name = cardNameTextField.getText();
 				String number = cardNumberField.getText();
-				Boolean inCardInfoMap = false;
-				String numberToMatch = null;
-				for (String n: model.getCardInfoMap().keySet()) {
-					if (n.equals(name)) {
-						inCardInfoMap = true;
-						numberToMatch = model.getCardInfoMap().get(n);
-						break;
-					}
-				}
-				if (inCardInfoMap) {
-					if (number.equals(numberToMatch)) {
-						if (!controller.ifHasCard(name)) {
-							Object[] options = {"No", "Yes"};
-							Object answer = JOptionPane.showOptionDialog(
-									null, 
-									"Do you want to save card info?", 
-									"Warning", 
-									JOptionPane.DEFAULT_OPTION, 
-									JOptionPane.WARNING_MESSAGE, 
-									null, 
-									options, 
-									options[0]
-								);
-							if (answer.equals(0)) {
-System.out.println("CardPayView: Not save card info");
-							} else {
-System.out.println("CardPayView: Save card info");
-								controller.updateCardInDB(name, number);	
-								JOptionPane.showMessageDialog(null, "Card info added successfully!");
+				// Check data validity
+				if (controller.ifHasCardGlobal(name)) {
+					if (controller.ifMatchCardGlobal(name, number)) {
+						if (controller.ifLoggedIn()) {
+							if (!controller.ifCurrentUserHasCard(name)) {
+								launchTryToSaveCardInfoWindow(name, number);
 							}
 						}
+						controller.confirmPay();
 						JOptionPane.showMessageDialog(null, "Payment Successful!");
-						controller.confirmCardPay();
 						restart();	
 					} else {
 						JOptionPane.showMessageDialog(null, "Invalid card name or number!");
@@ -230,25 +192,8 @@ System.out.println("CardPayView: Save card info");
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("Cancel clicked");
-				Object[] options = {"No", "Yes"};
-				Object answer = JOptionPane.showOptionDialog(
-							null, 
-							"Are you sure to cancel the order?", 
-							"Warning", 
-							JOptionPane.DEFAULT_OPTION, 
-							JOptionPane.WARNING_MESSAGE, 
-							null, 
-							options, 
-							options[0]
-						);
-					if (answer.equals(0)) {
-System.out.println("No");
-					} else {
-System.out.println("Yes");
-						restart();	
-					}
-
+System.out.println("CardPayView: Cancel button clicked");
+				lanuchTryToCancelWindow();	
 			}
 		});
 		this.jpanel.add(this.cancelButton);
@@ -263,7 +208,75 @@ System.out.println("Yes");
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
 	 * */
+
+	private void launchChoosePaymentMethodWindow() {
+		Object[] options = {"Cash", "Card"};
+		Object answer = JOptionPane.showOptionDialog(
+				null, 
+				"Choose way of paying: ",
+				"Payment",
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, 
+				null, 
+				options, 
+				null
+			);
+		if (answer.equals(0)) {
+System.out.println("CardPayView: Pay in cash");
+			controller.resetCashPayData();
+			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			cashPayView.launchWindow();
+		} else if (answer.equals(1)){
+System.out.println("CardPayView: Pay in card");
+			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			cardPayView.launchWindow();
+		}
+	}
+
+	private void launchTryToSaveCardInfoWindow(String cardName, String cardNumber) {
+		Object[] options = {"No", "Yes"};
+		Object answer = JOptionPane.showOptionDialog(
+				null, 
+				"Do you want to save card info?", 
+				"Warning", 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.WARNING_MESSAGE, 
+				null, 
+				options, 
+				options[0]
+			);
+		if (answer.equals(0)) {
+System.out.println("CardPayView: Not save card info");
+		} else {
+System.out.println("CardPayView: Save card info");
+			controller.updateCardInDB(cardName, cardNumber);	
+			JOptionPane.showMessageDialog(null, "Card info added successfully!");
+		}
+	}
+
+	private void lanuchTryToCancelWindow() {
+		Object[] options = {"No", "Yes"};
+		Object answer = JOptionPane.showOptionDialog(
+					null, 
+					"Are you sure to cancel the order?", 
+					"Warning", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.WARNING_MESSAGE, 
+					null, 
+					options, 
+					options[0]
+				);
+		if (answer.equals(0)) {
+System.out.println("CardPayView: Not canel the order");
+		} else {
+System.out.println("CardPayView: Cancel the order");
+			restart();	
+		}
+
+	}
+
 	private void restart() {
+System.out.println("CardPayView: restart application");
 		defaultPageViewJFrame.dispose();
 		jframe.dispose();
 		this.controller.restart();
