@@ -1,13 +1,7 @@
 package vendingmachine;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.*;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 
 public class RegisterView implements WindowListener {
 
