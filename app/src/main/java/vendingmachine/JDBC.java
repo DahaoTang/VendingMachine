@@ -326,7 +326,7 @@ System.out.println("JDBC: createTableUser connected");
 								"RECENT_PRODUCT_4_ID INT," + 
 								"RECENT_PRODUCT_5_ID INT," + 
 								"TYPE varchar(255)," + 
-								"CARD varchar(255)" + 
+								"CARD_NAME varchar(255)" + 
 							");";
 			statement.executeUpdate(sql);
 			statement.close();
@@ -791,7 +791,7 @@ System.out.println("JDBC: getUser connected");
 				else if (user_type.equals("CASHIER")) user.setType(UserType.CASHIER);
 				else if (user_type.equals("CELLER")) user.setType(UserType.CELLER);
 				else if (user_type.equals("OWNER")) user.setType(UserType.OWNER);
-				String user_card = resultSet.getString("CARD");
+				String user_card = resultSet.getString("CARD_NAME");
 				// Set value to the product to return
 				user.setName(user_name);
 				user.setPassword(user_password);
@@ -800,8 +800,8 @@ System.out.println("JDBC: getUser connected");
 				user.setRecentProduct(2, user_product_3);
 				user.setRecentProduct(3, user_product_4);
 				user.setRecentProduct(4, user_product_5);
-				if (user_card.equals("NULL")) user.setCard(null);
-				else user.setCard(getCard(user_card));
+				if (user_card.equals("NULL")) user.setCardName(null);
+				else user.setCardName(user_card);
 			}
 			resultSet.close();
 			statement.close();
@@ -1060,15 +1060,15 @@ System.out.println("JDBC: insertRecentAll closed");
 		String name = user.getName();
 		String password = user.getPassword();
 		ArrayList<Product> products = user.getRecentProducts();
-		String cardName = null;
-		if (user.getCard() != null) cardName = user.getCard().getName();
+		String cardName = user.getCardName();
+		if (cardName == null) cardName = "NULL";
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
 System.out.println("JDBC: insertUser connected");
 			this.dbConnection.setAutoCommit(true);
 			Statement statement = this.dbConnection.createStatement();
 			String sql = "INSERT INTO USER " +
-							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID, TYPE, CARD) " +
+							"(NAME, PASSWORD, RECENT_PRODUCT_1_ID, RECENT_PRODUCT_2_ID, RECENT_PRODUCT_3_ID, RECENT_PRODUCT_4_ID, RECENT_PRODUCT_5_ID, TYPE, CARD_NAME) " +
 							"VALUES ('" + 
 										name + "', '" + 
 										password + "', " + 

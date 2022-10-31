@@ -88,6 +88,9 @@ public class CardPayView {
 			);
 		this.jpanel.add(this.cardNameLabel);
 
+		if (this.controller.ifCurrentUserHasCard()) {
+			this.cardNameTextField.setText(this.model.getCurrentUser().getCardName());
+		}
 		this.cardNameTextField.setBounds(
 				CARD_NAME_TEXT_FEILD_BP[0],
 				CARD_NAME_TEXT_FEILD_BP[1],
@@ -102,6 +105,7 @@ public class CardPayView {
 		 * ### Card Number ###
 		 * ===================
 		 * */
+
 		this.cardNumberLabel.setText("Number: ");
 		this.cardNumberLabel.setBounds(
 				CARD_NUMBER_LABEL_BP[0],
@@ -247,9 +251,9 @@ System.out.println("CardPayView: Pay in card");
 			);
 		if (answer.equals(0)) {
 System.out.println("CardPayView: Not save card info");
-		} else {
+		} else if (answer.equals(1)){
 System.out.println("CardPayView: Save card info");
-			controller.updateCardInDB(cardName, cardNumber);	
+			controller.updateUserCardInfo(cardName);	
 			JOptionPane.showMessageDialog(null, "Card info added successfully!");
 		}
 	}

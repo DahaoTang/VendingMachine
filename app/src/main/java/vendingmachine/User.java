@@ -8,7 +8,7 @@ public class User {
 	private String password;
 	private ArrayList<Product> recentProducts;
 	private UserType type;
-	private Card card;
+	private String cardName;
 
 	public User() {
 		this.name = null;
@@ -20,19 +20,19 @@ public class User {
 		this.recentProducts.add(null);
 		this.recentProducts.add(null);
 		this.type = null;
-		this.card = null;
+		this.cardName = null;
 	}
 
-	public User(String name, String password, ArrayList<Product> recentProducts, UserType type, Card card) {
+	public User(String name, String password, ArrayList<Product> recentProducts, UserType type, String cardName) {
 		this.name = name;
 		this.password = password;
 		this.recentProducts = recentProducts;
 		this.type = type;
-		this.card = card;
+		this.cardName = cardName;
 	}
 
-	public Card getCard() {
-		return this.card;
+	public String getCardName() {
+		return this.cardName;
 	}
 
 	public String getName() {
@@ -59,8 +59,8 @@ public class User {
 		else return null;
 	}
 
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
 	}
 
 	public void setName(String name) {

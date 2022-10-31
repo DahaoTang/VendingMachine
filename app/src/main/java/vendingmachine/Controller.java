@@ -504,6 +504,12 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 		}
 	}
 
+	public void updateUserCardInfo(String name) {
+		User user = this.model.getCurrentUser();
+		user.setCardName(name);
+		this.model.updateUserToDB(user);
+	}
+
 	public void updateViewDefaultPage() {
 		this.defaultPageView.updateView();
 	}
@@ -518,11 +524,16 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 	 * #############
 	 * */
 
+	public Boolean ifCurrentUserHasCard() {
+		if (this.model.getCurrentUser().getName() == null) return false;
+		if (this.model.getCurrentUser().getCardName() == null) return false;
+		return true;
+	}
+
 	public Boolean ifCurrentUserHasCard(String name) {
 		if (this.model.getCurrentUser().getName() == null) return false;
-		if (this.model.getCurrentUser().getCard() == null) return false;
-		if (this.model.getCurrentUser().getCard().getName() == null) return false;
-		if (this.model.getCurrentUser().getCard().getName().equals(name)) return true;
+		if (this.model.getCurrentUser().getCardName() == null) return false;
+		if (this.model.getCurrentUser().getCardName().equals(name)) return true;
 		return false;
 	}
 
