@@ -54,7 +54,7 @@ public class User {
 	public String getTypeString() {
 		if (this.type.equals(UserType.NORMAL)) return "NORMAL";
 		else if (this.type.equals(UserType.CASHIER)) return "CASHIER";
-		else if (this.type.equals(UserType.CELLER)) return "CELLER";
+		else if (this.type.equals(UserType.SELLER)) return "SELLER";
 		else if (this.type.equals(UserType.OWNER)) return "OWNER";
 		else return null;
 	}

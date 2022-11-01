@@ -12,6 +12,7 @@ public class Controller {
 	private CashPayView cashPayView;
 	private LoginView loginView;
 	private RegisterView registerView;
+	private SellerView sellerView;
 
 	public Controller() {
 		this.model = null;
@@ -21,6 +22,7 @@ public class Controller {
 		this.cashPayView = null;
 		this.loginView = null;
 		this.registerView = null;
+		this.sellerView = null;
 	}
 
 	public Controller(Model model, DefaultPageView defaultPageView) {
@@ -31,6 +33,7 @@ public class Controller {
 		this.cashPayView = null;
 		this.loginView = null;
 		this.registerView = null;
+		this.sellerView = null;
 	}
 
 	public void launchWindow() {
@@ -59,6 +62,10 @@ public class Controller {
 
 	public void setRegisterView(RegisterView registerView) {
 		this.registerView = registerView;
+	}
+
+	public void setSellerView(SellerView sellerView) {
+		this.sellerView = sellerView;
 	}
 
 
@@ -96,6 +103,24 @@ public class Controller {
 		updateRecentAfterPay();
 		updateSelectedProductsAmountsToDB();	
 		return 0;
+	}
+
+	public void deleteProductInDB(String name) {
+		this.model.deleteProductInDB(name);
+	}
+
+	public UserType getCurrentUserType() {
+		if (this.ifLoggedIn()) {
+			if (this.model.getCurrentUser().getType().equals(UserType.NORMAL)) return UserType.NORMAL;
+			else if (this.model.getCurrentUser().getType().equals(UserType.SELLER)) return UserType.SELLER;
+			else if (this.model.getCurrentUser().getType().equals(UserType.CASHIER)) return UserType.CASHIER;
+			else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) return UserType.OWNER;
+		}
+		return null;
+	}
+
+	public void insertProductToDB(Product product) {
+		this.model.insertProductToDB(product);
 	}
 
 	public void register(String userName, String password) {
@@ -366,6 +391,21 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 		this.model.updateUserToDB(user);
 	}
 
+	public void updateProductsAmountsToDB(String productName, Integer value, Integer column) {
+		Product newProduct = this.model.getProductFromDB(productName);
+		Integer newAmount = value;
+		if (column == 4){
+			if (newAmount > 0) {
+				newAmount--;
+			}
+		} else {
+			newAmount++;
+		}
+		newProduct.setAmount(newAmount);
+		this.model.updateProductToDB(newProduct);
+System.out.println("CONTROLLER updateProductToDB: " + productName + " left in DB: " + this.model.getProductFromDB(productName).getAmount());
+	}
+
 	public void updateRecentAmount(String productName, Integer value, Integer column) {
 		// Calcualte and update price and amount
 		Double totalPrice = this.model.getTotalPrice();
@@ -510,6 +550,10 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 		this.cashPayView.updateView();
 	}
 
+	public void updateViewSeller() {
+		this.sellerView.updateView();
+	}
+
 	/**
 	 * #############
 	 * ### Check ###
@@ -590,9 +634,20 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 		return true;
 	}
 
-	public Boolean ifHasUserInDB(String userName) {
-		if (this.model.ifHasUserInDB(userName)) return true;
+	public Boolean ifHasProductInDB(String productName) {
+		Product product = this.model.getProductFromDB(productName);
+		if (product.getId() != null) return true;
 		return false;
+	}
+
+	public Boolean ifHasProductInDB(Integer id) {
+		Product product = this.model.getProductFromDB(id);
+		if (product.getName() != null) return true;
+		return false;
+	}
+
+	public Boolean ifHasUserInDB(String userName) {
+		return this.model.ifHasUserInDB(userName);
 	}
 
 	public Boolean ifLoggedIn() {

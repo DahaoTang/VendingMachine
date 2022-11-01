@@ -355,9 +355,9 @@ System.out.println("Confirm cliked");
 		this.groupedProductsTable_DRINK.setRowSelectionAllowed(false);
 		// Set buttons
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellRenderer(new GroupedButtonRenderer());
 
 		// Build CHOCOLATE table
 		Object[][] productsData_CHOCOLATE = new Object[this.model.getProductsByTypeFromDB(ProductType.CHOCOLATE).size()][7];
@@ -384,9 +384,9 @@ System.out.println("Confirm cliked");
 		this.groupedProductsTable_CHOCOLATE.setRowSelectionAllowed(false);
 		// Set buttons
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellRenderer(new GroupedButtonRenderer());
 
 		// Build CHIP table
 		Object[][] productsData_CHIP = new Object[this.model.getProductsByTypeFromDB(ProductType.CHIP).size()][7];
@@ -413,9 +413,9 @@ System.out.println("Confirm cliked");
 		this.groupedProductsTable_CHIP.setRowSelectionAllowed(false);
 		// Set buttons
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellRenderer(new GroupedButtonRenderer());
 
 		// Build CANDY table
 		Object[][] productsData_CANDY = new Object[this.model.getProductsByTypeFromDB(ProductType.CANDY).size()][7];
@@ -442,9 +442,9 @@ System.out.println("Confirm cliked");
 		this.groupedProductsTable_CANDY.setRowSelectionAllowed(false);
 		// Set buttons
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
-		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellRenderer(new IODButtonRenderer());
+		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellRenderer(new GroupedButtonRenderer());
 
 	}
 

@@ -2,7 +2,7 @@ package vendingmachine;
 
 public enum UserType {
 	NORMAL,
-	CELLER,
+	SELLER,
 	CASHIER,
 	OWNER;
 }

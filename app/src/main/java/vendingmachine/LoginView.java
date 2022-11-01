@@ -172,11 +172,32 @@ public class LoginView implements WindowListener {
 	@Override
 	public void windowClosed(WindowEvent e) {
 		this.defaultPageViewJFrame.dispose();
-		DefaultPageView defaultPageView = new DefaultPageView();
-		this.controller.setDefaultPageView(defaultPageView);
-		defaultPageView.setModel(this.model);
-		defaultPageView.setController(this.controller);
-		defaultPageView.launchWindow();
+		this.controller.setDefaultPageView(null);
+
+		// Normal user or Anonymous
+		if (this.model.getCurrentUser().getName() == null || this.model.getCurrentUser().getType().equals(UserType.NORMAL)) {
+			DefaultPageView defaultPageView = new DefaultPageView();
+			this.controller.setDefaultPageView(defaultPageView);
+			defaultPageView.setModel(this.model);
+			defaultPageView.setController(this.controller);
+			defaultPageView.launchWindow();
+
+		// Seller
+		} else if (this.model.getCurrentUser().getType().equals(UserType.SELLER)) {
+			SellerView sellerView = new SellerView();
+			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
+			newModel.setCurrentUser(this.model.getCurrentUser());
+			sellerView.setModel(newModel);	
+			sellerView.setController(this.controller);
+			sellerView.launchWindow();
+
+		// Cashier
+		} else if (this.model.getCurrentUser().getType().equals(UserType.CASHIER)) {
+
+		// Owner
+		} else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
+
+		}
 	}
 
 	@Override

@@ -133,17 +133,37 @@ public class JDBC {
 		dahaoRecent.add(new Product());
 		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, null);
 		insertUser(dahao);
-
 		System.out.println("insert dahao");
-		ArrayList<Product> testRecent = new ArrayList<Product>();
-		testRecent.add(new Product());
-		testRecent.add(new Product());
-		testRecent.add(new Product());
-		testRecent.add(new Product());
-		testRecent.add(new Product());
-		User test = new User("Owner", "123", testRecent, UserType.OWNER, null);
-		insertUser(test);
-		System.out.println("insert test");
+
+		ArrayList<Product> sellerRecent = new ArrayList<Product>();
+		sellerRecent.add(new Product());
+		sellerRecent.add(new Product());
+		sellerRecent.add(new Product());
+		sellerRecent.add(new Product());
+		sellerRecent.add(new Product());
+		User seller = new User("Seller-01", "123", sellerRecent, UserType.SELLER, null);
+		insertUser(seller);
+		System.out.println("insert seller");
+
+		ArrayList<Product> cashierRecent = new ArrayList<Product>();
+		cashierRecent.add(new Product());
+		cashierRecent.add(new Product());
+		cashierRecent.add(new Product());
+		cashierRecent.add(new Product());
+		cashierRecent.add(new Product());
+		User cashier = new User("Casier-01", "123", cashierRecent, UserType.CASHIER, null);
+		insertUser(cashier);
+		System.out.println("insert cashier");
+
+		ArrayList<Product> ownerRecent = new ArrayList<Product>();
+		ownerRecent.add(new Product());
+		ownerRecent.add(new Product());
+		ownerRecent.add(new Product());
+		ownerRecent.add(new Product());
+		ownerRecent.add(new Product());
+		User owner = new User("Owner", "123", ownerRecent, UserType.OWNER, null);
+		insertUser(owner);
+		System.out.println("insert owner");
 
 		System.out.println("User inserted");
 
@@ -789,7 +809,7 @@ public class JDBC {
 				String user_type = resultSet.getString("TYPE");
 				if (user_type.equals("NORMAL")) user.setType(UserType.NORMAL);
 				else if (user_type.equals("CASHIER")) user.setType(UserType.CASHIER);
-				else if (user_type.equals("CELLER")) user.setType(UserType.CELLER);
+				else if (user_type.equals("SELLER")) user.setType(UserType.SELLER);
 				else if (user_type.equals("OWNER")) user.setType(UserType.OWNER);
 				String user_card = resultSet.getString("CARD_NAME");
 				// Set value to the product to return

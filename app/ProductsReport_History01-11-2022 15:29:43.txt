@@ -1,0 +1,17 @@
+From Seller: Seller-01
+ID: 101; Type: DRINK; Name: Mineral Water; Amount sold: 0.
+ID: 102; Type: DRINK; Name: Sprite; Amount sold: 0.
+ID: 103; Type: DRINK; Name: Coca Cola; Amount sold: 0.
+ID: 104; Type: DRINK; Name: Pepsi; Amount sold: 0.
+ID: 105; Type: DRINK; Name: Juice; Amount sold: 0.
+ID: 201; Type: CHOCOLATE; Name: Mars; Amount sold: 0.
+ID: 202; Type: CHOCOLATE; Name: M&M; Amount sold: 0.
+ID: 203; Type: CHOCOLATE; Name: Bounty; Amount sold: 0.
+ID: 204; Type: CHOCOLATE; Name: Snickers; Amount sold: 0.
+ID: 301; Type: CHIP; Name: Smiths; Amount sold: 0.
+ID: 302; Type: CHIP; Name: Pringles; Amount sold: 0.
+ID: 303; Type: CHIP; Name: Kettle; Amount sold: 0.
+ID: 304; Type: CHIP; Name: Thins; Amount sold: 0.
+ID: 401; Type: CANDY; Name: Mentos; Amount sold: 0.
+ID: 402; Type: CANDY; Name: Sour Patch; Amount sold: 0.
+ID: 403; Type: CANDY; Name: Skittles; Amount sold: 0.

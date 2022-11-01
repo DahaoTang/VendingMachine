@@ -199,6 +199,10 @@ public class Model {
 		return this.jdbc.getProduct(name);
 	}
 
+	public Product getProductFromDB(Integer id) {
+		return this.jdbc.getProduct(id);
+	}
+
 	public ArrayList<Product> getProductsAllFromDB() {
 		return this.jdbc.getProductsAll();
 	}
