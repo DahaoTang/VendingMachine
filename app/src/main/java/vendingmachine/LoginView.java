@@ -184,15 +184,21 @@ public class LoginView implements WindowListener {
 
 		// Seller
 		} else if (this.model.getCurrentUser().getType().equals(UserType.SELLER)) {
-			SellerView sellerView = new SellerView();
 			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
 			newModel.setCurrentUser(this.model.getCurrentUser());
+			SellerView sellerView = new SellerView();
 			sellerView.setModel(newModel);	
 			sellerView.setController(this.controller);
 			sellerView.launchWindow();
 
 		// Cashier
 		} else if (this.model.getCurrentUser().getType().equals(UserType.CASHIER)) {
+			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
+			newModel.setCurrentUser(this.model.getCurrentUser());
+			CashierView cashierView = new CashierView();
+			cashierView.setModel(newModel);
+			cashierView.setController(this.controller);
+			cashierView.launchWindow();
 
 		// Owner
 		} else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
