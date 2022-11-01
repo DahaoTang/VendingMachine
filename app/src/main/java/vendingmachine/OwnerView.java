@@ -2,6 +2,11 @@ package vendingmachine;
 
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.*;
+import java.time.*;
+import java.time.format.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -178,6 +183,8 @@ public class OwnerView {
 		});
 		this.jpanel.add(this.confirmButton);
 
+		obtainReports();
+
 		this.jframe.setVisible(true);
 	}
 
@@ -196,8 +203,6 @@ public class OwnerView {
 	public void buildUsersTable() {
 		String[] userTableColumnNames = {"User Type", "Name", "Password", "Card Name"};
 		Object[][] userData = new Object[this.model.getUserAllFromDB().size()][userTableColumnNames.length];
-System.out.println("user in database: "  +this.model.getUserAllFromDB().size());
-System.out.println("get all users once");
 		this.usersTable = new JTable(userData, userTableColumnNames) {
 
 			@Override
@@ -378,10 +383,55 @@ System.out.println("get all users once");
 		JOptionPane.showMessageDialog(null, "Updated Successfully!");
 	}
 
-	public void updateUserTable() {
+	private void obtainReports() {
+		LocalDateTime ldt = LocalDateTime.now();
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String reportTail = ldtf.format(ldt);
+		try {
+			File current = new File("UserReport" + reportTail + ".txt");
+			FileWriter fw = new FileWriter(current);
+			fw.write("From Owner: " + this.model.getCurrentUser().getName() + "\n");
+			for (User u: this.model.getUserAllFromDB()) {
+				if (u.getName() == null) continue;
+				String msg = "";
+				msg += "Name: " + u.getName() + "; ";
+				msg += "Role: " + u.getTypeString() + ".\n";
+				fw.write(msg);
+			}
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			File outputFile = new File("CancelledTransaction" + reportTail + ".txt");
+			File inputFile = new File("CancelledTransaction.txt");
+			copyFileUsingStream(inputFile, outputFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateUserTable() {
 		buildUsersTable();
 		loadUsersTableData();
 		drawUserstable();
+	}
+
+	private void copyFileUsingStream(File source, File dest) throws IOException {
+		InputStream is = null;
+		OutputStream os = null;
+		try {
+			is = new FileInputStream(source);
+			os = new FileOutputStream(dest);
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = is.read(buffer)) > 0) {
+				os.write(buffer, 0, length);
+			}
+		} finally {
+			is.close();
+			os.close();
+		}
 	}
 }
 

@@ -6,11 +6,10 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 
 public class CashierView {
 
@@ -33,15 +32,8 @@ public class CashierView {
 
 	private final int[] CASH_TABLE_COLUMN_WIDTH = {100, 30, 80, 30};
 
-	private final int LABEL_FONT_SIZE = 20;
-	private final String LABEL_FONT = "Arial";
-	private final int LABEL_FONT_MODE = Font.PLAIN;
-
 	private final int[] CASH_LABEL_BP = {18, 60, 300, 32};
 	private final int[] CASH_SCROLL_PANE_BP = {18, 100, 564, 300};
-
-	private final int[] ADD_BUTTON_BP = {495, 60, 90, 30};
-	private final int[] DELETE_BUTTON_BP = {405, 60, 90, 30};
 
 
 	public CashierView() {
@@ -209,7 +201,6 @@ public class CashierView {
 				options[0]
 			);
 		if (answer.equals(1)) {
-System.out.println("Log Out");
 			jframe.dispose();
 			controller.restart();
 		} else {
@@ -261,6 +252,9 @@ System.out.println("Log Out");
 		}
 
 		try {
+			File outputFile = new File("SuccessfulTransaction" + reportTail + ".txt");
+			File inputFile = new File("SuccessfulTransaction.txt");
+			copyFileUsingStream(inputFile, outputFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -270,6 +264,23 @@ System.out.println("Log Out");
 		buildCashTable();
 		loadCashTableData();
 		drawCashTable();
+	}
+
+	private void copyFileUsingStream(File source, File dest) throws IOException {
+		InputStream is = null;
+		OutputStream os = null;
+		try {
+			is = new FileInputStream(source);
+			os = new FileOutputStream(dest);
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = is.read(buffer)) > 0) {
+				os.write(buffer, 0, length);
+			}
+		} finally {
+			is.close();
+			os.close();
+		}
 	}
 
 

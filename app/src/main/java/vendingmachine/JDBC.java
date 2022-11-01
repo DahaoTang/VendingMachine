@@ -33,29 +33,29 @@ public class JDBC {
 
 		tryConnectToDB();
 
-		System.out.println("#####################");
-		System.out.println("### DB INIT START ###");
-		System.out.println("#####################");
+		// System.out.println("#####################");
+		// System.out.println("### DB INIT START ###");
+		// System.out.println("#####################");
 
 		// Create tables
 		createTableCard();
-		System.out.println("Card Table created");
+		// System.out.println("Card Table created");
 		createTableCash();
-		System.out.println("Cash Table created");
+		// System.out.println("Cash Table created");
 		createTableProducts();
-		System.out.println("Product Table created");
+		// System.out.println("Product Table created");
 		createTableGlobalRecentProducts();
-		System.out.println("Recent Product Table created");
+		// System.out.println("Recent Product Table created");
 		createTableUser();
-		System.out.println("User Table created");
+		// System.out.println("User Table created");
 
-		System.out.println("All Tables created");
+		// System.out.println("All Tables created");
 
 		// Insert database
 		// Card
 		insertCard(new Card("dtan3316", "500173664"));
 
-		System.out.println("Card inserted");
+		// System.out.println("Card inserted");
 
 		// Cash
 		insertCash(new Cash("$100", 100.0, 0));
@@ -72,7 +72,7 @@ public class JDBC {
 		insertCash(new Cash("¢2", 0.02, 100));
 		insertCash(new Cash("¢1", 0.01, 100));
 
-		System.out.println("Cash inserted");
+		// System.out.println("Cash inserted");
 
 		// Products
 		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7, 0);
@@ -116,7 +116,7 @@ public class JDBC {
 		insertProduct(sourpatch);
 		insertProduct(skittles);
 
-		System.out.println("Products inserted");
+		// System.out.println("Products inserted");
 
 		ArrayList<Product> globalRecent = new ArrayList<Product>();
 		globalRecent.add(mineralWater.duplicate());
@@ -128,7 +128,7 @@ public class JDBC {
 		// Global Recent
 		insertRecentAll(globalRecent);
 
-		System.out.println("Recent Products inserted"); 
+		// System.out.println("Recent Products inserted"); 
 
 		// User
 		ArrayList<Product> dahaoRecent = new ArrayList<Product>();
@@ -139,7 +139,7 @@ public class JDBC {
 		dahaoRecent.add(new Product());
 		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, null);
 		insertUser(dahao);
-		System.out.println("insert dahao");
+		// System.out.println("insert dahao");
 
 		ArrayList<Product> sellerRecent = new ArrayList<Product>();
 		sellerRecent.add(new Product());
@@ -149,7 +149,7 @@ public class JDBC {
 		sellerRecent.add(new Product());
 		User seller = new User("Seller-01", "123", sellerRecent, UserType.SELLER, null);
 		insertUser(seller);
-		System.out.println("insert seller");
+		// System.out.println("insert seller");
 
 		ArrayList<Product> cashierRecent = new ArrayList<Product>();
 		cashierRecent.add(new Product());
@@ -159,7 +159,7 @@ public class JDBC {
 		cashierRecent.add(new Product());
 		User cashier = new User("Cashier-01", "123", cashierRecent, UserType.CASHIER, null);
 		insertUser(cashier);
-		System.out.println("insert cashier");
+		// System.out.println("insert cashier");
 
 		ArrayList<Product> ownerRecent = new ArrayList<Product>();
 		ownerRecent.add(new Product());
@@ -169,13 +169,13 @@ public class JDBC {
 		ownerRecent.add(new Product());
 		User owner = new User("Owner", "123", ownerRecent, UserType.OWNER, null);
 		insertUser(owner);
-		System.out.println("insert owner");
+		// System.out.println("insert owner");
 
-		System.out.println("User inserted");
+		// System.out.println("User inserted");
 
-		System.out.println("###################");
-		System.out.println("### DB INIT END ###");
-		System.out.println("###################");
+		// System.out.println("###################");
+		// System.out.println("### DB INIT END ###");
+		// System.out.println("###################");
 	}
 
 	/**
@@ -329,7 +329,6 @@ public class JDBC {
 			}
 		}
 	}
-
 
 	/**
 	 * Create the User Table

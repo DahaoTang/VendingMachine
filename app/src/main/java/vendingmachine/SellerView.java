@@ -328,7 +328,6 @@ public class SellerView {
 				options[0]
 			);
 		if (answer.equals(1)) {
-System.out.println("Log Out");
 			jframe.dispose();
 			controller.restart();
 		} else {

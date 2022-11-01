@@ -140,7 +140,6 @@ public class CardPayView {
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("CashPayView: Back button clicked");
 				// Close current window
 				jframe.dispose();
 				// Launch choose pay mathod
@@ -160,7 +159,6 @@ System.out.println("CashPayView: Back button clicked");
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("CashPayView: Confirm button clicked");
 				// Retrieve data from current window
 				String name = cardNameTextField.getText();
 				String number = cardNumberField.getText();
@@ -172,6 +170,7 @@ System.out.println("CashPayView: Confirm button clicked");
 								launchTryToSaveCardInfoWindow(name, number);
 							}
 						}
+						controller.produceReportSuccessful(1);
 						controller.confirmPay();
 						JOptionPane.showMessageDialog(null, "Payment Successful!");
 						restart();	
@@ -196,7 +195,6 @@ System.out.println("CashPayView: Confirm button clicked");
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("CardPayView: Cancel button clicked");
 				lanuchTryToCancelWindow();	
 			}
 		});
@@ -226,12 +224,10 @@ System.out.println("CardPayView: Cancel button clicked");
 				null
 			);
 		if (answer.equals(0)) {
-System.out.println("CardPayView: Pay in cash");
 			controller.resetCashPayData();
 			CashPayView cashPayView = new CashPayView(model, controller, jframe);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-System.out.println("CardPayView: Pay in card");
 			CardPayView cardPayView = new CardPayView(model, controller, jframe);
 			cardPayView.launchWindow();
 		}
@@ -250,9 +246,7 @@ System.out.println("CardPayView: Pay in card");
 				options[0]
 			);
 		if (answer.equals(0)) {
-System.out.println("CardPayView: Not save card info");
 		} else if (answer.equals(1)){
-System.out.println("CardPayView: Save card info");
 			controller.updateUserCardInfo(cardName);	
 			JOptionPane.showMessageDialog(null, "Card info added successfully!");
 		}
@@ -271,16 +265,15 @@ System.out.println("CardPayView: Save card info");
 					options[0]
 				);
 		if (answer.equals(0)) {
-System.out.println("CardPayView: Not canel the order");
 		} else {
-System.out.println("CardPayView: Cancel the order");
+			String reason = (String)JOptionPane.showInputDialog("Cancel reason: ");
+			controller.produceReportCancel(reason);
 			restart();	
 		}
 
 	}
 
 	private void restart() {
-System.out.println("CardPayView: restart application");
 		defaultPageViewJFrame.dispose();
 		jframe.dispose();
 		this.controller.restart();

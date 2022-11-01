@@ -151,7 +151,6 @@ public class CashPayView {
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("CardPayView: Confirm button clicked");
 				lanuchTryToCancelWindow();	
 			}
 		});
@@ -168,7 +167,6 @@ System.out.println("CardPayView: Confirm button clicked");
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("CardPayView: Back button clicked");
 				jframe.dispose();
 				launchChoosePaymentMethodWindow();	
 			}
@@ -186,12 +184,12 @@ System.out.println("CardPayView: Back button clicked");
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("Confirm clicked");
 				if (!controller.ifGaveEnoughMoney()) {
 					JOptionPane.showMessageDialog(null, "Not enough money!");
 				} else if (!controller.ifHasEnoughChange()) {
 					JOptionPane.showMessageDialog(null, "Not enough change!");
 				} else {
+					controller.produceReportSuccessful(0);
 					controller.confirmPay();
 					JOptionPane.showMessageDialog(null, "Payment Successful!");
 					restart();	
@@ -209,8 +207,6 @@ System.out.println("Confirm clicked");
 		updatePrice();
 	}
 
-
-
 	/**
 	 * ########################
 	 * ### HELPER FUNCTIONS ###
@@ -218,7 +214,6 @@ System.out.println("Confirm clicked");
 	 * */
 	private void buildCashTable() {
 		Object[][] cashData = new Object[this.model.getCashMap().size()][7];
-System.out.println("CashPayView: buildCashTable: table row length: " + cashData.length);
 		// Create table
 		String[] cashTableColumnNames = {"Name", "-", "Amount", "+"};
 		this.cashTable = new JTable(cashData, cashTableColumnNames) {
@@ -253,7 +248,6 @@ System.out.println("CashPayView: buildCashTable: table row length: " + cashData.
 	}
 
 	private void drawCashTable() {
-System.out.println("CashPayView: drawCashTable");
 		this.jpanel.remove(this.cashScrollPane);
 		this.cashScrollPane = new JScrollPane(this.cashTable);
 		this.cashScrollPane.setBounds(
@@ -282,9 +276,10 @@ System.out.println("CashPayView: drawCashTable");
 					options[0]
 				);
 		if (answer.equals(0)) {
-System.out.println("CashPayView: Not canel the order");
+			return;
 		} else {
-System.out.println("CashPayView: Cancel the order");
+			String reason = (String)JOptionPane.showInputDialog("Cancel reason: ");
+			controller.produceReportCancel(reason);
 			restart();
 		}
 	}
@@ -302,19 +297,16 @@ System.out.println("CashPayView: Cancel the order");
 				null
 			);
 		if (answer.equals(0)) {
-System.out.println("CashPayView: Pay in cash");
 			controller.resetCashPayData();
 			CashPayView cashPayView = new CashPayView(model, controller, jframe);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-System.out.println("CashPayView: Pay in card");
 			CardPayView cardPayView = new CardPayView(model, controller, jframe);
 			cardPayView.launchWindow();
 		}
 	}
 
 	private void loadCashTableData() {
-System.out.println("CashPayView: loadCashTableData");
 		HashMap<Cash, Integer> cashMap = this.model.getCashMap();
 		String[] cashNameList = {
 			"$100", "$50", "$20", "$10", 

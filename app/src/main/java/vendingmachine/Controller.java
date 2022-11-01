@@ -1,7 +1,10 @@
 package vendingmachine;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.time.*;
+import java.time.format.*;
 
 public class Controller {
 
@@ -110,6 +113,8 @@ public class Controller {
 	}
 
 	public int confirmPay() {
+
+
 		updateCashInDBAfterPay();	
 		updateRecentAfterPay();
 		updateSelectedProductsAmountsToDB();
@@ -161,6 +166,64 @@ public class Controller {
 		}
 		this.model.setCashMap(cashMap);
 	}
+
+	public void produceReportCancel(String cancelledReason) {
+		LocalDateTime ldt = LocalDateTime.now();
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String time = ldtf.format(ldt);
+
+		try {
+			File current = new File("CancelledTransaction.txt");
+			FileWriter fw = new FileWriter(current, true);
+			String msg = "";
+
+			msg += "User: " + this.model.getCurrentUser().getName() + "; ";
+			msg += "Time: " + time + ";\n";
+			msg += "Reason: " + cancelledReason + ";\n\n";
+
+			fw.write(msg);
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void produceReportSuccessful(Integer paymentMethod) {
+		LocalDateTime ldt = LocalDateTime.now();
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String time = ldtf.format(ldt);
+
+		try {
+			File current = new File("SuccessfulTransaction.txt");
+			FileWriter fw = new FileWriter(current, true);
+			String msg = "";
+
+			msg += "User: " + this.model.getCurrentUser().getName() + "; ";
+			msg += "Time: " + time + ";\n";
+
+			msg += "Product: ";
+			for (Product p: this.model.getSelectedProducts().keySet()) {
+				msg += p.getName() + "; ";
+			}
+			msg += "\n";
+
+			if (paymentMethod.equals(0)) {
+				msg += "Payment Method: Cash; ";
+				msg += "Amount paid: " + this.model.getCurrentPrice();
+				msg += "; Change :" + (this.model.getCurrentPrice() - this.model.getTotalPrice()) + ";";
+			} else {
+				msg += "Payment Method: Card;";
+			}
+			msg += "\n\n";
+
+			fw.write(msg);
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public void restart() {
 		Model model = new Model(this.model.getJDBC(), this.model.getJSONpath());
@@ -290,7 +353,6 @@ public class Controller {
 			}
 		}
 		for (Cash c: cashMapInDB) {
-System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left: " + c.getAmount());
 			this.model.updateCashToDB(c);
 		}
 	}
@@ -436,7 +498,6 @@ System.out.println("CONTROLLER: updateCashInDBAfterPay: " + c.getName() + " left
 		}
 		newProduct.setAmount(newAmount);
 		this.model.updateProductToDB(newProduct);
-System.out.println("CONTROLLER updateProductToDB: " + productName + " left in DB: " + this.model.getProductFromDB(productName).getAmount());
 	}
 
 	public void updateRecentAmount(String productName, Integer value, Integer column) {

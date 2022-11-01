@@ -159,7 +159,6 @@ public class DefaultPageView {
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-System.out.println("Login clicked");
 					LoginView loginView = new LoginView(model, controller, jframe);
 					loginView.launchWindow();
 				}
@@ -300,7 +299,6 @@ System.out.println("Login clicked");
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-System.out.println("Confirm cliked");
 				if (model.getTotalPrice() > 0) launchChoosePaymentMethodWindow();	
 				else JOptionPane.showMessageDialog(null, "Please select products to purchase.");
 			}
@@ -455,7 +453,6 @@ System.out.println("Confirm cliked");
 			if (p != null && p.getName() != null) productDataLength++;
 		}
 		Object[][] productsData = new Object[productDataLength][7];
-System.out.println("DefaultPageView: buildRecentProductsTable: table row length: " + productsData.length);
 		// Create table
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {
@@ -582,12 +579,10 @@ System.out.println("DefaultPageView: buildRecentProductsTable: table row length:
 				null
 			);
 		if (answer.equals(0)) {
-System.out.println("DefaultPageView: Pay in cash");
 			controller.resetCashPayData();
 			CashPayView cashPayView = new CashPayView(model, controller, jframe);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-System.out.println("DefaultPageView: Pay in card");
 			CardPayView cardPayView = new CardPayView(model, controller, jframe);
 			cardPayView.launchWindow();
 		}
@@ -606,7 +601,6 @@ System.out.println("DefaultPageView: Pay in card");
 				options[0]
 			);
 		if (answer.equals(1)) {
-System.out.println("Log Out");
 			jframe.dispose();
 			controller.restart();
 		} else {
