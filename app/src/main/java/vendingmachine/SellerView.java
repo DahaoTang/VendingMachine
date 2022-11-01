@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -165,7 +164,6 @@ public class SellerView {
 		updateProductsTable();	
 
 		obtainReports();
-
 		this.jframe.setVisible(true);
 	}
 
@@ -365,7 +363,7 @@ System.out.println("Log Out");
 			FileWriter fw = new FileWriter(current);
 			fw.write("From Seller: " + this.model.getCurrentUser().getName() + "\n");
 			for (Product p: this.model.getProductsAllFromDB()) {
-				if (p.getAmount() == 0) continue;
+				if (p.getTotalSold() == 0) continue;
 				String msg = "";
 				msg += "ID: " + p.getId() + "; ";
 				msg += "Type: " + p.getTypeString() + "; ";

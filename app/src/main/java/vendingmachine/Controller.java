@@ -10,6 +10,7 @@ public class Controller {
 
 	private CardPayView cardPayView;
 	private CashPayView cashPayView;
+	private CashierView cashierView;
 	private LoginView loginView;
 	private RegisterView registerView;
 	private SellerView sellerView;
@@ -19,6 +20,7 @@ public class Controller {
 		this.defaultPageView = null;
 
 		this.cardPayView = null;
+		this.cashPayView = null;
 		this.cashPayView = null;
 		this.loginView = null;
 		this.registerView = null;
@@ -46,6 +48,10 @@ public class Controller {
 
 	public void setCashPayView(CashPayView cashPayView) {
 		this.cashPayView = cashPayView;
+	}
+
+	public void setCashierView(CashierView cashierView) {
+		this.cashierView = cashierView;
 	}
 
 	public void setDefaultPageView(DefaultPageView defaultPageView) {
@@ -548,6 +554,10 @@ System.out.println("CONTROLLER updateProductToDB: " + productName + " left in DB
 
 	public void updateViewCashPay() {
 		this.cashPayView.updateView();
+	}
+
+	public void updateViewCashier() {
+		this.cashierView.updateView();
 	}
 
 	public void updateViewSeller() {
