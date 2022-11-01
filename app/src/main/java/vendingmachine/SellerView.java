@@ -231,7 +231,6 @@ public class SellerView {
 		for (Product p: productListInDB) {
 			productNameList.add(p.getName());
 		}
-		System.out.println("productNameList length: " + productNameList.size());
 		// Sort to fix the order
 		productNameList.sort(Comparator.naturalOrder());
 		for (int i = 0; i < productNameList.size(); i++) {
@@ -330,8 +329,6 @@ public class SellerView {
 		if (answer.equals(1)) {
 			jframe.dispose();
 			controller.restart();
-		} else {
-			System.out.println("OK");
 		}
 	}
 

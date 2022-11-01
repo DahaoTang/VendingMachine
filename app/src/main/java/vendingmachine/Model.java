@@ -155,7 +155,6 @@ public class Model {
                 String number = (String) cardDetails.get("number");
 				this.cardInfoMap.put(name, number);
             }
-
         } catch (Exception e) {
             System.out.println("Card reader error");
         }

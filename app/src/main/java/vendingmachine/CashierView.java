@@ -115,8 +115,6 @@ public class CashierView {
 			);
 		this.jpanel.add(this.cashLabel);
 
-		System.out.println("Try to load table");
-
 		// JTable
 		updateCashTable();
 
@@ -203,8 +201,6 @@ public class CashierView {
 		if (answer.equals(1)) {
 			jframe.dispose();
 			controller.restart();
-		} else {
-			System.out.println("OK");
 		}
 	}
 

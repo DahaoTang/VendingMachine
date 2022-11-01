@@ -275,9 +275,7 @@ public class CashPayView {
 					options, 
 					options[0]
 				);
-		if (answer.equals(0)) {
-			return;
-		} else {
+		if (!answer.equals(0)) {
 			String reason = (String)JOptionPane.showInputDialog("Cancel reason: ");
 			controller.produceReportCancel(reason);
 			restart();

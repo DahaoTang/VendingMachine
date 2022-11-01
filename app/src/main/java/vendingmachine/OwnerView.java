@@ -139,7 +139,6 @@ public class OwnerView {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				launchTryToAddUserWindow();
-				System.out.println(usersTable.getValueAt(1, 2));
 			}
 		});
 		this.jpanel.add(this.addButton);
@@ -245,7 +244,6 @@ public class OwnerView {
 			this.usersTable.setValueAt(u.getName(), i, 1);
 			this.usersTable.setValueAt(u.getPassword(), i, 2);
 			this.usersTable.setValueAt(u.getCardName(), i, 3);
-			System.out.println("data loaded: " + u.toString());
 		}
 	}
 
@@ -333,17 +331,13 @@ public class OwnerView {
 				options[0]
 			);
 		if (answer.equals(1)) {
-			System.out.println("Log Out");
 			jframe.dispose();
 			controller.restart();
-		} else {
-			System.out.println("OK");
 		}
 	}
 
 	private void launchTryToConfirmWindow() {
 		for (int row = 0; row < this.model.getUserAllFromDB().size(); row++) {
-			System.out.println("row: " + row);
 			// Get new data
 			String newTypeString = (String)this.usersTable.getValueAt(row, 0);
 			newTypeString = newTypeString.toUpperCase();
@@ -371,7 +365,7 @@ public class OwnerView {
 			user.setPassword(newPassword);
 
 			// Set Card Name
-			if (newCardName == null || controller.ifHasCardGlobal(newCardName)) {
+			if (newCardName == null || controller.ifHasCardGlobal(newCardName) || newCardName.equals("")) {
 				user.setCardName(newCardName);
 			} else {
 				JOptionPane.showMessageDialog(null, "Invalid Card Name!");

@@ -603,8 +603,6 @@ public class DefaultPageView {
 		if (answer.equals(1)) {
 			jframe.dispose();
 			controller.restart();
-		} else {
-			System.out.println("OK");
 		}
 	}
 

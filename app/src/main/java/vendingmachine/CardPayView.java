@@ -264,8 +264,7 @@ public class CardPayView {
 					options, 
 					options[0]
 				);
-		if (answer.equals(0)) {
-		} else {
+		if (!answer.equals(0)) {
 			String reason = (String)JOptionPane.showInputDialog("Cancel reason: ");
 			controller.produceReportCancel(reason);
 			restart();	
