@@ -202,7 +202,12 @@ public class LoginView implements WindowListener {
 
 		// Owner
 		} else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
-
+			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
+			newModel.setCurrentUser(this.model.getCurrentUser());
+			OwnerView ownerView = new OwnerView();
+			ownerView.setModel(newModel);
+			ownerView.setController(this.controller);
+			ownerView.launchWindow();
 		}
 	}
 

@@ -330,6 +330,7 @@ public class JDBC {
 		}
 	}
 
+
 	/**
 	 * Create the User Table
 	 * NAME - the name of the user
@@ -885,6 +886,43 @@ public class JDBC {
 		return user;
 	}
 
+	public ArrayList<User> getUserAll() {
+		ArrayList<String> userNameList = new ArrayList<String>();
+		ArrayList<User> userList = new ArrayList<User>();
+		try {
+			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
+// System.out.println("JDBC: getUserAll connected");
+			this.dbConnection.setAutoCommit(true);
+			Statement statement = this.dbConnection.createStatement();
+			String sql = "SELECT * FROM USER;";
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				String userName = resultSet.getString("NAME");
+				userNameList.add(userName);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (Exception e) {
+			System.out.println("From getUserAll");
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+// System.out.println("JDBC: getUserAll closed");
+			} catch (SQLException e) {
+				System.out.println("From getUserAll");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
+		}
+		for (String userName: userNameList) {
+			userList.add(getUser(userName));
+		}
+		return userList;
+	}
+
+
 	/**
 	 * =============
 	 * ### CHECK ###
@@ -1144,9 +1182,7 @@ public class JDBC {
 										cardName + 
 									"');";
 			statement.executeUpdate(sql);
-System.out.println("executed");
 			statement.close();
-System.out.println("statement closed");
 		} catch (SQLException e) {
 			System.out.println("From insertUser");
 			System.err.println( e.getClass().getName() + ": " + e.getMessage());

@@ -219,6 +219,10 @@ public class Model {
 		return this.jdbc.getRecent();
 	}
 
+	public ArrayList<User> getUserAllFromDB() {
+		return this.jdbc.getUserAll();
+	}
+
 	public User getUserFromDB(String name) {
 		return this.jdbc.getUser(name);
 	}

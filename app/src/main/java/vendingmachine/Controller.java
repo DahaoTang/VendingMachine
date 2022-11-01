@@ -12,6 +12,7 @@ public class Controller {
 	private CashPayView cashPayView;
 	private CashierView cashierView;
 	private LoginView loginView;
+	private OwnerView ownerView;
 	private RegisterView registerView;
 	private SellerView sellerView;
 
@@ -66,6 +67,10 @@ public class Controller {
 		this.model = model;
 	}
 
+	public void setOwnerView(OwnerView ownerView) {
+		this.ownerView = ownerView;
+	}
+
 	public void setRegisterView(RegisterView registerView) {
 		this.registerView = registerView;
 	}
@@ -107,12 +112,16 @@ public class Controller {
 	public int confirmPay() {
 		updateCashInDBAfterPay();	
 		updateRecentAfterPay();
-		updateSelectedProductsAmountsToDB();	
+		updateSelectedProductsAmountsToDB();
 		return 0;
 	}
 
 	public void deleteProductInDB(String name) {
 		this.model.deleteProductInDB(name);
+	}
+
+	public void deleteUserInDB(String name) {
+		this.model.deleteUserInDB(name);
 	}
 
 	public UserType getCurrentUserType() {
@@ -137,6 +146,10 @@ public class Controller {
 		recentProducts.add(new Product());
 		recentProducts.add(new Product());
 		User user = new User(userName, password, recentProducts, UserType.NORMAL, null);
+		this.model.insertUserToDB(user);
+	}
+
+	public void insertUserToDB(User user) {
 		this.model.insertUserToDB(user);
 	}
 
@@ -562,6 +575,10 @@ System.out.println("CONTROLLER updateProductToDB: " + productName + " left in DB
 		this.model.updateUserToDB(user);
 	}
 
+	public void updateUserToDB(User user) {
+		this.model.updateUserToDB(user);
+	}
+
 	public void updateViewDefaultPage() {
 		this.defaultPageView.updateView();
 	}
@@ -576,6 +593,10 @@ System.out.println("CONTROLLER updateProductToDB: " + productName + " left in DB
 
 	public void updateViewSeller() {
 		this.sellerView.updateView();
+	}
+
+	public void updateViewOwner() {
+		this.ownerView.updateView();
 	}
 
 	/**

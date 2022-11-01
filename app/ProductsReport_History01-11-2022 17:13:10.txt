@@ -1,6 +1,0 @@
-From Seller: Seller-01
-ID: 105; Type: DRINK; Name: Juice; Price: 3.5; Amount sold: 7.
-ID: 103; Type: DRINK; Name: Coca Cola; Price: 2.0; Amount sold: 3.
-ID: 304; Type: CHIP; Name: Thins; Price: 3.0; Amount sold: 1.
-ID: 302; Type: CHIP; Name: Pringles; Price: 2.5; Amount sold: 1.
-ID: 301; Type: CHIP; Name: Smiths; Price: 2.0; Amount sold: 1.
