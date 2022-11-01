@@ -211,6 +211,20 @@ public class Controller {
 		this.model.setCashMap(cashMap);
 	}
 
+	public void updateCashAmountToDB(String cashName, Integer value, Integer column) {
+		Integer newAmount = value;
+		if (column == 1) {
+			if (newAmount > 0) {
+				newAmount--;
+			}
+		} else {
+			newAmount++;
+		}
+		Cash cash = this.model.getCashFromDB(cashName);
+		cash.setAmount(newAmount);
+		this.model.updateCashToDB(cash);
+	}
+
 	public void updateCardInDB(String name, String number) {
 		Card newCard = new Card(name, number);
 		this.model.updateCardToDB(newCard);

@@ -151,7 +151,7 @@ public class JDBC {
 		cashierRecent.add(new Product());
 		cashierRecent.add(new Product());
 		cashierRecent.add(new Product());
-		User cashier = new User("Casier-01", "123", cashierRecent, UserType.CASHIER, null);
+		User cashier = new User("Cashier-01", "123", cashierRecent, UserType.CASHIER, null);
 		insertUser(cashier);
 		System.out.println("insert cashier");
 
@@ -542,7 +542,44 @@ public class JDBC {
 			}
 		}
 		return card;
-
+	}
+	
+	public Cash getCash(String name) {
+		Cash cash = new Cash();
+		try {
+			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
+// System.out.println("JDBC: getCash connected");
+			this.dbConnection.setAutoCommit(true);
+			Statement statement = this.dbConnection.createStatement();
+			String sql = "SELECT * FROM CASH WHERE NAME='" + name + "';";
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				// Retrieve values back 
+				String cash_name = resultSet.getString("NAME");
+				Double cash_value = resultSet.getDouble("VALUE");
+				Integer cash_amount = resultSet.getInt("AMOUNT");
+				// Set value to the product to return
+				cash.setName(cash_name);
+				cash.setValue(cash_value);
+				cash.setAmount(cash_amount);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (Exception e) {
+			System.out.println("From getCard");
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.exit(0);
+		} finally {
+			try {
+				this.dbConnection.close();
+// System.out.println("JDBC: getCash closed");
+			} catch (SQLException e) {
+				System.out.println("From getCard");
+				System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+				System.exit(0);
+			}
+		}
+		return cash;
 	}
 
 	public ArrayList<Cash> getCashAll() {

@@ -425,7 +425,6 @@ System.out.println("CashPayView: loadCashTableData");
 				}
 			});
 			this.controller = controller;
-			System.out.println("CashButtonEditor created");
 		}
 
 		@Override
@@ -449,13 +448,11 @@ System.out.println("CashPayView: loadCashTableData");
 		public Object getCellEditorValue() {
 			if (isPushed) {
 				// Get data from JTable
-				System.out.println("CashButtonEditor pushed");
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();
 				int value = Integer.parseInt(jtable.getValueAt(row, 2).toString());
 				String cashName = jtable.getValueAt(row, 0).toString();	
 				// Parse to Controller to update
-				System.out.println(cashName + ": " + value);
 				this.controller.updateCashAmount(cashName, value, column);
 				this.controller.updateViewCashPay();
 			}

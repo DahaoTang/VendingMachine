@@ -376,7 +376,6 @@ System.out.println("Log Out");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void setColumnWidth(JTable table, int[] sizeArray) {

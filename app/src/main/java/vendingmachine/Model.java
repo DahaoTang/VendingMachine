@@ -190,6 +190,10 @@ public class Model {
 	public Card getCardFromDB(String name) {
 		return this.jdbc.getCard(name);
 	}
+	
+	public Cash getCashFromDB(String name) {
+		return this.jdbc.getCash(name);
+	}
 
 	public ArrayList<Cash> getCashAllFromDB() {
 		return this.jdbc.getCashAll();
