@@ -85,4 +85,8 @@ public class CashierView {
 
 		this.jframe.setVisible(true);
 	}
+
+	public void updateView() {
+
+	}
 }
