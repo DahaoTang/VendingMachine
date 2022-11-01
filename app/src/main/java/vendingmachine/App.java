@@ -10,7 +10,7 @@ public class App {
 		JDBC jdbc = new JDBC(dbPath);
 
 		/**
-		 * Uncomment to init the database
+		 * Comment to stop init the database when starting the app
 		 * */
 		jdbc.initDB();
 

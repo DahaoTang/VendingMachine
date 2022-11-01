@@ -1,5 +1,6 @@
 package vendingmachine;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -26,6 +27,11 @@ public class JDBC {
 	 * ======================
 	 * */
 	public void initDB() {
+
+		File dbFile = new File(this.dbPath);
+		dbFile.delete();
+
+		tryConnectToDB();
 
 		System.out.println("#####################");
 		System.out.println("### DB INIT START ###");
