@@ -309,7 +309,7 @@ public class CashierView {
 		}
 		try {
 			File outputFile = new File("./Reports/Transactions/Successful/SuccessfulTransaction" + reportTail + ".txt");
-			File inputFile = new File("./Reports/Transactions/SuccessfulTransaction.txt");
+			File inputFile = new File("SuccessfulTransaction");
 			outputFile.createNewFile();
 			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);

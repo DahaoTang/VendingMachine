@@ -171,7 +171,7 @@ public class Controller {
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String time = ldtf.format(ldt);
 		try {
-			File current = new File("./Reports/Transactions/CancelledTransaction.txt");
+			File current = new File("CancelledTransaction");
 			FileWriter fw = new FileWriter(current, true);
 			String msg = "";
 			msg += "User: " + this.model.getCurrentUser().getName() + "; ";
@@ -189,7 +189,7 @@ public class Controller {
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String time = ldtf.format(ldt);
 		try {
-			File current = new File("./Reports/Transactions/SuccessfulTransaction.txt");
+			File current = new File("SuccessfulTransaction");
 			FileWriter fw = new FileWriter(current, true);
 			String msg = "";
 			msg += "User: " + this.model.getCurrentUser().getName() + "; ";

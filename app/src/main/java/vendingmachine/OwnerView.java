@@ -490,7 +490,7 @@ public class OwnerView {
 		}
 		try {
 			File outputFile = new File("./Reports/Transactions/Cancelled/CancelledTransaction" + reportTail + ".txt");
-			File inputFile = new File("./Reports/Transactions/CancelledTransaction.txt");
+			File inputFile = new File("CancelledTransaction");
 			outputFile.createNewFile();
 			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);
