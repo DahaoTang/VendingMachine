@@ -193,7 +193,7 @@ public class CashPayView {
 					JOptionPane.showMessageDialog(null, "Not enough change!");
 				} else {
 					controller.produceReportSuccessful(0);
-					controller.confirmPay();
+					controller.confirmPay(0);
 					JOptionPane.showMessageDialog(null, "Payment Successful!");
 					restart();	
 				}

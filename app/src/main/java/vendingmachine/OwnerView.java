@@ -20,6 +20,8 @@ public class OwnerView {
 
 	private JButton userButton;
 	private JButton purchaseButton;
+	private JButton cashierPageButton;
+	private JButton sellerPageButton;
 
 	private JLabel usersLabel;
 	private JTable  usersTable;
@@ -35,6 +37,8 @@ public class OwnerView {
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
+	private final int[] CASH_BUTTON_BP = {216, 16, 100, 36};
+	private final int[] PRODUCT_BUTTON_BP = {316, 16, 100, 36};
 
 	private final int[] USERS_LABEL_BP = {18, 60, 300, 32};
 	private final int[] USERS_SCROLL_PANE_BP = {18, 100, 564, 300};
@@ -42,7 +46,7 @@ public class OwnerView {
 	private final int[] ADD_BUTTON_BP = {495, 60, 90, 30};
 	private final int[] DELETE_BUTTON_BP = {405, 60, 90, 30};
 
-	private final int[] CONFIRM_BUTTON_BP = {405, 420, 90, 30};
+	private final int[] CONFIRM_BUTTON_BP = {500, 400, 90, 30};
 
 
 	public OwnerView() {
@@ -54,6 +58,8 @@ public class OwnerView {
 
 		this.userButton = new JButton();
 		this.purchaseButton = new JButton();
+		this.cashierPageButton = new JButton();
+		this.sellerPageButton = new JButton();
 
 		this.usersLabel = new JLabel();
 		this.usersTable = new JTable();
@@ -127,6 +133,38 @@ public class OwnerView {
 			}
 		});
 		this.jpanel.add(this.purchaseButton);
+
+		// JButton for sellerView
+		this.sellerPageButton.setText("Products");
+		this.sellerPageButton.setBounds(
+				PRODUCT_BUTTON_BP[0],
+				PRODUCT_BUTTON_BP[1],
+				PRODUCT_BUTTON_BP[2],
+				PRODUCT_BUTTON_BP[3]
+			);
+		this.sellerPageButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchSellerViewWindow();
+			}
+		});
+		this.jpanel.add(this.sellerPageButton);
+
+		// JButton for cashierView
+		this.cashierPageButton.setText("Cashes");
+		this.cashierPageButton.setBounds(
+				CASH_BUTTON_BP[0],
+				CASH_BUTTON_BP[1],
+				CASH_BUTTON_BP[2],
+				CASH_BUTTON_BP[3]
+			);
+		this.cashierPageButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchCashierViewWindow();
+			}
+		});
+		this.jpanel.add(this.cashierPageButton);
 
 
 		/**
@@ -244,6 +282,16 @@ public class OwnerView {
 		};
 	}
 
+	private void launchCashierViewWindow() {
+		jframe.dispose();
+		controller.setOwnerView(null);
+		CashierView cashierView = new CashierView();
+		cashierView.setModel(model);
+		cashierView.setController(controller);
+		controller.setCashierView(cashierView);
+		cashierView.launchWindow();
+	}
+
 	private void launchDefaultPageViewWindow() {
 		jframe.dispose();
 		controller.setOwnerView(null);
@@ -253,6 +301,17 @@ public class OwnerView {
 		controller.setDefaultPageView(defaultPageView);
 		defaultPageView.launchWindow();
 	}
+
+	private void launchSellerViewWindow() {
+		jframe.dispose();
+		controller.setOwnerView(null);
+		SellerView sellerView = new SellerView();
+		sellerView.setModel(model);
+		sellerView.setController(controller);
+		controller.setSellerView(sellerView);
+		sellerView.launchWindow();
+	}
+
 
 	private void loadUsersTableData() {
 		ArrayList<User> userListInDB = this.model.getUserAllFromDB();
@@ -415,7 +474,7 @@ public class OwnerView {
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String reportTail = ldtf.format(ldt);
 		try {
-			File current = new File("UserReport" + reportTail + ".txt");
+			File current = new File("./Reports/Users/UserReport" + reportTail + ".txt");
 			FileWriter fw = new FileWriter(current);
 			fw.write("From Owner: " + this.model.getCurrentUser().getName() + "\n");
 			for (User u: this.model.getUserAllFromDB()) {
@@ -430,8 +489,10 @@ public class OwnerView {
 			e.printStackTrace();
 		}
 		try {
-			File outputFile = new File("CancelledTransaction" + reportTail + ".txt");
-			File inputFile = new File("CancelledTransaction.txt");
+			File outputFile = new File("./Reports/Transactions/Cancelled/CancelledTransaction" + reportTail + ".txt");
+			File inputFile = new File("./Reports/Transactions/CancelledTransaction.txt");
+			outputFile.createNewFile();
+			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);
 		} catch (Exception e) {
 			e.printStackTrace();

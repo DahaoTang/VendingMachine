@@ -112,7 +112,9 @@ public class Controller {
 	}
 
 	public int confirmPay(Integer paymentMethod) {
-		updateCashInDBAfterPay();	
+		if (paymentMethod.equals(0)) {
+			updateCashInDBAfterPay();	
+		}
 		updateRecentAfterPay();
 		updateSelectedProductsAmountsToDB();
 		return 0;

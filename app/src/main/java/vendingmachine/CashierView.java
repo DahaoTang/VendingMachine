@@ -21,6 +21,7 @@ public class CashierView {
 
 	private JButton userButton;
 	private JButton purchaseButton;
+	private JButton backToOwnerButton;
 
 	private JLabel cashLabel;
 	private JTable cashTable;
@@ -31,6 +32,7 @@ public class CashierView {
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
+	private final int[] BACK_TO_OWNER_BUTTON_BP = {216, 16, 100, 36};
 
 	private final int[] CASH_TABLE_COLUMN_WIDTH = {100, 30, 80, 30};
 
@@ -47,6 +49,7 @@ public class CashierView {
 
 		this.userButton = new JButton();
 		this.purchaseButton = new JButton();
+		this.backToOwnerButton = new JButton();
 
 		this.cashLabel = new JLabel();
 		this.cashTable = new JTable();
@@ -115,6 +118,24 @@ public class CashierView {
 			}
 		});
 		this.jpanel.add(this.purchaseButton);
+
+		// JButton for back to ownerView
+		this.backToOwnerButton.setText("Accounts");
+		this.backToOwnerButton.setBounds(
+				BACK_TO_OWNER_BUTTON_BP[0],
+				BACK_TO_OWNER_BUTTON_BP[1],
+				BACK_TO_OWNER_BUTTON_BP[2],
+				BACK_TO_OWNER_BUTTON_BP[3]
+			);
+		this.backToOwnerButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchOwnerViewWindow();
+			}
+		});
+		if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
+			this.jpanel.add(this.backToOwnerButton);
+		}
 
 
 		/**
@@ -216,6 +237,16 @@ public class CashierView {
 		defaultPageView.launchWindow();
 	}
 
+	private void launchOwnerViewWindow() {
+		jframe.dispose();
+		controller.setCashierView(null);
+		OwnerView ownerView = new OwnerView();
+		ownerView.setModel(model);
+		ownerView.setController(controller);
+		controller.setOwnerView(ownerView);
+		ownerView.launchWindow();
+	}
+
 	private void launchTryToLogOutWindow() {
 		Object[] options = {"OK", "Log Out"};
 		Object answer = JOptionPane.showOptionDialog(
@@ -262,7 +293,7 @@ public class CashierView {
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String reportTail = ldtf.format(ldt);
 		try {
-			File current = new File("CashReport_Current" + reportTail + ".txt");
+			File current = new File("./Reports/Cashes/CashReport" + reportTail + ".txt");
 			FileWriter fw = new FileWriter(current);
 			fw.write("From Cashier: " + this.model.getCurrentUser().getName() + "\n");
 			for (Cash c: this.model.getCashAllFromDB()) {
@@ -277,8 +308,10 @@ public class CashierView {
 			e.printStackTrace();
 		}
 		try {
-			File outputFile = new File("SuccessfulTransaction" + reportTail + ".txt");
-			File inputFile = new File("SuccessfulTransaction.txt");
+			File outputFile = new File("./Reports/Transactions/Successful/SuccessfulTransaction" + reportTail + ".txt");
+			File inputFile = new File("./Reports/Transactions/SuccessfulTransaction.txt");
+			outputFile.createNewFile();
+			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -176,7 +176,7 @@ public class CardPayView {
 							}
 						}
 						controller.produceReportSuccessful(1);
-						controller.confirmPay();
+						controller.confirmPay(1);
 						JOptionPane.showMessageDialog(null, "Payment Successful!");
 						restart();	
 					} else {

@@ -21,6 +21,7 @@ public class SellerView {
 
 	private JButton userButton;
 	private JButton purchaseButton;
+	private JButton backToOwnerButton;
 
 	private JLabel productsLabel;
 	private JTable productsTable;
@@ -34,6 +35,7 @@ public class SellerView {
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
+	private final int[] BACK_TO_OWNER_BUTTON_BP = {216, 16, 100, 36};
 
 	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 180, 70, 20, 70, 20};
 
@@ -58,6 +60,7 @@ public class SellerView {
 
 		this.userButton = new JButton();
 		this.purchaseButton = new JButton();
+		this.backToOwnerButton = new JButton();
 
 		this.productsLabel = new JLabel();
 		this.productsTable = new JTable();
@@ -128,6 +131,24 @@ public class SellerView {
 			}
 		});
 		this.jpanel.add(this.purchaseButton);
+
+		// JButton for back to ownerView
+		this.backToOwnerButton.setText("Accounts");
+		this.backToOwnerButton.setBounds(
+				BACK_TO_OWNER_BUTTON_BP[0],
+				BACK_TO_OWNER_BUTTON_BP[1],
+				BACK_TO_OWNER_BUTTON_BP[2],
+				BACK_TO_OWNER_BUTTON_BP[3]
+			);
+		this.backToOwnerButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchOwnerViewWindow();
+			}
+		});
+		if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
+			this.jpanel.add(this.backToOwnerButton);
+		}
 
 
 		/**
@@ -256,6 +277,16 @@ public class SellerView {
 		defaultPageView.launchWindow();
 	}
 
+	private void launchOwnerViewWindow() {
+		jframe.dispose();
+		controller.setSellerView(null);
+		OwnerView ownerView = new OwnerView();
+		ownerView.setModel(model);
+		ownerView.setController(controller);
+		controller.setOwnerView(ownerView);
+		ownerView.launchWindow();
+	}
+
 	private void loadProductsTableData() {
 		ArrayList<Product> productListInDB = this.model.getProductsAllFromDB();
 		ArrayList<String> productNameList = new ArrayList<String>();
@@ -368,7 +399,7 @@ public class SellerView {
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String reportTail = ldtf.format(ldt);
 		try {
-			File current = new File("ProductsReport_Current" + reportTail + ".txt");
+			File current = new File("./Reports/Products/Current/ProductsReport_Current" + reportTail + ".txt");
 			FileWriter fw = new FileWriter(current);
 			fw.write("From Seller: " + this.model.getCurrentUser().getName() + "\n");
 			for (Product p: this.model.getProductsAllFromDB()) {
@@ -386,7 +417,7 @@ public class SellerView {
 			e.printStackTrace();
 		}
 		try {
-			File current = new File("ProductsReport_History" + reportTail + ".txt");
+			File current = new File("./Reports/Products/History/ProductsReport_History" + reportTail + ".txt");
 			FileWriter fw = new FileWriter(current);
 			fw.write("From Seller: " + this.model.getCurrentUser().getName() + "\n");
 			for (Product p: this.model.getProductsAllFromDB()) {
