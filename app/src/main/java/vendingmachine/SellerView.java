@@ -80,13 +80,11 @@ public class SellerView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
-		// Set up JFrame
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.jframe.setLocationRelativeTo(null);
 
-		// Set up JPanel
         this.jpanel.setLayout(null);
         this.jframe.add(this.jpanel);
 
@@ -96,14 +94,13 @@ public class SellerView {
 		 * ### Login / User Info ###
 		 * =========================
 		 * */
-		// Set up JButton for logged in user
+		// JButton for logged in user
 		this.userButton.setBounds(
 				USER_BUTTON_BP[0], 
 				USER_BUTTON_BP[1], 
 				USER_BUTTON_BP[2], 
 				USER_BUTTON_BP[3]
 			);
-		// updateUserButton();
 		this.userButton.setText(this.model.getCurrentUser().getName());
 		this.userButton.addActionListener(new AbstractAction() {
 				@Override
@@ -119,7 +116,7 @@ public class SellerView {
 		 * ### Products Table ###
 		 * ======================
 		 * */
-
+		// JLabel for products table
 		this.productsLabel.setText("Maintain Products: ");
 		this.productsLabel.setFont(new Font(LABEL_FONT, LABEL_FONT_MODE, LABEL_FONT_SIZE));
 		this.productsLabel.setBounds(
@@ -130,6 +127,7 @@ public class SellerView {
 			);
 		this.jpanel.add(this.productsLabel);
 
+		// JButton for add
 		this.addButton.setText("Add");
 		this.addButton.setBounds(
 				ADD_BUTTON_BP[0],
@@ -145,6 +143,7 @@ public class SellerView {
 		});
 		this.jpanel.add(this.addButton);
 
+		// JButton for delete
 		this.deleteButton.setText("Delete");
 		this.deleteButton.setBounds(
 				DELETE_BUTTON_BP[0],
@@ -160,10 +159,15 @@ public class SellerView {
 		});
 		this.jpanel.add(this.deleteButton);
 
-		// JTable for products
+		// JTable for products table
 		updateProductsTable();	
 
+
+		// Prodce a report upon logged in
 		obtainReports();
+
+
+		// Show window
 		this.jframe.setVisible(true);
 	}
 
@@ -173,13 +177,11 @@ public class SellerView {
 
 
 
-
 	/**
 	 * ########################
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
 	 * */
-
 	private void buildProductsTable() {
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		Object[][] productsData = new Object[this.model.getProductsAllFromDB().size()][productsTableColumnNames.length];
@@ -394,11 +396,6 @@ public class SellerView {
 	 * ### HELPER CLASSES ###
 	 * ######################
 	 * */
-
-
-	/**
-	 * Increase or decrease button renderer for recent products table
-	 * */
 	class SellerProductsButtonRenderer extends JButton implements TableCellRenderer {
 
 		public SellerProductsButtonRenderer() {
@@ -420,9 +417,6 @@ public class SellerView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for recent products table
-	 * */
 	class SellerProductsButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;

@@ -79,6 +79,7 @@ public class CardPayView {
 		 * ### Card Name ###
 		 * =================
 		 * */
+		// JLabel for card name
 		this.cardNameLabel.setText("Name: ");
 		this.cardNameLabel.setBounds(
 				CARD_NAME_LABEL_BP[0],
@@ -88,6 +89,7 @@ public class CardPayView {
 			);
 		this.jpanel.add(this.cardNameLabel);
 
+		// JTextField for card name
 		if (this.controller.ifCurrentUserHasCard()) {
 			this.cardNameTextField.setText(this.model.getCurrentUser().getCardName());
 		}
@@ -105,7 +107,7 @@ public class CardPayView {
 		 * ### Card Number ###
 		 * ===================
 		 * */
-
+		// JLabel for card number
 		this.cardNumberLabel.setText("Number: ");
 		this.cardNumberLabel.setBounds(
 				CARD_NUMBER_LABEL_BP[0],
@@ -115,6 +117,7 @@ public class CardPayView {
 			);
 		this.jpanel.add(this.cardNumberLabel);
 
+		// JPasswordField for card number
 		this.cardNumberField.setBounds(
 				CARD_NUMBER_FEILD_BP[0],
 				CARD_NUMBER_FEILD_BP[1],
@@ -129,7 +132,7 @@ public class CardPayView {
 		 * ===============
 		 * */
 		
-		// Back
+		// JButton for back
 		this.backButton.setText("Back");
 		this.backButton.setBounds(
 				BACK_BUTTON_BP[0],
@@ -148,7 +151,7 @@ public class CardPayView {
 		});
 		this.jpanel.add(this.backButton);
 
-		// Confirm
+		// JButton for confirm
 		this.confirmButton.setText("Confirm");
 		this.confirmButton.setBounds(
 				CONFIRM_BUTTON_BP[0],
@@ -184,7 +187,7 @@ public class CardPayView {
 		});
 		this.jpanel.add(this.confirmButton);
 
-		// Cancel
+		// JButton for cancel
 		this.cancelButton.setText("Cancel Order");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],
@@ -201,6 +204,7 @@ public class CardPayView {
 		this.jpanel.add(this.cancelButton);
 
 
+		// Show window
 		this.jframe.setVisible(true);
 	}
 

@@ -43,7 +43,7 @@ public class DefaultPageView {
 	private JButton confirmButton;
 
 
-	// WINDOW LAYNOUT DATA
+	// DATA
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 
@@ -64,7 +64,7 @@ public class DefaultPageView {
 	private final int[] SELECTED_PRODUCTS_SCROLL_PANE_BP = {18, 440, 564, 200};
 
 	private final int[] TOTAL_AMOUNT_BP = {18, 660, 200, 32};
-
+	
 	private final int[] CONFIRM_BUTTON_BP = {470, 660, 110, 36};
 
 
@@ -132,20 +132,21 @@ public class DefaultPageView {
 		 * ### Login / User Info ###
 		 * =========================
 		 * */
-		// Set up JButton for logged in user
+		// JButton for logged in user
 		this.userButton.setBounds(
 				USER_BUTTON_BP[0], 
 				USER_BUTTON_BP[1], 
 				USER_BUTTON_BP[2], 
 				USER_BUTTON_BP[3]
 			);
-		this.jpanel.add(this.userButton);
-		// updateUserButton();
+
+		// Set userButton text
 		if (this.model.getCurrentUser().getName() == null) {
 			this.userButton.setText("Login");;
 		} else {
 			this.userButton.setText(this.model.getCurrentUser().getName());
 		}
+		// Set up userButton actions
 		if (this.model.getCurrentUser().getName() != null) {
 			// If logged in
 			this.userButton.addActionListener(new AbstractAction() {
@@ -269,7 +270,6 @@ public class DefaultPageView {
 		 * ### Total Amount ###
 		 * ====================
 		 * */
-
 		// JLabel for total amount
 		this.totalPrice = this.model.getTotalPrice();
 		this.totalPriceLabel.setText("Total Price: $ " + this.totalPrice);
@@ -288,7 +288,7 @@ public class DefaultPageView {
 		 * ### Confirm Button ### 
 		 * ======================
 		 * */
-
+		// JButton for confirm 
 		this.confirmButton.setText("Confirm");
 		this.confirmButton.setBounds(
 				CONFIRM_BUTTON_BP[0],
@@ -305,7 +305,8 @@ public class DefaultPageView {
 		});
 		this.jpanel.add(this.confirmButton);
 
-     
+    	
+		// Show window
         this.jframe.setVisible(true);
 	}
 
@@ -325,7 +326,6 @@ public class DefaultPageView {
 	 * */
 
 	private void buildGroupedProductsTable() {
-		// Set column names
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 
 		// Build DRINK table
@@ -351,7 +351,6 @@ public class DefaultPageView {
 		};
 		setColumnWidth(this.groupedProductsTable_DRINK, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_DRINK.setRowSelectionAllowed(false);
-		// Set buttons
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_DRINK.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
@@ -380,7 +379,6 @@ public class DefaultPageView {
 		};
 		setColumnWidth(this.groupedProductsTable_CHOCOLATE, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CHOCOLATE.setRowSelectionAllowed(false);
-		// Set buttons
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CHOCOLATE.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
@@ -409,7 +407,6 @@ public class DefaultPageView {
 		};
 		setColumnWidth(this.groupedProductsTable_CHIP, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CHIP.setRowSelectionAllowed(false);
-		// Set buttons
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CHIP.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
@@ -438,23 +435,19 @@ public class DefaultPageView {
 		};
 		setColumnWidth(this.groupedProductsTable_CANDY, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.groupedProductsTable_CANDY.setRowSelectionAllowed(false);
-		// Set buttons
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(4).setCellRenderer(new GroupedButtonRenderer());
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellEditor(new GroupedButtonEditor(new JTextField(), this.controller));
 		this.groupedProductsTable_CANDY.getColumnModel().getColumn(6).setCellRenderer(new GroupedButtonRenderer());
-
 	}
 
 	private void buildRecentProductsTable() {
-		// Loead data from model
+		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		int productDataLength = 0;
 		for (Product p: this.model.getRecentProducts().keySet()) {
 			if (p != null && p.getName() != null) productDataLength++;
 		}
 		Object[][] productsData = new Object[productDataLength][7];
-		// Create table
-		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
 		this.recentProductsTable = new JTable(productsData, productsTableColumnNames) {
 
 			@Override
@@ -474,10 +467,8 @@ public class DefaultPageView {
 				productsData[row][column] = value;
 			}
 		};
-		// Set column width
 		setColumnWidth(this.recentProductsTable, PRODUCTS_TABLE_COLUMN_WIDTH);
 		this.recentProductsTable.setRowSelectionAllowed(false);
-		// Set buttons
 		this.recentProductsTable.getColumnModel().getColumn(4).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
 		this.recentProductsTable.getColumnModel().getColumn(4).setCellRenderer(new IODButtonRenderer());
 		this.recentProductsTable.getColumnModel().getColumn(6).setCellEditor(new IODButtonEditor(new JTextField(), this.controller));
@@ -485,10 +476,8 @@ public class DefaultPageView {
 	}
 
 	public void buildSelectedProductsTable() {
-		// Loead data from model
-		Object[][] productsData = new Object[this.model.getSelectedProducts().keySet().size()][7];
-		// Create table
 		String[] productsTableColumnNames = {"No.", "Type", "Name", "Price", "-", "Amount", "+"};
+		Object[][] productsData = new Object[this.model.getSelectedProducts().keySet().size()][7];
 		this.selectedProductsTable = new JTable(productsData, productsTableColumnNames) {
 
 			@Override
@@ -607,7 +596,6 @@ public class DefaultPageView {
 	}
 
 	private void loadGroupedProductsTableData() {
-		// Update table data
 		HashMap<Product, Integer> groupedProducts = this.model.getGroupedProducts();
 		ArrayList<String> productNameList = new ArrayList<String>();
 		for (Product p: groupedProducts.keySet()) {
@@ -637,7 +625,6 @@ public class DefaultPageView {
 	}
 
 	private void loadRecentProductsTableData() {
-		// Update table data
 		HashMap<Product, Integer> recenrProducts = this.model.getRecentProducts();
 		ArrayList<String> productNameList = new ArrayList<String>();
 		for (Product p: recenrProducts.keySet()) {
@@ -668,7 +655,6 @@ public class DefaultPageView {
 	}
 
 	private void loadSelectedProductsTableData() {
-		// Update table data
 		HashMap<Product, Integer> selectedProducts = this.model.getSelectedProducts();
 		ArrayList<String> productNameList = new ArrayList<String>();
 		for (Product p: selectedProducts.keySet()) {
@@ -752,9 +738,6 @@ public class DefaultPageView {
 	 * ######################
 	 * */
 
-	/**
-	 * Increase or decrease button renderer for recent products table
-	 * */
 	class IODButtonRenderer extends JButton implements TableCellRenderer {
 
 		public IODButtonRenderer() {
@@ -776,9 +759,6 @@ public class DefaultPageView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for recent products table
-	 * */
 	class IODButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
@@ -849,9 +829,6 @@ public class DefaultPageView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button renderer for grouped products table
-	 * */
 	class GroupedButtonRenderer extends JButton implements TableCellRenderer {
 
 		public GroupedButtonRenderer() {
@@ -873,9 +850,6 @@ public class DefaultPageView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for grouped products table
-	 * */
 	class GroupedButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
@@ -946,9 +920,6 @@ public class DefaultPageView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button renderer for selected products table
-	 * */
 	class SelectedButtonRenderer extends JButton implements TableCellRenderer {
 
 		public SelectedButtonRenderer() {
@@ -970,9 +941,6 @@ public class DefaultPageView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for selected products table
-	 * */
 	class SelectedButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
@@ -1042,5 +1010,4 @@ public class DefaultPageView {
 			super.fireEditingStopped();
 		}
 	}
-
 }

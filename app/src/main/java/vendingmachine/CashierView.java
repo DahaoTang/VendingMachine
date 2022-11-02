@@ -81,14 +81,13 @@ public class CashierView {
 		 * ### Login / User Info ###
 		 * =========================
 		 * */
-		// Set up JButton for logged in user
+		// JButton for logged in user
 		this.userButton.setBounds(
 				USER_BUTTON_BP[0], 
 				USER_BUTTON_BP[1], 
 				USER_BUTTON_BP[2], 
 				USER_BUTTON_BP[3]
 			);
-		// updateUserButton();
 		this.userButton.setText(this.model.getCurrentUser().getName());
 		this.userButton.addActionListener(new AbstractAction() {
 			@Override
@@ -104,7 +103,6 @@ public class CashierView {
 		 * ### Cash Table ###
 		 * ==================
 		 * */
-
 		// JLabel for cash table
 		this.cashLabel.setText("Maitain Cashes: ");
 		this.cashLabel.setBounds(
@@ -115,11 +113,15 @@ public class CashierView {
 			);
 		this.jpanel.add(this.cashLabel);
 
-		// JTable
+		// JTable for cash table
 		updateCashTable();
 
+
+		// Prodce a report upon logged in
 		obtainReports();
 
+
+		// Show window
 		this.jframe.setVisible(true);
 	}
 
@@ -134,7 +136,6 @@ public class CashierView {
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
 	 * */
-
 	private void buildCashTable() {
 		Object[][] cashData = new Object[this.model.getCashAllFromDB().size()][7];
 		// Create table
@@ -285,10 +286,6 @@ public class CashierView {
 	 * ### HELPER CLASSES ###
 	 * ######################
 	 * */
-
-	/**
-	 * Increase or decrease button renderer for cash table
-	 * */
 	class CashierTableButtonRenderer extends JButton implements TableCellRenderer {
 
 		public CashierTableButtonRenderer() {
@@ -310,9 +307,6 @@ public class CashierView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for cash table
-	 * */
 	class CashierTableButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;
@@ -383,6 +377,4 @@ public class CashierView {
 			super.fireEditingCanceled();
 		}
 	}
-
-
 }

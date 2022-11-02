@@ -1,14 +1,15 @@
 package vendingmachine;
 
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Model {
 
+	// Run time data
 	private JDBC jdbc;
 	private String JSONpath;
 
@@ -23,6 +24,7 @@ public class Model {
 	private HashMap<Cash, Integer> cashMap;
 
 	private HashMap<String, String> cardInfoMap;
+
 
 	public Model(JDBC jdbc, String JSONpath) {
 
@@ -280,5 +282,4 @@ public class Model {
 	public Boolean ifMatchUserInDB(String userName, String password) {
 		return this.jdbc.ifMatchUser(userName, password);
 	}
-
 }

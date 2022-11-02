@@ -90,6 +90,7 @@ public class CashPayView {
 		 * ### Instruction ###
 		 * ===================
 		 * */
+		// JLabel for instructions
 		this.instructionLabel.setText("Please insert cash: ");
 		this.instructionLabel.setBounds(
 				INSTRUCTION_LABEL_BP[0],
@@ -104,6 +105,7 @@ public class CashPayView {
 		 * ### Cash Table ###
 		 * ==================
 		 * */
+		// JTable for cash table
 		buildCashTable();
 		loadCashTableData();
 		drawCashTable();
@@ -114,18 +116,21 @@ public class CashPayView {
 		 * ### PRICE ###
 		 * =============
 		 * */
+		// JLabel for total price
 		this.totalPriceLabel.setBounds(
 				TOTAL_PRICE_BP[0],
 				TOTAL_PRICE_BP[1],
 				TOTAL_PRICE_BP[2],
 				TOTAL_PRICE_BP[3]
 			);
+		// JLabel for current price
 		this.currentPriceLabel.setBounds(
 				CURRENT_PRICE_BP[0],
 				CURRENT_PRICE_BP[1],
 				CURRENT_PRICE_BP[2],
 				CURRENT_PRICE_BP[3]
 			);
+		// JLabel for change
 		this.leftPriceLabel.setBounds(
 				LEFT_PRICE_BP[0],
 				LEFT_PRICE_BP[1],
@@ -139,8 +144,7 @@ public class CashPayView {
 		 * ### Buttons ###
 		 * ===============
 		 * */
-
-		// Cancel
+		// JButton for cancel
 		this.cancelButton.setText("Cancel Order");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],		
@@ -156,7 +160,7 @@ public class CashPayView {
 		});
 		this.jpanel.add(this.cancelButton);
 
-		// Back
+		// JButton for back
 		this.backButton.setText("Back");
 		this.backButton.setBounds(
 				BACK_BUTTON_BP[0],
@@ -173,7 +177,7 @@ public class CashPayView {
 		});
 		this.jpanel.add(this.backButton);
 
-		// Confirm
+		// JButton for confirm
 		this.confirmButton.setText("Confirm");
 		this.confirmButton.setBounds(
 				CONFIRM_BUTTON_BP[0],
@@ -199,6 +203,7 @@ public class CashPayView {
 		this.jpanel.add(this.confirmButton);
 
 
+		// Show window
 		this.jframe.setVisible(true);
 	}
 
@@ -369,9 +374,6 @@ public class CashPayView {
 	 * ######################
 	 * */
 
-	/**
-	 * Increase or decrease button renderer for cash table
-	 * */
 	class CashButtonRenderer extends JButton implements TableCellRenderer {
 
 		public CashButtonRenderer() {
@@ -393,9 +395,6 @@ public class CashPayView {
 		}
 	}
 
-	/**
-	 * Increase or decrease button editor for cash table
-	 * */
 	class CashButtonEditor extends DefaultCellEditor {
 
 		protected JButton button;

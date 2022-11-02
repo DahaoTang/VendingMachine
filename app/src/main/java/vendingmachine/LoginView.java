@@ -77,7 +77,7 @@ public class LoginView implements WindowListener {
 		 * ### Label and TextFeild ###
 		 * ===========================
 		 * */
-		// User Name
+		// JLabel for user Name
 		this.userNameLabel.setText("Username: ");
 		this.userNameLabel.setBounds(
 				USER_NAME_LABEL_BP[0],
@@ -87,6 +87,7 @@ public class LoginView implements WindowListener {
 			);
 		this.jpanel.add(this.userNameLabel);
 
+		// JTextField for user name
 		this.userNameTextField.setBounds(
 				USER_NAME_TEXT_FEILD_BP[0],
 				USER_NAME_TEXT_FEILD_BP[1],
@@ -95,7 +96,7 @@ public class LoginView implements WindowListener {
 			);
 		this.jpanel.add(this.userNameTextField);
 
-		// Password
+		// JLabel for password
 		this.passwordLabel.setText("Password: ");
 		this.passwordLabel.setBounds(
 				PASSWORD_LABEL_BP[0],
@@ -105,6 +106,7 @@ public class LoginView implements WindowListener {
 			);
 		this.jpanel.add(this.passwordLabel);
 
+		// JPasswordField for password
 		this.passwordField.setText("");
 		this.passwordField.setBounds(
 				PASSWORD_FEILD_BP[0],
@@ -121,7 +123,7 @@ public class LoginView implements WindowListener {
 		 * ==========================
 		 * */
 
-		// Register
+		// JButton for register
 		this.registerButton.setText("Register");
 		this.registerButton.setBounds(
 				REGISTER_BUTTON_BP[0],
@@ -138,7 +140,7 @@ public class LoginView implements WindowListener {
 		});
 		this.jpanel.add(this.registerButton);
 
-		// Login
+		// JButton for confirm
 		this.loginButton.setText("Confirm");
 		this.loginButton.setBounds(
 				LOGIN_BUTTON_BP[0],
@@ -162,7 +164,7 @@ public class LoginView implements WindowListener {
 		});
 		this.jpanel.add(this.loginButton);
 
-
+		// Show window
 		this.jframe.setVisible(true);
 	}
 

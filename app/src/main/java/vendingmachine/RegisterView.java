@@ -88,7 +88,7 @@ public class RegisterView {
 		 * ### Label and TextFeild ###
 		 * ===========================
 		 * */
-		// User Name
+		// JLabel for user name
 		this.userNameLabel.setText("Username: ");
 		this.userNameLabel.setBounds(
 				USER_NAME_LABEL_BP[0],
@@ -98,6 +98,7 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.userNameLabel);
 
+		// JTextField for user name
 		this.userNameTextField.setBounds(
 				USER_NAME_TEXT_FEILD_BP[0],
 				USER_NAME_TEXT_FEILD_BP[1],
@@ -106,7 +107,7 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.userNameTextField);
 
-		// Password
+		// JLabel for password
 		this.passwordLabel.setText("Password: ");
 		this.passwordLabel.setBounds(
 				PASSWORD_LABEL_BP[0],
@@ -116,6 +117,7 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.passwordLabel);
 
+		// JPasswordField for password
 		this.passwordField.setText("");
 		this.passwordField.setBounds(
 				PASSWORD_FEILD_BP[0],
@@ -125,7 +127,7 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.passwordField);
 
-		// Re-enter password
+		// JLabel for re-entered password
 		this.reenterPasswordLabel.setText("Re-enter: ");
 		this.reenterPasswordLabel.setBounds(
 				PASSWORD_CONFIRM_LABEL_BP[0],
@@ -135,6 +137,7 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.reenterPasswordLabel);
 
+		// JPasswordField for re-entered password
 		this.reenterPasswordField.setText("");
 		this.reenterPasswordField.setBounds(
 				PASSWORD_CONFIRM_FEILD_BP[0],
@@ -144,12 +147,13 @@ public class RegisterView {
 			);
 		this.jpanel.add(this.reenterPasswordField);
 
+
 		/**
 		 * ===============
 		 * ### Buttons ###
 		 * ===============
 		 * */
-
+		// JButton for cancel
 		this.cancelButton.setText("Cancel");
 		this.cancelButton.setBounds(
 				CANCEL_BUTTON_BP[0],
@@ -165,6 +169,7 @@ public class RegisterView {
 		});
 		this.jpanel.add(this.cancelButton);
 
+		// JButton for register
 		this.registerButton.setText("Register");
 		this.registerButton.setBounds(
 				REGISTER_BUTTON_BP[0],
@@ -200,7 +205,7 @@ public class RegisterView {
 		});
 		this.jpanel.add(this.registerButton);
 
-
+		// Show window
 		this.jframe.setVisible(true);
 	}
 }

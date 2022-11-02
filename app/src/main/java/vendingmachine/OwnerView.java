@@ -34,9 +34,7 @@ public class OwnerView {
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 
-
 	private final int[] USERS_LABEL_BP = {18, 60, 300, 32};
-	// private final int[] USERS_TABLE_COLUMN_WIDTH = {50, 120, 180, 120};
 	private final int[] USERS_SCROLL_PANE_BP = {18, 100, 564, 300};
 
 	private final int[] ADD_BUTTON_BP = {495, 60, 90, 30};
@@ -95,14 +93,13 @@ public class OwnerView {
 		 * ### Login / User Info ###
 		 * =========================
 		 * */
-		// Set up JButton for logged in user
+		// JButton for logged in user
 		this.userButton.setBounds(
 				USER_BUTTON_BP[0], 
 				USER_BUTTON_BP[1], 
 				USER_BUTTON_BP[2], 
 				USER_BUTTON_BP[3]
 			);
-		// updateUserButton();
 		this.userButton.setText(this.model.getCurrentUser().getName());
 		this.userButton.addActionListener(new AbstractAction() {
 				@Override
@@ -118,7 +115,7 @@ public class OwnerView {
 		 * ### Users Table ###
 		 * ===================
 		 * */
-
+		// JLabel for user table
 		this.usersLabel.setText("Maintain Users: ");
 		this.usersLabel.setBounds(
 				USERS_LABEL_BP[0],
@@ -128,6 +125,7 @@ public class OwnerView {
 			);
 		this.jpanel.add(this.usersLabel);
 
+		// JButton for add
 		this.addButton.setText("Add");
 		this.addButton.setBounds(
 				ADD_BUTTON_BP[0],
@@ -143,6 +141,7 @@ public class OwnerView {
 		});
 		this.jpanel.add(this.addButton);
 
+		// JButton for delete
 		this.deleteButton.setText("Delete");
 		this.deleteButton.setBounds(
 				DELETE_BUTTON_BP[0],
@@ -158,15 +157,16 @@ public class OwnerView {
 		});
 		this.jpanel.add(this.deleteButton);
 
-		// JTable
+		// JTable for user table
 		updateUserTable();	
+
 
 		/**
 		 * ======================
 		 * ### Confirm Button ###
 		 * ======================
 		 * */
-
+		// JButton for confirm	
 		this.confirmButton.setText("Confirm");
 		this.confirmButton.setBounds(
 				CONFIRM_BUTTON_BP[0],
@@ -182,8 +182,12 @@ public class OwnerView {
 		});
 		this.jpanel.add(this.confirmButton);
 
+
+		// Prodce a report upon logged in
 		obtainReports();
 
+		
+		// Show window
 		this.jframe.setVisible(true);
 	}
 
@@ -198,7 +202,6 @@ public class OwnerView {
 	 * ### HELPER FUNCTIONS ###
 	 * ########################
 	 * */
-
 	public void buildUsersTable() {
 		String[] userTableColumnNames = {"User Type", "Name", "Password", "Card Name"};
 		Object[][] userData = new Object[this.model.getUserAllFromDB().size()][userTableColumnNames.length];
@@ -372,6 +375,7 @@ public class OwnerView {
 				return;
 			}
 
+			// Update data to database
 			this.controller.updateUserToDB(user);
 		}
 		JOptionPane.showMessageDialog(null, "Updated Successfully!");

@@ -89,7 +89,6 @@ public class Controller {
 	 * ### Process ###
 	 * ###############
 	 * */
-
 	public void changeGroup(ProductType type) {
 		// retrieve data from model
 		HashMap<Product, Integer> groupedProducts = new HashMap<Product, Integer>();
@@ -113,8 +112,6 @@ public class Controller {
 	}
 
 	public int confirmPay() {
-
-
 		updateCashInDBAfterPay();	
 		updateRecentAfterPay();
 		updateSelectedProductsAmountsToDB();
@@ -171,43 +168,35 @@ public class Controller {
 		LocalDateTime ldt = LocalDateTime.now();
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String time = ldtf.format(ldt);
-
 		try {
 			File current = new File("CancelledTransaction.txt");
 			FileWriter fw = new FileWriter(current, true);
 			String msg = "";
-
 			msg += "User: " + this.model.getCurrentUser().getName() + "; ";
 			msg += "Time: " + time + ";\n";
 			msg += "Reason: " + cancelledReason + ";\n\n";
-
 			fw.write(msg);
 			fw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void produceReportSuccessful(Integer paymentMethod) {
 		LocalDateTime ldt = LocalDateTime.now();
 		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		String time = ldtf.format(ldt);
-
 		try {
 			File current = new File("SuccessfulTransaction.txt");
 			FileWriter fw = new FileWriter(current, true);
 			String msg = "";
-
 			msg += "User: " + this.model.getCurrentUser().getName() + "; ";
 			msg += "Time: " + time + ";\n";
-
 			msg += "Product: ";
 			for (Product p: this.model.getSelectedProducts().keySet()) {
 				msg += p.getName() + "; ";
 			}
 			msg += "\n";
-
 			if (paymentMethod.equals(0)) {
 				msg += "Payment Method: Cash; ";
 				msg += "Amount paid: " + this.model.getCurrentPrice();
@@ -216,7 +205,6 @@ public class Controller {
 				msg += "Payment Method: Card;";
 			}
 			msg += "\n\n";
-
 			fw.write(msg);
 			fw.close();
 		} catch (Exception e) {
@@ -240,6 +228,7 @@ public class Controller {
 	}
 
 
+
 	/**
 	 * ##############
 	 * ### UPDATE ###
@@ -247,7 +236,7 @@ public class Controller {
 	 * */
 
 	public void updateAfterLogin() {
-		// Recent products
+		// Update recent products from database to model
 		HashMap<Product, Integer> recentProducts = new HashMap<Product, Integer>();
 		for (Product p: this.model.getCurrentUser().getRecentProducts()) {
 			if (p == null) continue;
@@ -307,7 +296,7 @@ public class Controller {
 	}
 
 	/**
-	 * Assume there is enough cash provided and change to provide
+	 * Note: Assume there is enough cash provided and change to provide.
 	 * */
 	public void updateCashInDBAfterPay() {
 		Double change = this.model.getCurrentPrice() - this.model.getTotalPrice();
@@ -660,12 +649,13 @@ public class Controller {
 		this.ownerView.updateView();
 	}
 
+
+
 	/**
 	 * #############
 	 * ### Check ###
 	 * #############
 	 * */
-
 	public Boolean ifCurrentUserHasCard() {
 		if (this.model.getCurrentUser().getName() == null) return false;
 		if (this.model.getCurrentUser().getCardName() == null) return false;
@@ -774,5 +764,4 @@ public class Controller {
 	public Boolean ifMatchUserInDB(String userName, String password) {
 		return this.model.ifMatchUserInDB(userName, password);
 	}
-
 }

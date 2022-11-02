@@ -28,36 +28,21 @@ public class JDBC {
 	 * */
 	public void initDB() {
 
+		// Remove old database file
 		File dbFile = new File(this.dbPath);
 		dbFile.delete();
 
+		// Create a new database file
 		tryConnectToDB();
-
-		// System.out.println("#####################");
-		// System.out.println("### DB INIT START ###");
-		// System.out.println("#####################");
 
 		// Create tables
 		createTableCard();
-		// System.out.println("Card Table created");
 		createTableCash();
-		// System.out.println("Cash Table created");
 		createTableProducts();
-		// System.out.println("Product Table created");
 		createTableGlobalRecentProducts();
-		// System.out.println("Recent Product Table created");
 		createTableUser();
-		// System.out.println("User Table created");
 
-		// System.out.println("All Tables created");
-
-		// Insert database
-		// Card
-		insertCard(new Card("dtan3316", "500173664"));
-
-		// System.out.println("Card inserted");
-
-		// Cash
+		// Create and insert Cash
 		insertCash(new Cash("$100", 100.0, 0));
 		insertCash(new Cash("$50", 50.0, 0));
 		insertCash(new Cash("$20", 20.0, 0));
@@ -72,9 +57,7 @@ public class JDBC {
 		insertCash(new Cash("¢2", 0.02, 100));
 		insertCash(new Cash("¢1", 0.01, 100));
 
-		// System.out.println("Cash inserted");
-
-		// Products
+		// Create Products
 		Product mineralWater = new Product(101, ProductType.DRINK, "Mineral Water", 3.0, 7, 0);
 		Product sprite = new Product(102, ProductType.DRINK, "Sprite", 2.0, 7, 0);
 		Product cocaCola = new Product(103, ProductType.DRINK, "Coca Cola", 2.0, 7, 0);
@@ -95,7 +78,7 @@ public class JDBC {
 		Product sourpatch = new Product(402, ProductType.CANDY, "Sour Patch", 1.0, 7, 0);
 		Product skittles = new Product(403, ProductType.CANDY, "Skittles", 1.0, 7, 0);
 
-
+		// Insert Products
 		insertProduct(mineralWater);
 		insertProduct(sprite);
 		insertProduct(cocaCola);
@@ -116,8 +99,8 @@ public class JDBC {
 		insertProduct(sourpatch);
 		insertProduct(skittles);
 
-		// System.out.println("Products inserted");
 
+		// Init global recent products
 		ArrayList<Product> globalRecent = new ArrayList<Product>();
 		globalRecent.add(mineralWater.duplicate());
 		globalRecent.add(cocaCola.duplicate());
@@ -125,12 +108,10 @@ public class JDBC {
 		globalRecent.add(smiths.duplicate());
 		globalRecent.add(mentos.duplicate());
 
-		// Global Recent
+		// Insert global recent products
 		insertRecentAll(globalRecent);
 
-		// System.out.println("Recent Products inserted"); 
-
-		// User
+		// Create and insert sample users
 		ArrayList<Product> dahaoRecent = new ArrayList<Product>();
 		dahaoRecent.add(cocaCola.duplicate());
 		dahaoRecent.add(new Product());
@@ -139,7 +120,6 @@ public class JDBC {
 		dahaoRecent.add(new Product());
 		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, null);
 		insertUser(dahao);
-		// System.out.println("insert dahao");
 
 		ArrayList<Product> sellerRecent = new ArrayList<Product>();
 		sellerRecent.add(new Product());
@@ -149,7 +129,6 @@ public class JDBC {
 		sellerRecent.add(new Product());
 		User seller = new User("Seller-01", "123", sellerRecent, UserType.SELLER, null);
 		insertUser(seller);
-		// System.out.println("insert seller");
 
 		ArrayList<Product> cashierRecent = new ArrayList<Product>();
 		cashierRecent.add(new Product());
@@ -159,8 +138,8 @@ public class JDBC {
 		cashierRecent.add(new Product());
 		User cashier = new User("Cashier-01", "123", cashierRecent, UserType.CASHIER, null);
 		insertUser(cashier);
-		// System.out.println("insert cashier");
 
+		// Create and insert a Owner
 		ArrayList<Product> ownerRecent = new ArrayList<Product>();
 		ownerRecent.add(new Product());
 		ownerRecent.add(new Product());
@@ -169,24 +148,12 @@ public class JDBC {
 		ownerRecent.add(new Product());
 		User owner = new User("Owner", "123", ownerRecent, UserType.OWNER, null);
 		insertUser(owner);
-		// System.out.println("insert owner");
-
-		// System.out.println("User inserted");
-
-		// System.out.println("###################");
-		// System.out.println("### DB INIT END ###");
-		// System.out.println("###################");
 	}
 
 	/**
 	 * ==============
 	 * ### CREATE ###
 	 * ==============
-	 * */
-	/**
-	 * Create the Card Table
-	 * NAME - the name of the card
-	 * NUMBER - the card number
 	 * */
 	public void createTableCard() {
 		try {
@@ -217,12 +184,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Create Cash Table
-	 * NAME - Name of the cash type
-	 * VALUE - the currency value of the cash
-	 * AMOUNT - the amount stored
-	 * */
 	public void createTableCash() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -253,10 +214,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Create the Recent Products Table for all users
-	 * PRODUCT_*_ID - the *th most recent product
-	 * */
 	public void createTableGlobalRecentProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -289,14 +246,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Create the Products Table
-	 * ID - the id of the product
-	 * NAME - the name of the product
-	 * TYPE - the type of the product 
-	 * PRICE - the current price of the product
-	 * AMOUNT - the amount of the product stored
-	 * */
 	public void createTableProducts() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -330,12 +279,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Create the User Table
-	 * NAME - the name of the user
-	 * PASSWORD - the password of the user
-	 * RECENT_PRODUCT_*_ID - the *th recent product bought by this user
-	 * */
 	public void createTableUser() {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -377,9 +320,6 @@ public class JDBC {
 	 * ### DELETE ###
 	 * ==============
 	 * */
-	/**
-	 * Delete the card specified by the name provided from the Card Table
-	 * */
 	public void deleteCard(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -410,9 +350,6 @@ public class JDBC {
 		deleteCard(card.getName());
 	}
 
-	/**
-	 * Delete the cash specified by the name provided from the Cash Table
-	 * */
 	public void deleteCash(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -442,9 +379,6 @@ public class JDBC {
 		deleteCash(cash.getName());
 	}
 
-	/**
-	 * Delete the product with the same id from the Product Table 
-	 * */
 	public void deleteProduct(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -474,10 +408,6 @@ public class JDBC {
 		deleteProduct(product.getName());
 	}
 	
-
-	/**
-	 * Delete the user with the same name from the User Table
-	 * */
 	public void deleteUser(String name) {
 		try {
 			this.dbConnection = DriverManager.getConnection("jdbc:sqlite:" + this.dbPath);
@@ -622,9 +552,6 @@ public class JDBC {
 		return cashMap;
 	}
 
-	/** 
-	 * Get product with name specified
-	 * */
 	public Product getProduct(String name) {
 		Product product = new Product();
 		try {
@@ -672,9 +599,6 @@ public class JDBC {
 		return product;
 	}
 
-	/** 
-	 * Get product with id specified
-	 * */
 	public Product getProduct(Integer id) {
 		Product product = new Product();
 		try {
@@ -722,9 +646,6 @@ public class JDBC {
 		return product;
 	}
 
-	/**
-	 * Get all the products of the four types
-	 * */
 	public ArrayList<Product> getProductsAll() {
 		ArrayList<Product> allProducts = new ArrayList<Product>();
 		for (Product p: getProductsByType(ProductType.DRINK)) {
@@ -742,9 +663,6 @@ public class JDBC {
 		return allProducts;
 	}
 
-	/**
-	 * Get all the products with the type given
-	 * */
 	public ArrayList<Product> getProductsByType(ProductType ptype) {
 		// Convert product type into string
 		String type = "";
@@ -785,9 +703,6 @@ public class JDBC {
 		return products;
 	}
 
-	/**
-	 * Get the global 5 recent product
-	 * */
 	public ArrayList<Product> getRecent() {
 		ArrayList<Product> recent = new ArrayList<Product>();
 		try {
@@ -823,9 +738,6 @@ public class JDBC {
 		return recent;
 	}
 	
-	/**
-	 * Get the user with the name specified
-	 * */
 	public User getUser(String name) {
 		User user = new User();
 		try {
@@ -927,7 +839,6 @@ public class JDBC {
 	 * ### CHECK ###
 	 * =============
 	 * */
-
 	public boolean ifHashCard(String name) {
 		boolean return_value = true;
 		try {
@@ -961,9 +872,6 @@ public class JDBC {
 		return return_value;
 	}
 
-	/**
-	 * Check if the user with the name specified exists
-	 * */
 	public boolean ifHasUser(String name) {
 		boolean return_value = true;
 		try {
@@ -997,9 +905,6 @@ public class JDBC {
 		return return_value;
 	}
 
-	/**
-	 * Check if the username and password match the ones in the database
-	 * */
 	public boolean ifMatchUser(String name, String password) {
 		boolean return_value = false;
 		if (ifHasUser(name)) {
@@ -1016,9 +921,6 @@ public class JDBC {
 	 * ==============
 	 * ### INSERT ###
 	 * ==============
-	 * */
-	/**
-	 * Insert a new card into the database
 	 * */
 	public void insertCard(Card card) {
 		String name = card.getName();
@@ -1049,9 +951,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Insert a new type of currency into database
-	 * */
 	public void insertCash(Cash cash) {
 		String name = cash.getName();
 		Double value = cash.getValue();
@@ -1082,9 +981,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Insert a new type of product into database
-	 * */
 	public void insertProduct(Product product) {
 		Integer id = product.getId();
 		String typeString = product.getTypeString();
@@ -1118,9 +1014,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Insert global recent products
-	 * */
 	public void insertRecentAll(ArrayList<Product> recentProducts) {
 		Integer id_1 = recentProducts.get(0).getId();
 		Integer id_2 = recentProducts.get(1).getId();
@@ -1153,9 +1046,6 @@ public class JDBC {
 		}
 	}
 
-	/**
-	 * Insert a new user into database
-	 * */
 	public void insertUser(User user) {
 		String name = user.getName();
 		String password = user.getPassword();
@@ -1203,7 +1093,6 @@ public class JDBC {
 	 * ### UPDATE ###
 	 * ==============
 	 * */
-
 	public void updateCard(Card card) {
 		deleteCard(card.getName());
 		insertCard(card);
@@ -1260,6 +1149,8 @@ public class JDBC {
 			}
 		}
 	}
+
+
 
 	/**
 	 * ########################
