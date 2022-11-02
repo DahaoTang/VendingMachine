@@ -13,6 +13,8 @@ import java.util.Comparator;
 
 public class SellerView {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -32,6 +34,9 @@ public class SellerView {
 
 
 	// WINDOW LAYNOUT DATA
+	
+	private int DELAY = 120000;
+
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
@@ -52,6 +57,7 @@ public class SellerView {
 
 
 	public SellerView() {
+		this.timer = null;
 		this.model = null;
 		this.controller = null;
 
@@ -86,6 +92,18 @@ public class SellerView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+
+		this.timer = new Timer(DELAY, null);
+		this.timer.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				timer.stop();
+				jframe.dispose();
+				controller.restart();
+			}
+		});
+		this.timer.start();
+
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,6 +129,7 @@ public class SellerView {
 		this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
+					timer.restart();
 					launchTryToLogOutWindow();	
 				}
 			});
@@ -127,6 +146,7 @@ public class SellerView {
 		this.purchaseButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchDefaultPageViewWindow();
 			}
 		});
@@ -143,6 +163,7 @@ public class SellerView {
 		this.backToOwnerButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchOwnerViewWindow();
 			}
 		});
@@ -178,6 +199,7 @@ public class SellerView {
 		this.addButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchTryToAddProductWindow();
 			}
 		});
@@ -194,6 +216,7 @@ public class SellerView {
 		this.deleteButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchTryToDeleteProductWindow();
 			}
 		});
@@ -212,6 +235,7 @@ public class SellerView {
 	}
 
 	public void updateView() {
+		this.timer.restart();
 		updateProductsTable();
 	}
 
@@ -268,6 +292,7 @@ public class SellerView {
 	}
 
 	private void launchDefaultPageViewWindow() {
+		timer.stop();
 		jframe.dispose();
 		controller.setSellerView(null);
 		DefaultPageView defaultPageView = new DefaultPageView();
@@ -278,6 +303,7 @@ public class SellerView {
 	}
 
 	private void launchOwnerViewWindow() {
+		timer.stop();
 		jframe.dispose();
 		controller.setSellerView(null);
 		OwnerView ownerView = new OwnerView();
@@ -389,6 +415,7 @@ public class SellerView {
 				options[0]
 			);
 		if (answer.equals(1)) {
+			timer.stop();
 			jframe.dispose();
 			controller.restart();
 		}
@@ -518,6 +545,7 @@ public class SellerView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
+				timer.restart();
 				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();

@@ -7,6 +7,8 @@ import javax.swing.table.*;
 import java.util.HashMap;
 
 public class CashPayView {
+	
+	private Timer timer;
 
 	private Model model;
 	private Controller controller;
@@ -47,7 +49,9 @@ public class CashPayView {
 	private final int[] CANCEL_BUTTON_BP = {20, 370, 260, 32};
 
 
-	public CashPayView(Model model, Controller controller, JFrame defaultPageViewJFrame) {
+	public CashPayView(Model model, Controller controller, JFrame defaultPageViewJFrame, Timer timer) {
+		this.timer = timer;
+
 		this.model = model;
 		this.controller = controller;
 		this.controller.setCashPayView(this);
@@ -76,6 +80,8 @@ public class CashPayView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+		this.timer.restart();
+
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -154,6 +160,7 @@ public class CashPayView {
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				lanuchTryToCancelWindow();	
 			}
 		});
@@ -170,6 +177,7 @@ public class CashPayView {
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				jframe.dispose();
 				launchChoosePaymentMethodWindow();	
 			}
@@ -187,6 +195,7 @@ public class CashPayView {
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				if (!controller.ifGaveEnoughMoney()) {
 					JOptionPane.showMessageDialog(null, "Not enough money!");
 				} else if (!controller.ifHasEnoughChange()) {
@@ -207,6 +216,7 @@ public class CashPayView {
 	}
 
 	public void updateView() {
+		this.timer.restart();
 		updateCashTable();
 		updatePrice();
 	}
@@ -300,10 +310,10 @@ public class CashPayView {
 			);
 		if (answer.equals(0)) {
 			controller.resetCashPayData();
-			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			CashPayView cashPayView = new CashPayView(model, controller, jframe, timer);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			CardPayView cardPayView = new CardPayView(model, controller, jframe, timer);
 			cardPayView.launchWindow();
 		}
 	}
@@ -332,8 +342,9 @@ public class CashPayView {
 	}
 
 	private void restart() {
-		defaultPageViewJFrame.dispose();
-		jframe.dispose();
+		this.timer.stop();
+		this.defaultPageViewJFrame.dispose();
+		this.jframe.dispose();
 		this.controller.restart();
 	}
 
@@ -435,6 +446,7 @@ public class CashPayView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
+				timer.restart();
 				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();

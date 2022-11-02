@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class CardPayView {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -38,7 +40,9 @@ public class CardPayView {
 	private final int[] CANCEL_BUTTON_BP = {20, 125, 260, 32};	
 
 
-	public CardPayView(Model model, Controller controller, JFrame defaultPageViewJFrame) {
+	public CardPayView(Model model, Controller controller, JFrame defaultPageViewJFrame, Timer timer) {
+		this.timer = timer;
+
 		this.model = model;
 		this.controller = controller;
 		this.controller.setCardPayView(this);
@@ -64,6 +68,8 @@ public class CardPayView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+		this.timer.restart();
+
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -145,6 +151,7 @@ public class CardPayView {
 		this.backButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				// Close current window
 				jframe.dispose();
 				// Launch choose pay mathod
@@ -164,6 +171,7 @@ public class CardPayView {
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				// Retrieve data from current window
 				String name = cardNameTextField.getText();
 				String number = cardNumberField.getText();
@@ -200,6 +208,7 @@ public class CardPayView {
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				lanuchTryToCancelWindow();	
 			}
 		});
@@ -231,10 +240,10 @@ public class CardPayView {
 			);
 		if (answer.equals(0)) {
 			controller.resetCashPayData();
-			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			CashPayView cashPayView = new CashPayView(model, controller, jframe, timer);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			CardPayView cardPayView = new CardPayView(model, controller, jframe, timer);
 			cardPayView.launchWindow();
 		}
 	}
@@ -278,8 +287,9 @@ public class CardPayView {
 	}
 
 	private void restart() {
-		defaultPageViewJFrame.dispose();
-		jframe.dispose();
+		this.timer.stop();
+		this.defaultPageViewJFrame.dispose();
+		this.jframe.dispose();
 		this.controller.restart();
 	}
 }

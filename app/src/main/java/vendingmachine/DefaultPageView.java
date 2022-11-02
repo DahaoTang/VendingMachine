@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 public class DefaultPageView {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -45,6 +47,9 @@ public class DefaultPageView {
 
 
 	// DATA
+	
+	private int DELAY = 120000;
+
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] ROLE_FUNCTION_BUTTON_BP = {116, 16, 200, 36};
@@ -71,6 +76,9 @@ public class DefaultPageView {
 
 
 	public DefaultPageView() {
+
+		this.timer = null;
+
 		this.model = null;
 		this.controller = null;
 
@@ -119,6 +127,19 @@ public class DefaultPageView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+
+		// Set up the timer
+		this.timer = new Timer(DELAY, null);
+		this.timer.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				timer.stop();
+				jframe.dispose();
+				controller.restart();
+			}
+		});
+		this.timer.start();
+
 		// Set up JFrame
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
 		this.jframe.setResizable(false);
@@ -155,6 +176,7 @@ public class DefaultPageView {
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
+					timer.restart();
 					launchTryToLogOutWindow();	
 				}
 			});
@@ -163,7 +185,8 @@ public class DefaultPageView {
 			this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					LoginView loginView = new LoginView(model, controller, jframe);
+					timer.restart();
+					LoginView loginView = new LoginView(model, controller, jframe, timer);
 					loginView.launchWindow();
 				}
 			});
@@ -183,6 +206,7 @@ public class DefaultPageView {
 				this.roleFunctioButton.addActionListener(new AbstractAction() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
+						timer.stop();
 						jframe.dispose();
 						controller.setDefaultPageView(null);
 						SellerView sellerView = new SellerView();
@@ -198,6 +222,7 @@ public class DefaultPageView {
 				this.roleFunctioButton.addActionListener(new AbstractAction() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
+						timer.stop();
 						jframe.dispose();
 						controller.setDefaultPageView(null);
 						CashierView cashierView = new CashierView();
@@ -213,6 +238,7 @@ public class DefaultPageView {
 				this.roleFunctioButton.addActionListener(new AbstractAction() {
 					@Override
 					public void actionPerformed(ActionEvent ae) {
+						timer.stop();
 						jframe.dispose();
 						controller.setDefaultPageView(null);
 						OwnerView ownerView = new OwnerView();
@@ -277,6 +303,7 @@ public class DefaultPageView {
 		this.groupedProductsTypeBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				timer.restart();
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					Object source = e.getSource();
 					if (source instanceof JComboBox) {
@@ -357,6 +384,7 @@ public class DefaultPageView {
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				if (model.getTotalPrice() > 0) launchChoosePaymentMethodWindow();	
 				else JOptionPane.showMessageDialog(null, "Please select products to purchase.");
 			}
@@ -369,6 +397,7 @@ public class DefaultPageView {
 	}
 
 	public void updateView() {
+		this.timer.restart();
 		updateRecentProductsTable();
 		updateGroupedProductsTableWithSameType();
 		updateSelectedProductsTable();
@@ -627,10 +656,10 @@ public class DefaultPageView {
 			);
 		if (answer.equals(0)) {
 			controller.resetCashPayData();
-			CashPayView cashPayView = new CashPayView(model, controller, jframe);
+			CashPayView cashPayView = new CashPayView(model, controller, jframe, timer);
 			cashPayView.launchWindow();
 		} else if (answer.equals(1)){
-			CardPayView cardPayView = new CardPayView(model, controller, jframe);
+			CardPayView cardPayView = new CardPayView(model, controller, jframe, timer);
 			cardPayView.launchWindow();
 		}
 	}
@@ -648,6 +677,7 @@ public class DefaultPageView {
 				options[0]
 			);
 		if (answer.equals(1)) {
+			timer.stop();
 			jframe.dispose();
 			controller.restart();
 		}
@@ -858,6 +888,7 @@ public class DefaultPageView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
+				timer.restart();
 				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();
@@ -949,6 +980,7 @@ public class DefaultPageView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
+				timer.restart();
 				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();
@@ -1040,6 +1072,7 @@ public class DefaultPageView {
 		@Override
 		public Object getCellEditorValue() {
 			if (isPushed) {
+				timer.restart();
 				// Get data from JTable
 				int row = jtable.getSelectedRow();
 				int column = jtable.getSelectedColumn();

@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class RegisterView {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -44,7 +46,10 @@ public class RegisterView {
 
 
 
-	public RegisterView(Model model, Controller controller, JFrame defaultPageViewJFrame, JFrame loginViewJFrame) {
+	public RegisterView(Model model, Controller controller, JFrame defaultPageViewJFrame, JFrame loginViewJFrame, Timer timer) {
+	
+		this.timer = timer;
+
 		this.model = model;
 		this.controller = controller;
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
@@ -74,6 +79,8 @@ public class RegisterView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+		this.timer.restart();
+
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -163,6 +170,7 @@ public class RegisterView {
 		this.cancelButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				jframe.dispose();
 			}
 		});
@@ -188,6 +196,7 @@ public class RegisterView {
 								"User with the same already exists.\nPlease try another."
 							);
 					} else {
+						timer.restart();
 						controller.register(userName, password_1); // add a new user into database
 						controller.setCurrentUser(userName);
 						controller.updateAfterLogin();

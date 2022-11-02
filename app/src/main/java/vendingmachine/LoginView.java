@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class LoginView implements WindowListener {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -36,7 +38,10 @@ public class LoginView implements WindowListener {
 	private final int[] LOGIN_BUTTON_BP = {160, 120, 120, 32};
 
 
-	public LoginView(Model model, Controller controller, JFrame defaultPageViewJFrame) {
+	public LoginView(Model model, Controller controller, JFrame defaultPageViewJFrame, Timer timer) {
+
+		this.timer  =timer;
+
 		this.model = model;
 		this.controller = controller;
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
@@ -60,6 +65,9 @@ public class LoginView implements WindowListener {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+
+		this.timer.restart();
+
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -133,7 +141,8 @@ public class LoginView implements WindowListener {
 		this.registerButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				RegisterView registerView = new RegisterView(model, controller, defaultPageViewJFrame, jframe);
+				timer.restart();
+				RegisterView registerView = new RegisterView(model, controller, defaultPageViewJFrame, jframe, timer);
 				registerView.launchWindow();
 			}
 		});
@@ -150,6 +159,7 @@ public class LoginView implements WindowListener {
 		this.loginButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				String userName = userNameTextField.getText();
 				String password = passwordField.getText();
 				if (controller.ifMatchUserInDB(userName, password)){
@@ -172,6 +182,7 @@ public class LoginView implements WindowListener {
 
 	@Override
 	public void windowClosed(WindowEvent e) {
+		this.timer.stop();
 		this.defaultPageViewJFrame.dispose();
 		this.controller.setDefaultPageView(null);
 

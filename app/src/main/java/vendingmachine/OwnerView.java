@@ -12,6 +12,8 @@ import java.util.Comparator;
 
 public class OwnerView {
 
+	private Timer timer;
+
 	private Model model;
 	private Controller controller;
 
@@ -33,7 +35,10 @@ public class OwnerView {
 	private JButton confirmButton;
 
 
-	// WINDOW LAYNOUT DATA
+	// DATA
+	
+	private final int DELAY = 120000;
+
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
 	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
@@ -50,6 +55,8 @@ public class OwnerView {
 
 
 	public OwnerView() {
+		this.timer = null;
+
 		this.model = null;
 		this.controller = null;
 
@@ -86,6 +93,18 @@ public class OwnerView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
+		// Set up the timer
+		this.timer = new Timer(DELAY, null);
+		this.timer.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				timer.stop();
+				jframe.dispose();
+				controller.restart();
+			}
+		});
+		this.timer.start();
+
 		// Set up JFrame
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);
 		this.jframe.setResizable(false);
@@ -113,6 +132,7 @@ public class OwnerView {
 		this.userButton.addActionListener(new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
+					timer.restart();
 					launchTryToLogOutWindow();	
 				}
 			});
@@ -129,6 +149,7 @@ public class OwnerView {
 		this.purchaseButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchDefaultPageViewWindow();
 			}
 		});
@@ -145,6 +166,7 @@ public class OwnerView {
 		this.sellerPageButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchSellerViewWindow();
 			}
 		});
@@ -161,6 +183,7 @@ public class OwnerView {
 		this.cashierPageButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchCashierViewWindow();
 			}
 		});
@@ -193,6 +216,7 @@ public class OwnerView {
 		this.addButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchTryToAddUserWindow();
 			}
 		});
@@ -209,6 +233,7 @@ public class OwnerView {
 		this.deleteButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchTryToDeleteUserWindow();
 			}
 		});
@@ -234,6 +259,7 @@ public class OwnerView {
 		this.confirmButton.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				timer.restart();
 				launchTryToConfirmWindow();	
 			}
 		});
@@ -249,6 +275,7 @@ public class OwnerView {
 	}
 
 	public void updateView() {
+		this.timer.restart();
 		updateUserTable();
 	}
 
@@ -283,6 +310,7 @@ public class OwnerView {
 	}
 
 	private void launchCashierViewWindow() {
+		timer.stop();
 		jframe.dispose();
 		controller.setOwnerView(null);
 		CashierView cashierView = new CashierView();
@@ -293,6 +321,7 @@ public class OwnerView {
 	}
 
 	private void launchDefaultPageViewWindow() {
+		timer.stop();
 		jframe.dispose();
 		controller.setOwnerView(null);
 		DefaultPageView defaultPageView = new DefaultPageView();
@@ -303,6 +332,7 @@ public class OwnerView {
 	}
 
 	private void launchSellerViewWindow() {
+		timer.stop();
 		jframe.dispose();
 		controller.setOwnerView(null);
 		SellerView sellerView = new SellerView();
@@ -422,6 +452,7 @@ public class OwnerView {
 				options[0]
 			);
 		if (answer.equals(1)) {
+			timer.stop();
 			jframe.dispose();
 			controller.restart();
 		}
