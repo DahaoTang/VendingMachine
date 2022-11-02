@@ -308,8 +308,8 @@ public class CashierView {
 			e.printStackTrace();
 		}
 		try {
-			File outputFile = new File("./Reports/Transactions/Successful/SuccessfulTransaction" + reportTail + ".txt");
-			File inputFile = new File("SuccessfulTransaction");
+			File outputFile = new File("./Reports/Transactions/Successful/SuccessfulTransactions" + reportTail + ".txt");
+			File inputFile = new File("SuccessfulTransactions");
 			outputFile.createNewFile();
 			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);

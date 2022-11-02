@@ -489,8 +489,8 @@ public class OwnerView {
 			e.printStackTrace();
 		}
 		try {
-			File outputFile = new File("./Reports/Transactions/Cancelled/CancelledTransaction" + reportTail + ".txt");
-			File inputFile = new File("CancelledTransaction");
+			File outputFile = new File("./Reports/Transactions/Cancelled/CancelledTransactions" + reportTail + ".txt");
+			File inputFile = new File("CancelledTransactions");
 			outputFile.createNewFile();
 			inputFile.createNewFile();
 			copyFileUsingStream(inputFile, outputFile);
