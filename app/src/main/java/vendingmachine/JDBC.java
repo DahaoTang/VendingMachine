@@ -42,6 +42,9 @@ public class JDBC {
 		createTableGlobalRecentProducts();
 		createTableUser();
 
+		// Create and insert Card
+		insertCard(new Card("Ruth", "55134"));
+
 		// Create and insert Cash
 		insertCash(new Cash("$100", 100.0, 0));
 		insertCash(new Cash("$50", 50.0, 0));
