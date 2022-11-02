@@ -41,7 +41,7 @@ public class LoginView implements WindowListener {
 		this.controller = controller;
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
 
-		this.jframe = new JFrame();
+		this.jframe = new JFrame("Login");
 		this.jpanel = new JPanel();
 
 		this.userNameLabel = new JLabel();
@@ -60,7 +60,6 @@ public class LoginView implements WindowListener {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
-		this.jframe.setTitle("Login");
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -186,28 +185,25 @@ public class LoginView implements WindowListener {
 
 		// Seller
 		} else if (this.model.getCurrentUser().getType().equals(UserType.SELLER)) {
-			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
-			newModel.setCurrentUser(this.model.getCurrentUser());
 			SellerView sellerView = new SellerView();
-			sellerView.setModel(newModel);	
+			this.controller.setSellerView(sellerView);
+			sellerView.setModel(this.model);
 			sellerView.setController(this.controller);
 			sellerView.launchWindow();
 
 		// Cashier
 		} else if (this.model.getCurrentUser().getType().equals(UserType.CASHIER)) {
-			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
-			newModel.setCurrentUser(this.model.getCurrentUser());
 			CashierView cashierView = new CashierView();
-			cashierView.setModel(newModel);
+			this.controller.setCashierView(cashierView);
+			cashierView.setModel(this.model);
 			cashierView.setController(this.controller);
 			cashierView.launchWindow();
 
 		// Owner
 		} else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
-			Model newModel = new Model(this.model.getJDBC(), this.model.getJSONpath());
-			newModel.setCurrentUser(this.model.getCurrentUser());
 			OwnerView ownerView = new OwnerView();
-			ownerView.setModel(newModel);
+			this.controller.setOwnerView(ownerView);
+			ownerView.setModel(this.model);
 			ownerView.setController(this.controller);
 			ownerView.launchWindow();
 		}

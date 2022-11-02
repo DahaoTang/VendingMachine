@@ -20,6 +20,7 @@ public class SellerView {
 	private JPanel jpanel;
 
 	private JButton userButton;
+	private JButton purchaseButton;
 
 	private JLabel productsLabel;
 	private JTable productsTable;
@@ -32,6 +33,7 @@ public class SellerView {
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
+	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
 
 	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 180, 70, 20, 70, 20};
 
@@ -55,6 +57,7 @@ public class SellerView {
         this.jpanel = new JPanel();
 
 		this.userButton = new JButton();
+		this.purchaseButton = new JButton();
 
 		this.productsLabel = new JLabel();
 		this.productsTable = new JTable();
@@ -109,6 +112,22 @@ public class SellerView {
 				}
 			});
 		this.jpanel.add(this.userButton);
+
+		// JButton for defaultPageView
+		this.purchaseButton.setText("Purchase");
+		this.purchaseButton.setBounds(
+				PURCHASE_BUTTON_BP[0],
+				PURCHASE_BUTTON_BP[1],
+				PURCHASE_BUTTON_BP[2],
+				PURCHASE_BUTTON_BP[3]
+			);
+		this.purchaseButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchDefaultPageViewWindow();
+			}
+		});
+		this.jpanel.add(this.purchaseButton);
 
 
 		/**
@@ -225,6 +244,16 @@ public class SellerView {
 		this.jpanel.add(this.productsScrollPane);
 		this.jpanel.revalidate();
 		this.jpanel.repaint();
+	}
+
+	private void launchDefaultPageViewWindow() {
+		jframe.dispose();
+		controller.setSellerView(null);
+		DefaultPageView defaultPageView = new DefaultPageView();
+		defaultPageView.setModel(model);
+		defaultPageView.setController(controller);
+		controller.setDefaultPageView(defaultPageView);
+		defaultPageView.launchWindow();
 	}
 
 	private void loadProductsTableData() {

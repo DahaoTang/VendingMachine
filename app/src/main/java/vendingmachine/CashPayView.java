@@ -53,7 +53,7 @@ public class CashPayView {
 		this.controller.setCashPayView(this);
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
 
-		this.jframe = new JFrame();
+		this.jframe = new JFrame("Cash Pay");
 		this.jpanel = new JPanel();
 
 		this.instructionLabel = new JLabel();
@@ -76,7 +76,6 @@ public class CashPayView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
-		this.jframe.setTitle("Cash Pay");
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

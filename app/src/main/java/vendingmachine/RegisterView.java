@@ -50,7 +50,7 @@ public class RegisterView {
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
 		this.loginViewJFrame = loginViewJFrame;
 
-		this.jframe = new JFrame();
+		this.jframe = new JFrame("Register");
 		this.jpanel = new JPanel();
 
 		this.userNameLabel = new JLabel();
@@ -74,7 +74,6 @@ public class RegisterView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
-		this.jframe.setTitle("Login");
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

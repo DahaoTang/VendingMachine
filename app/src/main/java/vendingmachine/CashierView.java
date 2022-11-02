@@ -20,6 +20,7 @@ public class CashierView {
 	private JPanel jpanel;
 
 	private JButton userButton;
+	private JButton purchaseButton;
 
 	private JLabel cashLabel;
 	private JTable cashTable;
@@ -29,6 +30,7 @@ public class CashierView {
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
+	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
 
 	private final int[] CASH_TABLE_COLUMN_WIDTH = {100, 30, 80, 30};
 
@@ -44,6 +46,7 @@ public class CashierView {
         this.jpanel = new JPanel();
 
 		this.userButton = new JButton();
+		this.purchaseButton = new JButton();
 
 		this.cashLabel = new JLabel();
 		this.cashTable = new JTable();
@@ -96,6 +99,22 @@ public class CashierView {
 			}
 		});
 		this.jpanel.add(this.userButton);
+
+		// JButton for defaultPageView
+		this.purchaseButton.setText("Purchase");
+		this.purchaseButton.setBounds(
+				PURCHASE_BUTTON_BP[0],
+				PURCHASE_BUTTON_BP[1],
+				PURCHASE_BUTTON_BP[2],
+				PURCHASE_BUTTON_BP[3]
+			);
+		this.purchaseButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchDefaultPageViewWindow();
+			}
+		});
+		this.jpanel.add(this.purchaseButton);
 
 
 		/**
@@ -187,6 +206,16 @@ public class CashierView {
 		this.jpanel.repaint();
 	}
 
+	private void launchDefaultPageViewWindow() {
+		jframe.dispose();
+		controller.setCashierView(null);
+		DefaultPageView defaultPageView = new DefaultPageView();
+		defaultPageView.setModel(model);
+		defaultPageView.setController(controller);
+		controller.setDefaultPageView(defaultPageView);
+		defaultPageView.launchWindow();
+	}
+
 	private void launchTryToLogOutWindow() {
 		Object[] options = {"OK", "Log Out"};
 		Object answer = JOptionPane.showOptionDialog(
@@ -247,7 +276,6 @@ public class CashierView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		try {
 			File outputFile = new File("SuccessfulTransaction" + reportTail + ".txt");
 			File inputFile = new File("SuccessfulTransaction.txt");

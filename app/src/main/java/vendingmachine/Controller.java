@@ -111,7 +111,7 @@ public class Controller {
 		this.model.setGroupedProducts(groupedProducts);
 	}
 
-	public int confirmPay() {
+	public int confirmPay(Integer paymentMethod) {
 		updateCashInDBAfterPay();	
 		updateRecentAfterPay();
 		updateSelectedProductsAmountsToDB();

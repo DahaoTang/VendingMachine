@@ -44,7 +44,7 @@ public class CardPayView {
 		this.controller.setCardPayView(this);
 		this.defaultPageViewJFrame = defaultPageViewJFrame;
 
-		this.jframe = new JFrame();
+		this.jframe = new JFrame("Card Pay");
 		this.jpanel = new JPanel();
 
 		this.cardNameLabel = new JLabel();
@@ -64,7 +64,6 @@ public class CardPayView {
 		 * ### Basic Setup ###
 		 * ===================
 		 * */
-		this.jframe.setTitle("Cash Pay");
 		this.jframe.setSize(WINDOW_SIZE[0], WINDOW_SIZE[1]);;
 		this.jframe.setResizable(false);
 		this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -118,6 +117,9 @@ public class CardPayView {
 		this.jpanel.add(this.cardNumberLabel);
 
 		// JPasswordField for card number
+		if (this.controller.ifCurrentUserHasCard()) {
+			this.cardNumberField.setText(this.model.getCardInfoMap().get(this.cardNameTextField.getText()));
+		}
 		this.cardNumberField.setBounds(
 				CARD_NUMBER_FEILD_BP[0],
 				CARD_NUMBER_FEILD_BP[1],
@@ -273,7 +275,6 @@ public class CardPayView {
 			controller.produceReportCancel(reason);
 			restart();	
 		}
-
 	}
 
 	private void restart() {

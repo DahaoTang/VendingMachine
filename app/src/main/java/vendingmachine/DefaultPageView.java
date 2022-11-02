@@ -17,6 +17,7 @@ public class DefaultPageView {
 	private JPanel jpanel;
 
 	private JButton userButton;
+	private JButton roleFunctioButton;
 
 	private JLabel recentProductsLabel;
 	private JTable recentProductsTable;
@@ -46,6 +47,7 @@ public class DefaultPageView {
 	// DATA
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
+	private final int[] ROLE_FUNCTION_BUTTON_BP = {116, 16, 200, 36};
 
 	private final int[] PRODUCTS_TABLE_COLUMN_WIDTH = {50, 120, 180, 70, 20, 70, 20};
 
@@ -76,6 +78,7 @@ public class DefaultPageView {
         this.jpanel = new JPanel();
 
 		this.userButton = new JButton();
+		this.roleFunctioButton = new JButton();
 
 		this.recentProductsLabel = new JLabel();
 		this.recentProductsTable = new JTable();
@@ -166,7 +169,62 @@ public class DefaultPageView {
 			});
 		}
 		this.jpanel.add(this.userButton);
-		
+
+		// JButton for role function	
+		this.roleFunctioButton.setBounds(
+				ROLE_FUNCTION_BUTTON_BP[0],
+				ROLE_FUNCTION_BUTTON_BP[1],
+				ROLE_FUNCTION_BUTTON_BP[2],
+				ROLE_FUNCTION_BUTTON_BP[3]
+			);
+		if (this.model.getCurrentUser().getName() != null) {
+			if (this.model.getCurrentUser().getType().equals(UserType.SELLER)) {
+				this.roleFunctioButton.setText("Maintain Products");
+				this.roleFunctioButton.addActionListener(new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						jframe.dispose();
+						controller.setDefaultPageView(null);
+						SellerView sellerView = new SellerView();
+						sellerView.setModel(model);	
+						sellerView.setController(controller);
+						controller.setSellerView(sellerView);
+						sellerView.launchWindow();
+					}
+				});
+				this.jpanel.add(this.roleFunctioButton);
+			} else if (this.model.getCurrentUser().getType().equals(UserType.CASHIER)) {
+				this.roleFunctioButton.setText("Maintain Cashes");
+				this.roleFunctioButton.addActionListener(new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						jframe.dispose();
+						controller.setDefaultPageView(null);
+						CashierView cashierView = new CashierView();
+						cashierView.setModel(model);
+						cashierView.setController(controller);
+						controller.setCashierView(cashierView);
+						cashierView.launchWindow();
+					}
+				});
+				this.jpanel.add(this.roleFunctioButton);
+			} else if (this.model.getCurrentUser().getType().equals(UserType.OWNER)) {
+				this.roleFunctioButton.setText("Maintain Accounts");
+				this.roleFunctioButton.addActionListener(new AbstractAction() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						jframe.dispose();
+						controller.setDefaultPageView(null);
+						OwnerView ownerView = new OwnerView();
+						ownerView.setModel(model);
+						ownerView.setController(controller);
+						controller.setOwnerView(ownerView);
+						ownerView.launchWindow();
+					}
+				});
+				this.jpanel.add(this.roleFunctioButton);
+			}
+		}
 
 		/**
 		 * =======================

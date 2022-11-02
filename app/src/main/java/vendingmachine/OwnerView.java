@@ -19,6 +19,7 @@ public class OwnerView {
 	private JPanel jpanel;
 
 	private JButton userButton;
+	private JButton purchaseButton;
 
 	private JLabel usersLabel;
 	private JTable  usersTable;
@@ -33,6 +34,7 @@ public class OwnerView {
 	// WINDOW LAYNOUT DATA
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
+	private final int[] PURCHASE_BUTTON_BP = {116, 16, 100, 36};
 
 	private final int[] USERS_LABEL_BP = {18, 60, 300, 32};
 	private final int[] USERS_SCROLL_PANE_BP = {18, 100, 564, 300};
@@ -51,6 +53,7 @@ public class OwnerView {
         this.jpanel = new JPanel();
 
 		this.userButton = new JButton();
+		this.purchaseButton = new JButton();
 
 		this.usersLabel = new JLabel();
 		this.usersTable = new JTable();
@@ -108,6 +111,22 @@ public class OwnerView {
 				}
 			});
 		this.jpanel.add(this.userButton);
+
+		// JButton for defaultPageView
+		this.purchaseButton.setText("Purchase");
+		this.purchaseButton.setBounds(
+				PURCHASE_BUTTON_BP[0],
+				PURCHASE_BUTTON_BP[1],
+				PURCHASE_BUTTON_BP[2],
+				PURCHASE_BUTTON_BP[3]
+			);
+		this.purchaseButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				launchDefaultPageViewWindow();
+			}
+		});
+		this.jpanel.add(this.purchaseButton);
 
 
 		/**
@@ -223,6 +242,16 @@ public class OwnerView {
 				userData[row][column] = value;
 			}
 		};
+	}
+
+	private void launchDefaultPageViewWindow() {
+		jframe.dispose();
+		controller.setOwnerView(null);
+		DefaultPageView defaultPageView = new DefaultPageView();
+		defaultPageView.setModel(model);
+		defaultPageView.setController(controller);
+		controller.setDefaultPageView(defaultPageView);
+		defaultPageView.launchWindow();
 	}
 
 	private void loadUsersTableData() {
