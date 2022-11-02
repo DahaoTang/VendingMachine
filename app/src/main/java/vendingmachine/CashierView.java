@@ -290,7 +290,7 @@ public class CashierView {
 
 	private void obtainReports() {
 		LocalDateTime ldt = LocalDateTime.now();
-		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		String reportTail = ldtf.format(ldt);
 		try {
 			File current = new File("./Reports/Cashes/CashReport" + reportTail + ".txt");

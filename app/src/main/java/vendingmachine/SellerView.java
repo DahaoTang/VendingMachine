@@ -396,7 +396,7 @@ public class SellerView {
 
 	private void obtainReports() {
 		LocalDateTime ldt = LocalDateTime.now();
-		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		String reportTail = ldtf.format(ldt);
 		try {
 			File current = new File("./Reports/Products/Current/ProductsReport_Current" + reportTail + ".txt");

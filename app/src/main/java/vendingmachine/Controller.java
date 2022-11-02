@@ -168,7 +168,7 @@ public class Controller {
 
 	public void produceReportCancel(String cancelledReason) {
 		LocalDateTime ldt = LocalDateTime.now();
-		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		String time = ldtf.format(ldt);
 		try {
 			File current = new File("CancelledTransaction");
@@ -186,7 +186,7 @@ public class Controller {
 
 	public void produceReportSuccessful(Integer paymentMethod) {
 		LocalDateTime ldt = LocalDateTime.now();
-		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter ldtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		String time = ldtf.format(ldt);
 		try {
 			File current = new File("SuccessfulTransaction");
