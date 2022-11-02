@@ -1,4 +1,0 @@
-User: null; Time: 02-11-2022 21:03:21;
-Product: Mineral Water; Mentos; 
-Payment Method: Cash; Amount paid: 10.0; Change :2.0;
-
