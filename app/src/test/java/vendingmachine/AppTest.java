@@ -8,4 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 
+	@Test
+	public void test() {
+		App app = new App();
+		app.main(null);
+		assertNotNull(app);
+	}
+
 }
