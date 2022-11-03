@@ -121,7 +121,7 @@ public class JDBC {
 		dahaoRecent.add(new Product());
 		dahaoRecent.add(new Product());
 		dahaoRecent.add(new Product());
-		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, null);
+		User dahao = new User("dahao", "123", dahaoRecent, UserType.NORMAL, "Ruth");
 		insertUser(dahao);
 
 		ArrayList<Product> sellerRecent = new ArrayList<Product>();
