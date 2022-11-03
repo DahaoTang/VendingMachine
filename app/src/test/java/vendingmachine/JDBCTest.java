@@ -7,12 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JDBCTest {
 
     @Test
-    public void test1() {
+    public void testDelete() {
         JDBC jdbc = new JDBC();
         jdbc.initDB();
-        assertEquals(jdbc.getCard("abc").getNumber(), null);
-        assertEquals(jdbc.getCash("$100").getValue(), 100.0);
-        assertEquals(jdbc.getCash("$100").getAmount(), 0);
+		jdbc.deleteCard(jdbc.getCard("Ruth"));
+		assertNull(jdbc.getCard("Ruth").getName());
     }
 
 
