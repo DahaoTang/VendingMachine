@@ -1,10 +1,25 @@
 #!/bin/bash
 
 cd app
+rm *Transactions
 
+cd Reports/Cashes
 rm *.txt
 
-cd ..
+cd ../Products/Current
+rm *.txt
+cd ../History
+rm *.txt
+
+cd ../../Transactions/Cancelled
+rm *.txt
+cd ../Successful
+rm *.txt
+
+cd ../../Users
+rm *.txt
+
+cd ../..
 
 git add .
 
