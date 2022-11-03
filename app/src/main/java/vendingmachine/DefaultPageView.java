@@ -48,7 +48,7 @@ public class DefaultPageView {
 
 	// DATA
 	
-	private int DELAY = 5000;
+	private int DELAY = 120000;
 
 	private final int[] WINDOW_SIZE = {600, 750};
 	private final int[] USER_BUTTON_BP = {16, 16, 100, 36};
